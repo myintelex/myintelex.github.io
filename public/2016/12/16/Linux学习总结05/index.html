@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="高级I/O包含了很多内容，本篇会首先解释下几个相关的概念：阻塞、非阻塞、同步、异步等的概念；接着介绍下 Linux I/O 操作的具体过程；最后讨论下多路复用、记录锁等几个相关函数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习总结（五）——高级I/O">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/16/Linux学习总结05/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="高级I/O包含了很多内容，本篇会首先解释下几个相关的概念：阻塞、非阻塞、同步、异步等的概念；接着介绍下 Linux I/O 操作的具体过程；最后讨论下多路复用、记录锁等几个相关函数。">
+<meta property="og:updated_time" content="2016-12-23T07:52:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux学习总结（五）——高级I/O">
+<meta name="twitter:description" content="高级I/O包含了很多内容，本篇会首先解释下几个相关的概念：阻塞、非阻塞、同步、异步等的概念；接着介绍下 Linux I/O 操作的具体过程；最后讨论下多路复用、记录锁等几个相关函数。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux学习总结（五）——高级I/O | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux学习总结05" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/Linux学习总结05/" class="article-date">
+      <time datetime="2016-12-16T06:54:55.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux学习总结（五）——高级I/O
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/I-O/">I/O</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/epoll/">epoll</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/poll/">poll</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/select/">select</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/阻塞式I-O/">阻塞式I/O</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>高级I/O包含了很多内容，本篇会首先解释下几个相关的概念：阻塞、非阻塞、同步、异步等的概念；接着介绍下 Linux I/O 操作的具体过程；最后讨论下多路复用、记录锁等几个相关函数。<br><a id="more"></a></p>
+<h2 id="一、概念说明"><a href="#一、概念说明" class="headerlink" title="一、概念说明"></a>一、概念说明</h2><p>Linux 的每个进程都是拥有自己的虚拟内存空间的，而一个进程的虚拟内存空间分为内核空间和用户空间两个部分，当进程的执行过程中期待的某种事情没有发生：请求系统资源失败、等待某种操作的完成、新数据尚未到达等。对于一次IO访问（以read举例），数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。所以说，当一个read操作发生时，它会经历两个阶段：</p>
+<ol>
+<li>等待数据准备 (Waiting for the data to be ready)</li>
+<li>将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)</li>
+</ol>
+<p>正式因为这两个阶段，Linux系统产生了下面五种I/O:</p>
+<h3 id="1-阻塞式I-O"><a href="#1-阻塞式I-O" class="headerlink" title="1. 阻塞式I/O"></a>1. 阻塞式I/O</h3><p> 通常来说，从普通文件读数据，无论你是采用 <code>fscanf</code>、 <code>fgets</code> 也好，<code>read</code> 也好，一定会在有限的时间内返回。但是如果你从设备，比如终端（标准输入设备）读数据，只要没有遇到换行符(<code>\n</code>)，<code>read</code> 一定会<strong>堵</strong>在那而不返回。还有比如从网络读数据，如果网络一直没有数据到来，<code>read</code> 函数也会一直堵在那而不返回。<br> <code>read</code> 的这种行为，称之为 block，一旦发生 block，本进程将会被操作系统投入睡眠，直到等待的事件发生了（比如有数据到来），进程才会被唤醒。<br> 系统调用 <code>write</code> 同样有可能被阻塞，比如向网络写入数据，如果对方一直不接收，本端的缓冲区一旦被写满，就会被阻塞。</p>
+<h3 id="2-非阻塞式I-O"><a href="#2-非阻塞式I-O" class="headerlink" title="2. 非阻塞式I/O"></a>2. 非阻塞式I/O</h3><p> 当用户进程发出 <code>read</code> 操作时，如果 kernel 中的数据还没有准备好，那么它并不会 block 用户进程，而是立刻返回一个 error。从用户进程角度讲 ，它发起一个 <code>read</code> 操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个 error 时，它就知道数据还没有准备好，于是它可以再次发送 <code>read</code> 操作。一旦 kernel 中的数据准备好了，并且又再次收到了用户进程的 system call，那么它马上就将数据拷贝到了用户内存，然后返回。</p>
+<blockquote>
+<p>所以:<br> 非阻塞式I/O的特点是用户进程需要不断的主动询问 kernel 数据好了没有。<br> 阻塞非阻塞是文件本身的特性，不是系统调用read/write本身可以控制的。</p>
+</blockquote>
+<h3 id="3-I-O多路复用"><a href="#3-I-O多路复用" class="headerlink" title="3. I/O多路复用"></a>3. I/O多路复用</h3><p> I/O多路复用（<code>IO multiplexing</code>）就是我们说的 <code>select</code>、 <code>poll</code>、 <code>epoll</code>，指的是单个 <code>process</code> 可以同时处理多个 IO 操作。它的基本原理就是 <code>select</code>、 <code>poll</code>、 <code>epoll</code> 会不断的轮询所负责的所有 I/O，当某个 I/O 有数据到达了，就通知用户进程。</p>
+<blockquote>
+<p>所以:<br> I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，<code>select()</code> 函数就可以返回。</p>
+</blockquote>
+<h3 id="4-异步I-O"><a href="#4-异步I-O" class="headerlink" title="4. 异步I/O"></a>4. 异步I/O</h3><p> 当用户进程发起 <code>read</code> 操作之后，立刻就可以开始去做其它的事。而另一方面，从 kernel 的角度，当它受到一个 asynchronous read 之后，首先它会立刻返回，所以不会对用户进程产生任何 block。然后，kernel 会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel 会给用户进程发送一个 signal，告诉它 read 操作完成了。</p>
+<blockquote>
+<p>同步I/O 和 异步I/O 的区别：<br> 两者之间的区别就在于同步I/O 做 I/O操作的时候会将进程阻塞，所以，按照这个定义，之前的<strong>阻塞I/O、非阻塞I/O、I/O多路复用都属于同步I/O</strong>。<br> 非阻塞I/O 之所以属于同步I/O 是因为其非阻塞是因为并没有进行相应的IO操作，在其进行IO操作的时候，依旧是阻塞的。</p>
+</blockquote>
+<ol>
+<li>信号驱动I/O</li>
+</ol>
+<h2 id="Linux-的-I-O-操作过程"><a href="#Linux-的-I-O-操作过程" class="headerlink" title="Linux 的 I/O 操作过程"></a>Linux 的 I/O 操作过程</h2><h3 id="1-GNU-Linux-I-O操作类别"><a href="#1-GNU-Linux-I-O操作类别" class="headerlink" title="1. GNU Linux I/O操作类别"></a>1. GNU Linux I/O操作类别</h3><p> Linux 的文件操作并不仅仅是对我们通常意义上的文件的读写，基于<strong>一切接文件</strong>的思想，Linux的I/O操作类别包含一下几类：</p>
+<ul>
+<li>文件及流的标准输入输出</li>
+<li>底层输入输出</li>
+<li>文件系统接口</li>
+<li>管道及FIFO（先入先出队列）</li>
+<li>Socket</li>
+<li>底层终端接口（tty）</li>
+</ul>
+<h3 id="2-主要数据结构介绍"><a href="#2-主要数据结构介绍" class="headerlink" title="2. 主要数据结构介绍"></a>2. 主要数据结构介绍</h3><ol>
+<li><p><code>FD</code><br>对于内核而言，所有打开文件都由文件描述符引用。<br>文件描述符是一个非负整数。当打开一个现存文件或创建一个新文件时，内核向进程返回一个文件描述符。当读、写一个文件时，用<code>open</code>或<code>creat</code>返回的文件描述符<code>fd</code>标识该文件，将其作为参数传送给<code>read</code>或<code>write</code>。在 POSIX.1 应用程序中，文件描述符为常数 <code>0</code>、 <code>1</code> 和 <code>2</code> 分别代表 <code>STDIN_FILENO</code>、<code>STDOUT_FILENO</code> 和 <code>STDERR_FILENO</code>，意即标准输入，标准输出和标准出错输出，这些常数都定义在头文件 <code>&lt;unistd.h&gt;</code>中。文件描述符的范围是 <code>0~OPEN_MAX</code>，在目前常用的linux系统中，是32位整形所能表示的整数，即65535，64位机上则更多。</p>
+</li>
+<li><p>进程中文件相关结构体</p>
+<ul>
+<li><p><code>struct file</code> 结构体定义在<code>include/linux/fs.h</code> 中。该结构体代表一个打开的文件，系统中每一个打开的文件在内核空间中都有一个关联的 <code>struct file</code>。它由内核在打开文件的时候创建，并传递给在该文件上进行操作的热河函数，在该文件的所有实例都关闭后，内核释放该数据结构。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> file &#123;</div><div class="line">  <span class="keyword">union</span> &#123;</div><div class="line">    <span class="keyword">struct</span> list_head             fu_list;      <span class="comment">//文件对象链表指针linux/include/linux/list.h</span></div><div class="line">    <span class="keyword">struct</span> rcu_head              fu_rcuhead;   <span class="comment">//RCU(Read-Copy Update)是Linux 2.6内核中新的锁机制</span></div><div class="line">  &#125; f_u;</div><div class="line">  <span class="keyword">struct</span> path                    f_path;       <span class="comment">//包含dentry和mnt两个成员，用于确定文件路径</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> f_dentry                 f_path.dentry <span class="comment">//f_path的成员之一，当前文件的dentry结构</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> f_vfsmnt                 f_path.mnt    <span class="comment">//表示当前文件所在文件系统的挂载根目录</span></span></div><div class="line">  <span class="keyword">const</span> <span class="keyword">struct</span> file_operations  *f_op;         <span class="comment">//与该文件相关联的操作函数</span></div><div class="line">  <span class="keyword">atomic_t</span>                       f_count;      <span class="comment">//文件的引用计数(有多少进程打开该文件)</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span>                   f_flags;      <span class="comment">//对应于open时指定的flag</span></div><div class="line">  <span class="keyword">mode_t</span>                         f_mode;       <span class="comment">//读写模式：open的mod_t mode参数</span></div><div class="line">  <span class="keyword">off_t</span>                          f_pos;        <span class="comment">//该文件在当前进程中的文件偏移量</span></div><div class="line">  <span class="keyword">struct</span> fown_struct             f_owner;      <span class="comment">//该结构的作用是通过信号进行I/O时间通知的数据。</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span>                   f_uid, f_gid; <span class="comment">//文件所有者id，所有者组id</span></div><div class="line">  <span class="keyword">struct</span> file_ra_state           f_ra;         <span class="comment">//在linux/include/linux/fs.h中定义，文件预读相关</span></div><div class="line">　<span class="keyword">unsigned</span> <span class="keyword">long</span>                  f_version;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_SECURITY</span></div><div class="line">  <span class="keyword">void</span>                          *f_security;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">　　</div><div class="line">  <span class="keyword">void</span>                          *private_data;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_EPOLL</span></div><div class="line">  <span class="keyword">struct</span> list_head               f_ep_links;</div><div class="line">  <span class="keyword">spinlock_t</span>                     f_ep_lock;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">　<span class="keyword">struct</span> address_space *f_mapping;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>struct dentry</code><br><code>dentry</code> 是 Linux 文件系统中某个索引节点（<code>inode</code>）的链接。<code>inode</code> 对应于物理磁盘上的具体对象，<code>dentry</code> 是一个内存上的实体，其中的<code>d_inode</code> 指向对应的 <code>inode</code>。一个 <code>inode</code> 可以在运行的时候链接多个 <code>dentry</code>，而 <code>d_count</code> 记录了链接的具体数量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> dentry &#123;</div><div class="line">  <span class="keyword">atomic_t</span>                  d_count;    <span class="comment">//目录项对象使用计数器,可以有未使用态,使用态和负状态</span></div><div class="line">　<span class="keyword">unsigned</span> <span class="keyword">int</span>              d_flags;    <span class="comment">//目录项标志</span></div><div class="line">　<span class="keyword">struct</span> inode *            d_inode;    <span class="comment">//与文件名关联的索引节点</span></div><div class="line">　<span class="keyword">struct</span> dentry *           d_parent;   <span class="comment">//父目录的目录项对象</span></div><div class="line">　<span class="keyword">struct</span> list_head          d_hash;     <span class="comment">//散列表表项的指针</span></div><div class="line">　<span class="keyword">struct</span> list_head          d_lru;      <span class="comment">//未使用链表的指针</span></div><div class="line">　<span class="keyword">struct</span> list_head          d_child;    <span class="comment">//父目录中目录项对象的链表的指针</span></div><div class="line">　<span class="keyword">struct</span> list_head          d_subdirs;  <span class="comment">//对目录而言，表示子目录目录项对象的链表</span></div><div class="line">　<span class="keyword">struct</span> list_head          d_alias;    <span class="comment">//相关索引节点(别名)的链表</span></div><div class="line">　<span class="keyword">int</span>                       d_mounted;  <span class="comment">//对于安装点而言，表示被安装文件系统根项</span></div><div class="line">　<span class="keyword">struct</span> qstr               d_name;     <span class="comment">//文件名</span></div><div class="line">　<span class="keyword">unsigned</span> <span class="keyword">long</span>             d_time;</div><div class="line">　<span class="keyword">struct</span> dentry_operations *d_op;       <span class="comment">//目录项方法</span></div><div class="line">　<span class="keyword">struct</span> super_block       *d_sb;       <span class="comment">//文件的超级块对象</span></div><div class="line">　vunsigned <span class="keyword">long</span>            d_vfs_flags;</div><div class="line">　<span class="keyword">void</span>                     *d_fsdata;   <span class="comment">//与文件系统相关的数据</span></div><div class="line">　<span class="keyword">unsigned</span> <span class="keyword">char</span>             d_iname [DNAME_INLINE_LEN]; <span class="comment">//存放短文件名</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>struct files_struct</code><br>对于每个进程，包含一个<code>files_struct</code> 结构，用来记录文件描述符的使用情况。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> files_struct</div><div class="line">&#123;</div><div class="line">  <span class="keyword">atomic_t</span>               count;               <span class="comment">//使用该表的进程数</span></div><div class="line">　<span class="keyword">struct</span> fdtable        *fdt;</div><div class="line">　<span class="keyword">struct</span> fdtable         fdtab;</div><div class="line">　<span class="keyword">spinlock_t</span>             file_lock ____cacheline_aligned_in_smp;</div><div class="line">　<span class="keyword">int</span>                    next_fd;              <span class="comment">//数值最小的最近关闭文件的文件描述符,下一个可用的文件描述符</span></div><div class="line">　<span class="keyword">struct</span> embedded_fd_set close_on_exec_init;   <span class="comment">//执行exec时需要关闭的文件描述符初值集合　struct embedded_fd_set open_fds_init;        //文件描述符的屏蔽字初值集合</span></div><div class="line">　<span class="keyword">struct</span> file           *fd_array[NR_OPEN_DEFAULT]; 默认打开的fd队列</div><div class="line">&#125;;</div><div class="line"><span class="keyword">struct</span> fdtable &#123;</div><div class="line">　<span class="keyword">unsigned</span> <span class="keyword">int</span>      max_fds;</div><div class="line">　<span class="keyword">struct</span> file     **fd;            <span class="comment">//指向打开的文件描述符列表的指针，开始的时候指向fd_array，</span></div><div class="line">　当超过max_fds时，重新分配地址</div><div class="line">　fd_set           *close_on_exec; <span class="comment">//执行exec需要关闭的文件描述符位图(fork，exec即不被子进程继承的文件描述符)</span></div><div class="line">　fd_set           *open_fds;      <span class="comment">//打开的文件描述符位图</span></div><div class="line">　<span class="keyword">struct</span> rcu_head   rcu;</div><div class="line">　<span class="keyword">struct</span> fdtable   *next;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>struct fs_struct</code><br><code>fs_struct</code> 是文件系统相关信息结构体。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> fs_struct &#123;</div><div class="line"><span class="keyword">atomic_t</span>          count;     <span class="comment">//共享表的进程个数</span></div><div class="line"><span class="keyword">rwlock_t</span>          lock;      <span class="comment">//自旋锁</span></div><div class="line"><span class="keyword">int</span>               umask;     <span class="comment">//文件权限掩码</span></div><div class="line"><span class="keyword">struct</span> dentry    *root,      <span class="comment">//根目录目录项</span></div><div class="line">                  *pwd,       <span class="comment">//当前目录目录项</span></div><div class="line">                  *altroot;   <span class="comment">//模拟根目录目录项</span></div><div class="line"><span class="keyword">struct</span> vfsmount  *rootmnt,   <span class="comment">//根目录文件系统对象</span></div><div class="line">                  *pwdmnt,    <span class="comment">//</span></div><div class="line">                  *altrootmnt;<span class="comment">//</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>每个进程都有一个 <code>task_struct</code> 结构体，其中包含了一个 <code>fs_struct</code> 和一个 <code>files_struct</code> 结构体，其中 <code>files_struct</code> 中的 <code>fd_array</code> 记录了所有该进程打开的文件的 <code>file</code> 结构体，每个 <code>file</code> 结构体中的 <code>f_entry</code> 指向了当前文件的 <code>dentry</code> 结构体，<code>debtry</code> 结构体实际指向了相应的文件 <code>inode</code>。 </p>
+</li>
+<li><p><code>inode</code><br>inode包含文件的元信息，具体来说有以下内容： </p>
+<ul>
+<li>文件的字节数 文件的字节数 　　 　　</li>
+<li>文件拥有者的 文件拥有者的User ID 　　 　　</li>
+<li>文件的 文件的Group ID 　　 　　</li>
+<li>文件的读、写、执行权限 文件的读、写、执行权限 　　 　　</li>
+<li>文件的时间戳，共有三个： 文件的时间戳，共有三个：<br>ctime指 指inode上一次变动的时间， 上一次变动的时间，<br>mtime指文件内容上一次变动的时间， 指文件内容上一次变动的时间，<br>atime指文件上一 指文件上一 次打开的时间。 次打开的时间。 　　 　　</li>
+<li>链接数，即有多少文件名指向这个 链接数，即有多少文件名指向这个inode 　　 　　</li>
+<li>文件数据 文件数据block的位置 </li>
+</ul>
+</li>
+</ol>
+<h3 id="3-I-O操作过程"><a href="#3-I-O操作过程" class="headerlink" title="3. I/O操作过程"></a>3. I/O操作过程</h3><ol>
+<li><p>打开文件<br>一个应用程序通过要求内核打开相应文件，宣告他要访问一个I/O设备 ，内核返回一个非负整数，叫描述符号(Descriptor）；</p>
+</li>
+<li><p>改变文件位置<br>对于每个打开的文件，内核保持一个文件位置k，初始为0，这个文件位置是从文件头开始的偏移量。通过执行seek操作，显式地设置当前位置为k</p>
+</li>
+<li><p>读写文件<br>读：从文件拷贝n&gt;0个字节到存储器，写：从存储器拷贝n&gt;0字节到文件</p>
+</li>
+<li><p>关闭文件<br>通知内核关闭文件，作为响应，内核释放文件打开时创建的数据结构</p>
+</li>
+</ol>
+<h2 id="三、记录锁"><a href="#三、记录锁" class="headerlink" title="三、记录锁"></a>三、记录锁</h2><p>记录锁解决的是多个进程共同操作一个文件的问题，记录锁分为两种：</p>
+<ul>
+<li>建议性锁：建议性锁要求每个相关程序在访问文件前检查是否有锁存在，并尊重已有的锁。</li>
+<li>强制性锁：强制性锁是由内核执行的锁，当一个文件被上锁进行写操作时，内核将阻止任何其它的程序进行该文件的读写操作。</li>
+</ul>
+<p>我们通常使用的是强制性锁，强制性锁的上锁函数是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fcntl</span><span class="params">(<span class="keyword">int</span> fd, <span class="keyword">int</span> cmd, ...)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>第一个参数 <code>fd</code> 显然指的是需要操作的文件描述符，第二个参数 <code>cmd</code> 是 <code>F_GETLK</code> / <code>F_SETLK</code> / <code>F_SETLKW</code>，当进行锁操作的时候，第三个参数是一个指向 <code>flock</code> 结构的指针。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> flock &#123;</div><div class="line">  <span class="keyword">short</span> l_type;   <span class="comment">//希望的锁类型 F_RDLCK(读锁) F_WRLCK（写锁） F_UNLCK（解锁）</span></div><div class="line">  <span class="keyword">short</span> l_whence; <span class="comment">//区域的起始位置 SEEK_SET SEEK_CUR SEEK_END</span></div><div class="line">  <span class="keyword">off_t</span> l_start;  <span class="comment">//区域的起始字节</span></div><div class="line">  <span class="keyword">off_t</span> l_len;    <span class="comment">//区域的字节长度</span></div><div class="line">  <span class="keyword">pid_t</span> l_pid;    <span class="comment">//持有锁的进程IO</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当 <code>cmd</code> 是 <code>F_GETLK</code> 时，函数会检查当前锁是否能够创建，如果可以创建，则将 <code>1_type</code> 设置为 <code>F_UNLCK</code>，否则则将当前锁的信息重写。<br>当 <code>cmd</code> 是 <code>F_SETLK</code> 时，设置相应的锁，如果不能创建，返回失败代码。<br>当 <code>cmd</code> 是 <code>F_GETLK</code> 时，如果当前设置的锁无法设置，则休眠等待锁创建。</p>
+<p>记录锁的几个注意点：</p>
+<ol>
+<li>检查锁是否存在，和加锁过程并不是原子操作，所以，当检查当前锁不存在后加锁，依旧有可能会失败。</li>
+<li>如果两个进程相互等待对方持有并不释放（锁定）的资源时，造成死锁。</li>
+<li>当进程终止时，它所建立的所有锁释放</li>
+<li>当文件描述符关闭的时候，该文件描述符上的所有锁释放</li>
+<li><code>fork</code> 不继承任何锁。</li>
+</ol>
+<h2 id="四、I-O复用"><a href="#四、I-O复用" class="headerlink" title="四、I/O复用"></a>四、I/O复用</h2><p>I/O多路复用就是通过一种机制，一个进程可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。</p>
+<h3 id="1-select"><a href="#1-select" class="headerlink" title="1. select"></a>1. <code>select</code></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span> <span class="params">(<span class="keyword">int</span> n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <span class="keyword">struct</span> timeval *timeout)</span></span>;</div></pre></td></tr></table></figure>
+<p><code>select</code> 函数监视的文件描述符分3类，分别是 <code>writefds</code>、<code>readfds</code>、和 <code>exceptfds</code>。调用后 <code>select</code> 函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（<code>timeout</code>指定等待时间，如果立即返回设为null即可），函数返回。当 <code>select</code> 函数返回后，可以 通过遍历 <code>fdset</code>，来找到就绪的描述符。</p>
+<p>函数的第一个参数 <code>n</code> 指的是<strong>最大描述符编号加1</strong>，即需要监视的3类文件描述符中的最大值加1.<br>函数中间的三个参数指函数监视的3类文件描述符的集合，分别是 <code>writefds</code>（可写）、<code>readfds</code>（可写）、和 <code>exceptfds</code>（处于异常）。有几个相应的接口可以设置这三个集合：<br> <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">FD_ISSET</span><span class="params">(<span class="keyword">int</span> fd, fd_set *fdset)</span></span>; <span class="comment">//测试描述符集中的某一位是否开启</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">FD_CLR</span><span class="params">(<span class="keyword">int</span> fd, fd_set *fdset)</span></span>;   <span class="comment">//清除描述符集中的某一位</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">FD_SET</span><span class="params">(<span class="keyword">int</span> fd, fd_set *fdset)</span></span>;   <span class="comment">//开启描述符集中的某一位</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">FD_ZERO</span><span class="params">(fd_set *fdset)</span></span>;          <span class="comment">//清空描述符集中的所有位</span></div></pre></td></tr></table></figure></p>
+<p>函数的最后一个参数 <code>timeout</code> 指定等待的时间，当为 <code>NULL</code> 的时候，一直等待；当为 0 的时候，不等待。</p>
+<p>函数有三个可能的返回值：</p>
+<ul>
+<li>返回-1；表示出错。</li>
+<li>返回0；表示没有描述符准备好。</li>
+<li>一个正的返回值：表示已经准备好的描述符数。<br>已经准备好指的是：相应的读写没有阻塞，或者某个描述符存在未决异常条件。</li>
+</ul>
+<h3 id="2-poll"><a href="#2-poll" class="headerlink" title="2. poll"></a>2. <code>poll</code></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span> <span class="params">(<span class="keyword">struct</span> pollfd *fds, <span class="keyword">unsigned</span> <span class="keyword">int</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</div></pre></td></tr></table></figure>
+<p>不同与 <code>select</code> 使用三个位图来表示三个 <code>fdset</code> 的方式，poll使用一个 pollfd的指针实现。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> pollfd &#123;</div><div class="line">    <span class="keyword">int</span> fd;          <span class="comment">/* file descriptor */</span></div><div class="line">    <span class="keyword">short</span> events;    <span class="comment">/* requested events to watch */</span></div><div class="line">    <span class="keyword">short</span> revents;   <span class="comment">/* returned events witnessed */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>pollfd</code> 结构包含了要监视的 event 和发生的 event，不再使用 <code>select</code> <strong>参数-值</strong>传递的方式。<br><code>pollfd</code> 并没有最大数量限制（但是数量过大后性能也是会下降）。<code>timeout</code> 参数只当了我们等待的时间，为-1表示永远等待，为0表示不等待，为正表示等待的时间（毫秒）。<br>和 <code>select</code> 函数一样，<code>poll</code> 返回后，需要轮询 <code>pollfd</code> 来获取就绪的描述符。</p>
+<h3 id="3-epoll"><a href="#3-epoll" class="headerlink" title="3. epoll"></a>3. epoll</h3><p><code>epoll</code> 是在2.6内核中提出的，是之前的 <code>select</code> 和 <code>poll</code> 的增强版本。相对于 <code>select</code> 和 <code>poll</code> 来说，<code>epoll</code> 更加灵活，没有描述符限制。<code>epoll</code> 使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的 copy 只需一次。</p>
+<p><code>epoll</code> 操作过程需要三个接口，分别如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int epoll_create(int size)； //创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大</div><div class="line">int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；</div><div class="line">int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>int epoll_create(int size);</code><br>  创建一个 <code>epoll</code> 的句柄，<code>size</code> 用来告诉内核这个监听的数目一共有多大，这个参数不同于 <code>select()</code> 中的第一个参数，参数 <code>size</code> 并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议。<br>  当创建好 <code>epoll</code> 句柄后，它就会占用一个fd值，在 Linux 下如果查看 <code>/proc/进程id/fd/</code>，是能够看到这个 <code>fd</code> 的，所以在使用完 <code>epoll</code> 后，必须调用 <code>close()</code> 关闭，否则可能导致fd被耗尽。</p>
+</li>
+<li><p><code>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；</code><br>  函数是对指定描述符 <code>fd</code> 执行 <code>op</code> 操作。</p>
+<ul>
+<li><code>epfd</code>：是 <code>epoll_create()</code> 的返回值。</li>
+<li><code>op</code>：表示 op 操作，用三个宏来表示：添加 <code>EPOLL_CTL_ADD</code>，删除 <code>EPOLL_CTL_DEL</code>，修改 <code>EPOLL_CTL_MOD</code>。分别添加、删除和修改对fd的监听事件。</li>
+<li><code>fd</code>：是需要监听的 <code>fd</code>（文件描述符）</li>
+<li><code>epoll_event</code>：是告诉内核需要监听什么事，<code>struct epoll_event</code>结构如下：<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> epoll_event &#123;</div><div class="line">  <span class="keyword">__uint32_t</span> events;  <span class="comment">/* Epoll events */</span></div><div class="line">  <span class="keyword">epoll_data_t</span> data;  <span class="comment">/* User data variable */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>events可以是以下几个宏的集合：<br><code>EPOLLIN</code>：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；<br><code>EPOLLOUT</code>：表示对应的文件描述符可以写；<br><code>EPOLLPRI</code>：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；<br><code>EPOLLERR</code>：表示对应的文件描述符发生错误；<br><code>EPOLLHUP</code>：表示对应的文件描述符被挂断；<br><code>EPOLLET</code>： 将EPOLL设为边缘触发(Edge Triggered)模式，这是相对于水平触发(Level Triggered)来说的。<br><code>EPOLLONESHOT</code>：只监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里</p>
+</li>
+<li><code>int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);</code><br>  等待 <code>epfd</code> 上的 I/O 事件，最多返回 <code>maxevents</code> 个事件。<br>  参数 <code>events</code> 用来存储从内核得到事件的集合，<code>maxevents</code> 告之内核这个 <code>events</code> 有多大，这个 <code>maxevents</code> 的值不能大于创建 <code>epoll_create()</code> 时的 <code>size</code>，参数<code>timeout</code> 是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/16/Linux学习总结05/" title="Linux学习总结（五）——高级I/O">http://myintelex.github.io/2016/12/16/Linux学习总结05/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/16/Linux学习总结05/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结06/">
+                    Linux学习总结（六）——进程
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结04/">
+                    Linux学习总结（四）——标准I/O与文件I/O
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、概念说明"><span class="toc-text">一、概念说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-阻塞式I-O"><span class="toc-text">1. 阻塞式I/O</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-非阻塞式I-O"><span class="toc-text">2. 非阻塞式I/O</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-I-O多路复用"><span class="toc-text">3. I/O多路复用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-异步I-O"><span class="toc-text">4. 异步I/O</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-的-I-O-操作过程"><span class="toc-text">Linux 的 I/O 操作过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-GNU-Linux-I-O操作类别"><span class="toc-text">1. GNU Linux I/O操作类别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-主要数据结构介绍"><span class="toc-text">2. 主要数据结构介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-I-O操作过程"><span class="toc-text">3. I/O操作过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、记录锁"><span class="toc-text">三、记录锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、I-O复用"><span class="toc-text">四、I/O复用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-select"><span class="toc-text">1. select</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-poll"><span class="toc-text">2. poll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-epoll"><span class="toc-text">3. epoll</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/16/Linux学习总结05/" data-title="Linux学习总结（五）——高级I/O" data-url="http://myintelex.github.io/2016/12/16/Linux学习总结05/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

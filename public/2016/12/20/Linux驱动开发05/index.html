@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="除了部分仅使用 I/O 寄存器的设备之外，大部分的设备都需要与外部打交道。这些外部的工作通常都是在与处理器完全不同的时间周期内完成的，且通常比处理器的处理速度要慢，所以一直让 CPU 等待设备的处理是不能令人满意的。这时候我们就需要使用中断。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux驱动开发（五）——中断和时钟">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/20/Linux驱动开发05/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="除了部分仅使用 I/O 寄存器的设备之外，大部分的设备都需要与外部打交道。这些外部的工作通常都是在与处理器完全不同的时间周期内完成的，且通常比处理器的处理速度要慢，所以一直让 CPU 等待设备的处理是不能令人满意的。这时候我们就需要使用中断。">
+<meta property="og:updated_time" content="2016-12-26T10:49:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux驱动开发（五）——中断和时钟">
+<meta name="twitter:description" content="除了部分仅使用 I/O 寄存器的设备之外，大部分的设备都需要与外部打交道。这些外部的工作通常都是在与处理器完全不同的时间周期内完成的，且通常比处理器的处理速度要慢，所以一直让 CPU 等待设备的处理是不能令人满意的。这时候我们就需要使用中断。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux驱动开发（五）——中断和时钟 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux驱动开发05" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/Linux驱动开发05/" class="article-date">
+      <time datetime="2016-12-19T22:08:01.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux驱动开发（五）——中断和时钟
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中断/">中断</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/定时器/">定时器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/延时/">延时</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>除了部分仅使用 I/O 寄存器的设备之外，大部分的设备都需要与外部打交道。这些外部的工作通常都是在与处理器完全不同的时间周期内完成的，且通常比处理器的处理速度要慢，所以一直让 CPU 等待设备的处理是不能令人满意的。这时候我们就需要使用中断。<br><a id="more"></a></p>
+<h2 id="一、中断编程"><a href="#一、中断编程" class="headerlink" title="一、中断编程"></a>一、中断编程</h2><p>中断指的是 CPU 在执行的过程中，出现了某些突发事件基带处理，CPU 必须暂停执行当前的程序，转去处理相应的突发事件，处理完毕后返回程序被中断的位置并继续执行。</p>
+<p>设备的中断会打断内核内部正常的进程调度和运行，因此要求中断处理程序必须尽可能的短小。但是，往往现实中需要中断到来的时候完成大量的工作。为了解决这个冲突，Linux 将中断处理程序分为了两个部分：中断的顶半部和底半部。<br>中断的顶半部完成尽可能少的工作，往往是简单的读取寄存器中的中断状态，并清除中断标志后就进行登记中断的工作。登记中断是将底半部的处理程序挂到设备的底半部执行队列中。因此，底半部是中断处理工作的重心，且可以被新的中断打断。</p>
+<h3 id="1-申请和释放中断"><a href="#1-申请和释放中断" class="headerlink" title="1. 申请和释放中断"></a>1. 申请和释放中断</h3><p>申请中断使用下面的函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">request_irq</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> irq, irq_handlert handler, </span></span></div><div class="line">                <span class="keyword">unsigned</span> <span class="keyword">long</span> irqflags, <span class="keyword">const</span> <span class="keyword">char</span> *devname,</div><div class="line">                <span class="keyword">void</span> *dev_id);</div></pre></td></tr></table></figure></p>
+<p>功能：申请中断。<br>参数：<code>irq</code> 申请的硬件中断号；<code>handler</code> 顶半部中断处理函数；<code>irqflags</code> 中断处理的属性；<code>devname</code> 用来显示中断拥有者；<code>dev_id</code> 传递给<code>handler</code> 用于中断共享的中断信号线。<code>irqflags</code> 可能的值有：</p>
+<ul>
+<li><code>SA_INTERRUPT</code><br>表示快速中断处理，快速中断处理程序被调用时将屏蔽中断。</li>
+<li><code>SA_SHIRQ</code><br>表示中断共享</li>
+</ul>
+<p>返回值：成功返回0，返回<code>-EINVAL</code> 表示中断号无效，或者处理函数指针为 NULL，返回<code>-EBUSY</code> 表示中断已经被占用。</p>
+<p>相应的 <code>handler</code> 定义如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">irqreturn_t</span> <span class="params">(*<span class="keyword">irq_handlert_t</span>)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">void</span> *)</span></span>;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">irq_handlert_t</span>;</div></pre></td></tr></table></figure></p>
+<p>释放中断使用下面的函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">free_irq</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> irq, <span class="keyword">void</span> *dev_id)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>相应的参数定义和 <code>request_irq</code> 类似。</p>
+<h3 id="2-使能和屏蔽中断"><a href="#2-使能和屏蔽中断" class="headerlink" title="2. 使能和屏蔽中断"></a>2. 使能和屏蔽中断</h3><p>使用下面的函数屏蔽单个中断<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">disable_irq</span><span class="params">(<span class="keyword">int</span> irq)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">disable_irq_nosync</span><span class="params">(<span class="keyword">int</span> irq)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">enable_irq</span><span class="params">(<span class="keyword">int</span> irq)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>第一个函数会禁止相应的中断，并等待正在进行的中断处理例程完成。<br>第二个函数会立即返回。</p>
+<p>使用下面的两个函数可以屏蔽当前 CPU 的所有的中断：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">local_irq_save</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">local_irq_disable</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>第一个函数会把当前的中断状态保存在 <code>flags</code> 中，然后禁用当前处理器上的中断发送。第二个函数直接禁用所有的中断。相应的恢复函数是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">local_irq_restore</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">local_irq_enable</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div></pre></td></tr></table></figure></p>
+<h3 id="3-底半部机制"><a href="#3-底半部机制" class="headerlink" title="3. 底半部机制"></a>3. 底半部机制</h3><ol>
+<li><p><code>tasklet</code><br><code>tasklet</code> 是一个基于软中断的特殊函数，它的使用很简单，就是定义一个 <code>tasklet</code> 和它的处理函数，并将他们两个关联起来。相应的模板代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义 tasklet 和底半部函数并关联</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">xxx_do_tasklet</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> arg)</span></span>;   <span class="comment">//定义一个 tasklet 处理函数</span></div><div class="line">DECLARE_TASKLET(xxx_tasklet, xxx_do_tasklet, <span class="number">0</span>); <span class="comment">//关联 tasklet 处理函数</span></div><div class="line"><span class="comment">//中断处理底半部</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">xxx_do_tasklet</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> arg)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"><span class="comment">//中断处理顶半部</span></div><div class="line"><span class="keyword">irqreturn_t</span> xxx_interrupt(<span class="keyword">int</span> irq, <span class="keyword">void</span> *dev_id) &#123;</div><div class="line">  ...</div><div class="line">  tasklet_schedule(&amp;xxx_tasklet);  <span class="comment">//调用 tasklet 处理函数</span></div><div class="line">  <span class="keyword">return</span> IRQ_HANDLED;</div><div class="line">&#125;</div><div class="line"><span class="comment">//设备驱动加载函数</span></div><div class="line"><span class="keyword">int</span> __<span class="function">init <span class="title">xxx_init</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">  <span class="comment">//申请中断</span></div><div class="line">  result = request_irq(xxx_irq, xxx_interrupt,</div><div class="line">                       SA_INTERRUPT, <span class="string">"xxx"</span>, <span class="literal">NULL</span>);</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"><span class="comment">//设备驱动卸载函数</span></div><div class="line"><span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">xxx_exit</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">  free_irq(xxx_irq, xxx_interrupt);</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>tasklet</code> 是运行于软中断上下文的，属于原子上下文的一种，所以，是不能在 <code>tasklet</code> 处理函数中睡眠的。</p>
+</li>
+<li><p>工作队列<br>工作队列的使用方法和 <code>tasklet</code> 类似，模板代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//定义 tasklet 和底半部函数并关联</span></div><div class="line"><span class="keyword">struct</span> work_struct xxx_wq;   <span class="comment">//定义一个工作队列</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">xxx_do_work</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span>)</span></span>; <span class="comment">//定义一个处理函数</span></div><div class="line"><span class="comment">//中断处理底半部</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">xxx_do_tasklet</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> arg)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line"><span class="comment">//中断处理顶半部</span></div><div class="line"><span class="keyword">irqreturn_t</span> xxx_interrupt(<span class="keyword">int</span> irq, <span class="keyword">void</span> *dev_id) &#123;</div><div class="line">  ...</div><div class="line">  schedule_work(&amp;xxx_wq); <span class="comment">//调用工作队列处理函数</span></div><div class="line">  <span class="keyword">return</span> IRQ_HANDLED;</div><div class="line">&#125;</div><div class="line"><span class="comment">//设备驱动加载函数</span></div><div class="line"><span class="keyword">int</span> __<span class="function">init <span class="title">xxx_init</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">  <span class="comment">//申请中断</span></div><div class="line">  result = request_irq(xxx_irq, xxx_interrupt,</div><div class="line">                       SA_INTERRUPT, <span class="string">"xxx"</span>, <span class="literal">NULL</span>);</div><div class="line">  ...</div><div class="line">  INIT_WORK(&amp;xxx_wq, (<span class="keyword">void</span> (*)(<span class="keyword">void</span> *)) xxx_do_work, <span class="literal">NULL</span>);<span class="comment">//绑定工作队列和处理函数</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//设备驱动卸载函数</span></div><div class="line"><span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">xxx_exit</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  ...</div><div class="line">  free_irq(xxx_irq, xxx_interrupt);</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>工作队列运行于进程上下文，所以可以在工作队列处理函数中睡眠。</p>
+</li>
+</ol>
+<h3 id="4-中断共享"><a href="#4-中断共享" class="headerlink" title="4. 中断共享"></a>4. 中断共享</h3><p>因为设备上的中断线总是不够用的，所以 Linux 支持所有的总线的中断共享。使用中断共享的方法和之前介绍的类似，有几点不同：</p>
+<ol>
+<li>请求中断，调用 <code>request_irq()</code> 时，应设置相应的 <code>irqflags</code> 为 <code>SA_SHIRQ</code>。</li>
+<li><code>dev_id</code> 参数必须是唯一的。且不能为 NULL。</li>
+</ol>
+<p>当中断到来时，会遍历执行所有共享该中断的所有中断处理函数，应该在相应的中断处理函数顶半部中根据传入的 <code>dev_id</code> 值判断是否为当前设备的中断，是应返回 <code>IRQ_HANDLED</code> ，如果不是则返回 <code>IRQ_NONE</code>。</p>
+<h2 id="二、时间操作"><a href="#二、时间操作" class="headerlink" title="二、时间操作"></a>二、时间操作</h2><p>中断一个十分重要的应用是定时器中断，内核使用其来跟踪时间流。定时器中断是有系统定时硬件以周期性的间隔产生，这个间隔是内核根据 <code>HZ</code> 的值来决定的。每次当内核定时器发生中断时，内核内部计数器就加1，这个计数器的值在系统引导的时候设置为0，因此它的值就是系统启动以来的时钟滴答数。这个值保存在一个 64 位的变量 <code>jiffies_64</code> 中，但我们更多使用的是一个 <code>jiffies</code> 变量。</p>
+<p>一个内核定时器是一个数据结构，他告诉内核在用户定义的时间点使用用户定义的参数来执行一个用户定义的函数。它的结构如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> timer_list &#123;</div><div class="line">  <span class="keyword">struct</span> list_head entry;          <span class="comment">//定时器列表</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> expires;           <span class="comment">//定时器到时时间</span></div><div class="line">  <span class="keyword">void</span> (*function)(<span class="keyword">unsigned</span> <span class="keyword">long</span>); <span class="comment">//定时器处理函数</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> data;              <span class="comment">//处理函数参数</span></div><div class="line">  <span class="keyword">struct</span> timer_base_s *base;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-1-定时器的使用"><a href="#2-1-定时器的使用" class="headerlink" title="2.1 定时器的使用"></a>2.1 定时器的使用</h3><ol>
+<li><p>初始化定时器</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//定义一个定时器</div><div class="line">struct timer_list my_timer;</div><div class="line">//初始化定时器   </div><div class="line">void init_timer(struct timer_list *timer);</div><div class="line">TIMER_INITIALIZER(_function, _expires, _data);</div><div class="line">//定义并初始化定时器</div><div class="line">DEFINE_TIMER(_name, _function, _expires, _data);</div><div class="line">//初始化定时器并赋值</div><div class="line">static inline void setup_timer(struct timer_list *timer,</div><div class="line">                              void (*function)(unsigned long),</div><div class="line">                              unsigned long data);</div></pre></td></tr></table></figure>
+<p>其中，<code>init_timer</code> 函数初始化 <code>timer</code> 并将 <code>timer_list</code> 结构体中的 <code>entry</code> 的 <code>next</code> 设置为 NULL，将 <code>base</code> 赋值。</p>
+</li>
+<li><p>增加定时器</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add_timer</span><span class="params">(<span class="keyword">struct</span> timer_list *timer)</span></span>;</div></pre></td></tr></table></figure>
+<p>用来将定时器加入到内核定时器列表中。</p>
+</li>
+<li><p>删除定时器</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">del_timer</span><span class="params">(<span class="keyword">struct</span> timer_list *timer)</span></span>;</div></pre></td></tr></table></figure>
+<p>用于删除定时器。</p>
+</li>
+<li><p>修改定时器</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">mod_timer</span><span class="params">(<span class="keyword">struct</span> timer_list *timer, <span class="keyword">unsigned</span> <span class="keyword">long</span> expires)</span></span>;</div></pre></td></tr></table></figure>
+<p>用于修改定时器的到期时间。</p>
+</li>
+</ol>
+<h3 id="2-2-内核延时"><a href="#2-2-内核延时" class="headerlink" title="2.2 内核延时"></a>2.2 内核延时</h3><ol>
+<li><p>短延时<br>使用下面三个函数实现纳秒、微秒、毫秒延时：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">ndelay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> nsecs)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">udelay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> usecs)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">mdelay</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> msecs)</span></span>;</div></pre></td></tr></table></figure>
+<p>这三个函数的实现是通过一个类似 <code>while(timer--)</code> 的循环完成的，因此是需要耗费 CPU 资源的。</p>
+<p>对于微秒级以上延时有下列函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">msleep</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> millisecs)</span></span>;</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">msleep_interruptible</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> millisecs)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">ssleep</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> seconds)</span></span>;</div></pre></td></tr></table></figure>
+<p><code>msleep</code> 和 <code>ssleep</code> 分别用于毫秒和秒延时，这三个函数都会将相应的调用进程睡眠，<code>msleep_interruptible</code> 允许进程睡眠被打断。</p>
+</li>
+<li><p>长延时（忙等待）<br>长延时的实现通常是比对当前和目标的 <code>jiffies</code> 的值，相应的实现代码是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (time_before(jiffies, j1))</div><div class="line"> cpu_relax();</div></pre></td></tr></table></figure>
+<p>上面的代码是忙等待模式的：循环会占用整个延时期间的处理器，严重降低系统性能，而且如果在进入延时前禁用了中断，系统将一直处于延时状态。</p>
+</li>
+<li><p>睡着延时<br>睡着延时是在等待时间到来之前让进程处于睡眠状态的一种延时方式，使用方法如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1. 设置进程的状态。</span></div><div class="line">set_current_state(TASK_INTERRUPTIBLE);</div><div class="line"><span class="comment">//2. 等待延时时间。</span></div><div class="line">schedule_timeout(delay);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/20/Linux驱动开发05/" title="Linux驱动开发（五）——中断和时钟">http://myintelex.github.io/2016/12/20/Linux驱动开发05/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/20/Linux驱动开发05/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发04/">
+                    Linux驱动开发（四）——I/O操作
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发03/">
+                    Linux驱动开发（三）——并发控制
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、中断编程"><span class="toc-text">一、中断编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-申请和释放中断"><span class="toc-text">1. 申请和释放中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-使能和屏蔽中断"><span class="toc-text">2. 使能和屏蔽中断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-底半部机制"><span class="toc-text">3. 底半部机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-中断共享"><span class="toc-text">4. 中断共享</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、时间操作"><span class="toc-text">二、时间操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-定时器的使用"><span class="toc-text">2.1 定时器的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-内核延时"><span class="toc-text">2.2 内核延时</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/20/Linux驱动开发05/" data-title="Linux驱动开发（五）——中断和时钟" data-url="http://myintelex.github.io/2016/12/20/Linux驱动开发05/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

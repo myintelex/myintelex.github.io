@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="环境变量是什么：环境变量是操作系统中指定操作系统或者应用程序运行的一些参数，可以看作是系统的全局变量。可以分为系统级变量和用户级变量。当要求系统运行一个程序却没有指定完整的路径时，首先会在当前目录下寻找相应的可执行文件，当没有符合条件的文件时，会到path指定的路径下寻找。当程序运行需要一些参数时，可以通过环境变量将需要的参数传递进去。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="环境变量总结">
+<meta property="og:url" content="http://myintelex.github.io/2016/11/26/环境变量总结/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="环境变量是什么：环境变量是操作系统中指定操作系统或者应用程序运行的一些参数，可以看作是系统的全局变量。可以分为系统级变量和用户级变量。当要求系统运行一个程序却没有指定完整的路径时，首先会在当前目录下寻找相应的可执行文件，当没有符合条件的文件时，会到path指定的路径下寻找。当程序运行需要一些参数时，可以通过环境变量将需要的参数传递进去。">
+<meta property="og:updated_time" content="2016-12-16T03:17:34.733Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="环境变量总结">
+<meta name="twitter:description" content="环境变量是什么：环境变量是操作系统中指定操作系统或者应用程序运行的一些参数，可以看作是系统的全局变量。可以分为系统级变量和用户级变量。当要求系统运行一个程序却没有指定完整的路径时，首先会在当前目录下寻找相应的可执行文件，当没有符合条件的文件时，会到path指定的路径下寻找。当程序运行需要一些参数时，可以通过环境变量将需要的参数传递进去。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>环境变量总结 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-环境变量总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/26/环境变量总结/" class="article-date">
+      <time datetime="2016-11-26T13:30:19.000Z" itemprop="datePublished">2016-11-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      环境变量总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/学习记录/">学习记录</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/环境变量/">环境变量</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="环境变量是什么："><a href="#环境变量是什么：" class="headerlink" title="环境变量是什么："></a>环境变量是什么：</h2><p>环境变量是操作系统中指定操作系统或者应用程序运行的一些<strong>参数</strong>，可以看作是系统的<strong>全局变量</strong>。可以分为系统级变量和用户级变量。<br>当要求系统运行一个程序却没有指定完整的路径时，首先会在当前目录下寻找相应的可执行文件，当没有符合条件的文件时，会到path指定的路径下寻找。<br>当程序运行需要一些参数时，可以通过环境变量将需要的参数传递进去。<br><a id="more"></a></p>
+<h2 id="环境变量有什么用："><a href="#环境变量有什么用：" class="headerlink" title="环境变量有什么用："></a>环境变量有什么用：</h2><p>解决未指定路径的应用程序运行。<br>解决双系统下软件共用的问题：当一些软件运行时需要写入注册表的文件时，可以通过环境变量更改完成共用，具体见具体的文件。<br>设置一些软件或者体系的运行环境时。</p>
+<h2 id="Ubuntu环境变量设置"><a href="#Ubuntu环境变量设置" class="headerlink" title="Ubuntu环境变量设置"></a>Ubuntu环境变量设置</h2><h3 id="一些有关环境变量的命令"><a href="#一些有关环境变量的命令" class="headerlink" title="一些有关环境变量的命令"></a>一些有关环境变量的命令</h3><ol>
+<li><strong>echo</strong> 显示某个环境变量值echo $PATH</li>
+<li><strong>export</strong> 设置一个新的环境变量export HELLO=hello (可以无引号)</li>
+<li><strong>env</strong> 显示所有环境变量</li>
+<li><strong>set</strong> 显示本地定义的shell变量</li>
+<li><strong>unset</strong> 清除环境变量unset HELLO</li>
+<li><strong>readonly</strong> 设置只读环境变量readonly HELLO</li>
+</ol>
+<h2 id="2-Linux的变量种类"><a href="#2-Linux的变量种类" class="headerlink" title="2. Linux的变量种类"></a>2. Linux的变量种类</h2><p>按变量的生存周期来划分，Linux变量可分为两类：</p>
+<ul>
+<li>永久的：需要修改配置文件，变量永久生效。</li>
+<li>临时的：使用export命令声明即可，变量在关闭shell时失效。</li>
+</ul>
+<h3 id="设置变量的三种方法"><a href="#设置变量的三种方法" class="headerlink" title="设置变量的三种方法"></a>设置变量的三种方法</h3><ul>
+<li><p>在/etc/profile文件中添加变量【对 <strong>所有用户</strong> 生效 <strong>永久的</strong>】</p>
+<p>用VI在文件/etc/profile文件中增加变量，该变量将会对Linux下所有用户有效，并且是<strong>永久的</strong>;例如：编辑/etc/profile文件，添加CLASSPATH变量</p>
+<pre><code>vi /etc/profile
+export CLASSPATH=./JAVA\_HOME/lib;$JAVA\_HOME/jre/lib
+</code></pre><blockquote>
+<p>修改文件后要想马上生效还要运行# source /etc/profile不然只能在下次重进此用户时生效。</p>
+</blockquote>
+</li>
+<li><p>在用户目录下的.bash_profile文件中增加变量【对 <strong>单一用户</strong> 生效 <strong>永久的</strong>】</p>
+<p>用VI在用户目录下的.bash_profile文件中增加变量，改变量仅会对当前用户有效，并且是<strong>永久的</strong>。例如：编辑guok用户目录(/home/guok)下的.bash_profile</p>
+<pre><code>$ vi /home/guok/.bash.profile
+export CLASSPATH=./JAVA\_HOME/lib;$JAVA\_HOME/jre/lib
+</code></pre><blockquote>
+<p>注：修改文件后要想马上生效还要运行$ source /home/guok/.bash_profile不然只能在下次重进此用户时生效。</p>
+</blockquote>
+</li>
+<li><p>直接运行export命令定义变量【只对 <strong>当前shell(BASH)</strong> 有效 <strong>临时的</strong>】</p>
+<p>在shell的命令行下直接使用<code>[export 变量名=变量值]</code>定义变量，该变量只在当前的shell(BASH)或其子shell(BASH)下是有效的，shell关闭了，变量也就失效了，再打开新shell时就没有这个变量，需要使用的话还需要重新定义。</p>
+</li>
+</ul>
+<h3 id="环境变量的查看"><a href="#环境变量的查看" class="headerlink" title="环境变量的查看"></a>环境变量的查看</h3><ul>
+<li>使用<code>echo</code>命令查看单个环境变量。例如：<code>echo $PATH</code></li>
+<li>使用<code>env</code>查看所有环境变量。</li>
+<li>使用<code>set</code>查看所有本地定义的环境变量,<code>unset</code>可以删除指定的环境变量。</li>
+</ul>
+<h3 id="Ubuntu下都有那些软件需要设置环境变量？"><a href="#Ubuntu下都有那些软件需要设置环境变量？" class="headerlink" title="Ubuntu下都有那些软件需要设置环境变量？"></a>Ubuntu下都有那些软件需要设置环境变量？</h3><p><code>PATH</code>：指定命令的搜索路径<br><code>HOME</code>：指定用户的主工作目录（即用户登陆到Linux系统中时，默认的目录）<br><code>HISTSIZE</code>：指保存历史命令记录的条数。<br><code>LOGNAME</code>：指当前用户的登录名。<br><code>HOSTNAME</code>：指主机的名称，许多应用程序如果要用到主机名的话，通常是从这个环境变量中来取得的。<br><code>SHELL</code>：指当前用户用的是哪种Shell。<br><code>LANG/LANGUGE</code>：和语言相关的环境变量，使用多种语言的用户可以修改此环境变量。<br><code>MAIL</code>：指当前用户的邮件存放目录。<br><code>PS1</code>：命令基本提示符，对于root用户是#，对于普通用户是$。<br><code>PS2</code>：附属提示符，默认是&gt;。</p>
+<h2 id="windows环境变量设置"><a href="#windows环境变量设置" class="headerlink" title="windows环境变量设置"></a>windows环境变量设置</h2><h3 id="有两种方法可以设置windows的环境变量："><a href="#有两种方法可以设置windows的环境变量：" class="headerlink" title="有两种方法可以设置windows的环境变量："></a>有两种方法可以设置windows的环境变量：</h3><ol>
+<li>可以通过命令行set的方式设定，具体的命令有：<ul>
+<li><code>set</code> 打印所有的环境变量</li>
+<li><code>set 变量名 =</code>   清空某个环境变量</li>
+<li><code>set 变量名 = 内容</code>   设置某个变量内容</li>
+<li><code>set 变量名 = %变量名%内容</code>  追加变量内容</li>
+</ul>
+</li>
+<li>可以在窗口修改</li>
+</ol>
+<p>第一种修改方法仅在当前窗口内有效。<br>第二种修改方法全局生效。</p>
+<h3 id="都有那些环境变量？"><a href="#都有那些环境变量？" class="headerlink" title="都有那些环境变量？"></a>都有那些环境变量？</h3><p><code>%ALLUSERSPROFILE%</code> 局部 返回所有用户配置文件的位置。<br><code>%APPDATA%</code> 局部 返回默认情况下应用程序存储数据的位置。<br><code>%CD%</code> 局部 返回当前目录字符串。<br><code>%CMDCMDLINE%</code> 局部 返回用来启动当前的 Cmd.exe 的准确命令行。<br><code>%CMDEXTVERSION%</code> 系统 返回当前的命令处理程序扩展的版本号。<br><code>%COMPUTERNAME%</code> 系统 返回计算机的名称。<br><code>%COMSPEC%</code> 系统 返回命令行解释器可执行程序的准确路径。<br><code>%DATE%</code> 系统 返回当前日期。<br><code>%ERRORLEVEL%</code> 系统 返回最近使用过的命令的错误代码。通常用非零值表示错误。<br><code>%HOMEDRIVE%</code> 系统 返回连接到用户主目录的本地工作站驱动器号。基于主目录值的设置。用户主目录是在本地用户和组中指定的。<br><code>%HOMEPATH%</code> 系统 返回用户主目录的完整路径。基于主目录值的设置。用户主目录是在本地用户和组中指定的。<br><code>%HOMESHARE%</code> 系统 返回用户的共享主目录的网络路径。基于主目录值的设置。用户主目录是在本地用户和组中指定的。<br><code>%LOGONSEVER%</code> 局部 返回验证当前登录会话的域控制器的名称。<br><code>%NUMBER\_OF\_PROCESSORS%</code> 系统 指定安装在计算机上的处理器的数目。<br><code>%OS%</code> 系统 返回操作系统的名称。Windows 2000 将操作系统显示为 Windows_NT。<br><code>%PATH%</code> 系统 指定可执行文件的搜索路径。<br><code>%PATHEXT%</code> 系统 返回操作系统认为可执行的文件扩展名的列表。<br><code>%PROCESSOR\_ARCHITECTURE%</code> 系统 返回处理器的芯片体系结构。值: x86，IA64。<br><code>%PROCESSOR\_IDENTFIER%</code> 系统 返回处理器说明。<br><code>%PROCESSOR\_LEVEL%</code> 系统 返回计算机上安装的处理器的型号。<br><code>%PROCESSOR\_REVISION%</code> 系统 返回处理器修订号的系统变量。<br><code>%PROMPT%</code> 局部 返回当前解释程序的命令提示符设置。由 Cmd.exe 生成。<br><code>%RANDOM%</code> 系统 返回 0 到 32767 之间的任意十进制数字。由 Cmd.exe 生成。<br><code>%SYSTEMDRIVE%</code> 系统 返回包含 Windows XP 根目录（即系统根目录）的驱动器。<br><code>%SYSTEMROOT%</code> 系统 返回 Windows XP 根目录的位置。<br><code>%TEMP%</code> and %TMP% 系统和用户 返回对当前登录用户可用的应用程序所使用的默认临时目录。有些应用程序需要 TEMP，而其它应用程序则需要 TMP。<br><code>%TIME%</code> 系统 返回当前时间。<br><code>%USERDOMAIN%</code> 局部 返回包含用户帐户的域的名称。<br><code>%USERNAME%</code> 局部 返回当前登录的用户的名称。<br><code>%UserProfile%</code> 局部 返回当前用户的配置文件的位置。<br><code>%WINDIR%</code> 系统 返回操作系统目录的位置。  </p>
+<h2 id="Java环境变量的设置"><a href="#Java环境变量的设置" class="headerlink" title="Java环境变量的设置"></a>Java环境变量的设置</h2><h3 id="Java都需要设置那些环境变量？"><a href="#Java都需要设置那些环境变量？" class="headerlink" title="Java都需要设置那些环境变量？"></a>Java都需要设置那些环境变量？</h3><p><code>JAVA\_HOME</code> 指明JDK安装路径.(在安装好java之后就该配置)<br><code>Path</code>使得系统可以在任何路径下识别java命令.(如果你采用命令形式编译java源码,设置这个很方便)<br><code>classpath</code>为java加载类(class or lib)路径，只有类在classpath中，java命令才能识别它.</p>
+<h3 id="Java在windows和linux下配置环境变量"><a href="#Java在windows和linux下配置环境变量" class="headerlink" title="Java在windows和linux下配置环境变量"></a>Java在windows和linux下配置环境变量</h3><p>windows：系统设置  分别设置这三项。</p>
+<p>Linux：</p>
+<ol>
+<li><p>修改<code>/etc/profile</code>文件<br>如果你的计算机仅仅作为开发使用时推荐使用这种方法，因为所有用户的shell都有权使用这些环境变量，可能会给系统带来安全性问题。</p>
+<ul>
+<li>用文本编辑器打开/etc/profile</li>
+<li><p>在profile文件末尾加入：</p>
+<pre><code>export JAVA\_HOME=/usr/share/jdk1.6.0\_14
+export PATH=$JAVA\_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA\_HOME/lib/dt.jar:$JAVA\_HOME/lib/tools.jar
+</code></pre></li>
+<li><p>重新登录</p>
+<blockquote>
+<p>注解</p>
+<ol>
+<li>你要将 /usr/share/jdk1.6.0_14改为你的jdk安装目录  </li>
+<li>linux下用冒号:来分隔路径  </li>
+<li>$PATH / $CLASSPATH / $JAVA_HOME 是用来引用原来的环境变量的值<br>在设置环境变量时特别要注意不能把原来的值给覆盖掉了，这是一种常见的错误。  </li>
+<li>CLASSPATH中当前目录.不能丢,把当前目录丢掉也是常见的错误。  </li>
+<li>export是把这三个变量导出为全局变量。  </li>
+<li>大小写必须严格区分。  </li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>修改<code>.bash\_profile</code>文件</p>
+<p>这种方法更为安全，它可以把使用这些环境变量的权限控制到用户级别，如果你需要给某个用户权限使用这些环境变量，你只需要修改其个人用户主目录下的.bash_profile文件就可以了。</p>
+<ul>
+<li>用文本编辑器打开用户目录下的.bash_profile文件</li>
+<li><p>在.bash_profile文件末尾加入：</p>
+<pre><code>export JAVA\_HOME=/usr/share/jdk1.6.0\_14
+export PATH=$JAVA\_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA\_HOME/lib/dt.jar:$JAVA\_HOME/lib/tools.jar
+</code></pre></li>
+<li><p>重新登录</p>
+</li>
+</ul>
+</li>
+<li><p>直接在shell下设置变量</p>
+<p>不赞成使用这种方法，因为换个shell，你的设置就无效了，因此这种方法仅仅是临时使用，以后要使用的时候又要重新设置，比较麻烦。</p>
+<ul>
+<li><p>只需在shell终端执行下列命令：</p>
+<pre><code>export JAVA\_HOME=/usr/share/jdk1.6.0\_14
+export PATH=$JAVA\_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA\_HOME/lib/dt.jar:$JAVA\_HOME/lib/tools.jar
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<h2 id="引用来源"><a href="#引用来源" class="headerlink" title="引用来源"></a>引用来源</h2><p><a href="http://www.cnblogs.com/samcn/archive/2011/03/16/1986248.html" target="_blank" rel="external">http://www.cnblogs.com/samcn/archive/2011/03/16/1986248.html</a><br><a href="http://blog.chinaunix.net/uid-27135166-id-3304153.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-27135166-id-3304153.html</a><br><a href="http://www.jb51.net/LINUXjishu/77524.html" target="_blank" rel="external">http://www.jb51.net/LINUXjishu/77524.html</a><br><a href="http://blog.chinaunix.net/uid-27135166-id-3304153.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-27135166-id-3304153.html</a><br><a href="http://blog.csdn.net/fb281906011/article/details/8057672" target="_blank" rel="external">http://blog.csdn.net/fb281906011/article/details/8057672</a><br><a href="http://jingyan.baidu.com/article/4ae03de320d99f3eff9e6bfd.html" target="_blank" rel="external">http://jingyan.baidu.com/article/4ae03de320d99f3eff9e6bfd.html</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/26/环境变量总结/" title="环境变量总结">http://myintelex.github.io/2016/11/26/环境变量总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/11/26/环境变量总结/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/11/30/线性表的实现/">
+                    线性表的实现--链表
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/11/22/system调用Qt程序的问题/">
+                    system调用Qt程序的问题
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境变量是什么："><span class="toc-text">环境变量是什么：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境变量有什么用："><span class="toc-text">环境变量有什么用：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ubuntu环境变量设置"><span class="toc-text">Ubuntu环境变量设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一些有关环境变量的命令"><span class="toc-text">一些有关环境变量的命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Linux的变量种类"><span class="toc-text">2. Linux的变量种类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置变量的三种方法"><span class="toc-text">设置变量的三种方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#环境变量的查看"><span class="toc-text">环境变量的查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ubuntu下都有那些软件需要设置环境变量？"><span class="toc-text">Ubuntu下都有那些软件需要设置环境变量？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows环境变量设置"><span class="toc-text">windows环境变量设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#有两种方法可以设置windows的环境变量："><span class="toc-text">有两种方法可以设置windows的环境变量：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#都有那些环境变量？"><span class="toc-text">都有那些环境变量？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java环境变量的设置"><span class="toc-text">Java环境变量的设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java都需要设置那些环境变量？"><span class="toc-text">Java都需要设置那些环境变量？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java在windows和linux下配置环境变量"><span class="toc-text">Java在windows和linux下配置环境变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用来源"><span class="toc-text">引用来源</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/26/环境变量总结/" data-title="环境变量总结" data-url="http://myintelex.github.io/2016/11/26/环境变量总结/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

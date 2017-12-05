@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="C++的标准库的内容在50个头文件中定义。其中最重要的一部分是有关容器类和泛型算法的——–即 STL(Standard Template Library)。包括STL在内的C++头文件大致可以分为10类：
+
+
+
+类型
+头文件名
+
+
+
+
+语言支持功能
+&amp;lt;cstddef&amp;gt;&amp;lt;limits&amp;gt;&amp;lt;climits&amp;gt;&amp;lt;cfloat&amp;gt;&amp;lt;cstdlib&amp;gt;&amp;l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习笔记（三）——C++标准库">
+<meta property="og:url" content="http://myintelex.github.io/2017/03/01/C-学习笔记（三）——STL/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="C++的标准库的内容在50个头文件中定义。其中最重要的一部分是有关容器类和泛型算法的——–即 STL(Standard Template Library)。包括STL在内的C++头文件大致可以分为10类：
+
+
+
+类型
+头文件名
+
+
+
+
+语言支持功能
+&amp;lt;cstddef&amp;gt;&amp;lt;limits&amp;gt;&amp;lt;climits&amp;gt;&amp;lt;cfloat&amp;gt;&amp;lt;cstdlib&amp;gt;&amp;l">
+<meta property="og:updated_time" content="2017-03-09T07:29:08.580Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习笔记（三）——C++标准库">
+<meta name="twitter:description" content="C++的标准库的内容在50个头文件中定义。其中最重要的一部分是有关容器类和泛型算法的——–即 STL(Standard Template Library)。包括STL在内的C++头文件大致可以分为10类：
+
+
+
+类型
+头文件名
+
+
+
+
+语言支持功能
+&amp;lt;cstddef&amp;gt;&amp;lt;limits&amp;gt;&amp;lt;climits&amp;gt;&amp;lt;cfloat&amp;gt;&amp;lt;cstdlib&amp;gt;&amp;l">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C++学习笔记（三）——C++标准库 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C-学习笔记（三）——STL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/01/C-学习笔记（三）——STL/" class="article-date">
+      <time datetime="2017-03-01T10:14:44.000Z" itemprop="datePublished">2017-03-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++学习笔记（三）——C++标准库
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/C-学习笔记/">C++学习笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STL/">STL</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/标准库/">标准库</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>C++的标准库的内容在50个头文件中定义。其中最重要的一部分是有关容器类和泛型算法的——–即 STL(Standard Template Library)。包括STL在内的C++头文件大致可以分为10类：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>头文件名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语言支持功能</td>
+<td>&lt;cstddef&gt;&lt;limits&gt;&lt;climits&gt;&lt;cfloat&gt;&lt;cstdlib&gt;&lt;new&gt;&lt;typeinfo&gt;&lt;exception&gt;&lt;cstdarg&gt;&lt;csetjmp&gt;&lt;csignal&gt;</td>
+</tr>
+<tr>
+<td>流输入/输出</td>
+<td>&lt;iostream&gt;&lt;iomanip&gt;&lt;iOS&gt;&lt;istream&gt;&lt;ostream&gt;&lt;sstream&gt;&lt;fstream&gt;&lt;iosfwd&gt;&lt;streambuf&gt;&lt;cstdio&gt;&lt;cwchar&gt;</td>
+</tr>
+<tr>
+<td>诊断功能相关</td>
+<td>&lt;stdexcept&gt;&lt;cassert&gt;&lt;cerrno&gt;</td>
+</tr>
+<tr>
+<td>定义工具函数</td>
+<td>&lt;utility&gt;&lt;functional&gt;&lt;memory&gt;&lt;ctime&gt;</td>
+</tr>
+<tr>
+<td>字符串处理</td>
+<td>&lt;string&gt;&lt;cctype&gt;&lt;cwctype&gt;&lt;cstring&gt;&lt;cwchar&gt;&lt;cstdlib&gt;</td>
+</tr>
+<tr>
+<td>STL—-容器</td>
+<td>&lt;vector&gt;&lt;list&gt;&lt;deque&gt;&lt;queue&gt;&lt;stack&gt;&lt;map&gt;&lt;set&gt;&lt;bitset&gt;</td>
+</tr>
+<tr>
+<td>STL—-迭代器</td>
+<td>&lt;iterator&gt;</td>
+</tr>
+<tr>
+<td>STL—-算法</td>
+<td>&lt;algorithm&gt;&lt;cstdlib&gt;&lt;ciso646&gt;</td>
+</tr>
+<tr>
+<td>数值操作</td>
+<td>&lt;complex&gt;&lt;valarray&gt;&lt;numeric&gt;&lt;cmath&gt;&lt;cstdlib&gt;</td>
+</tr>
+<tr>
+<td>本地化</td>
+<td>&lt;locale&gt;&lt;clocale&gt;</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h1 id="一、IO库"><a href="#一、IO库" class="headerlink" title="一、IO库"></a>一、IO库</h1><p>C++对输入输出的处理是通过一组定义在标准库中的类型来处理的。这些类型分别定义在三个头文件中：</p>
+<ul>
+<li><code>iostream</code> 包括 <code>istream</code> <code>ostream</code> <code>iostream</code></li>
+<li><code>fstream</code> 包括 <code>ifstream</code> <code>ofstream</code> <code>fstream</code></li>
+<li><code>sstream</code> 包括 <code>istringstream</code> <code>ostingstream</code> <code>stringstream</code> 对 <code>fstream</code> 和 <code>sstream</code> 的处理和 <code>iostream</code> 基本是一致的。需要注意的是：<strong>IO对象是不能进行拷贝或者赋值的</strong>。</li>
+</ul>
+<h2 id="1-1条件状态"><a href="#1-1条件状态" class="headerlink" title="1.1条件状态"></a>1.1条件状态</h2><p>条件状态用来帮助我们访问和操纵流的状态：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>标志</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bad()</td>
+<td>badbit</td>
+<td>如果流崩溃返回真</td>
+</tr>
+<tr>
+<td>fail()</td>
+<td>failbit</td>
+<td>IO操作失败返回真</td>
+</tr>
+<tr>
+<td>eof()</td>
+<td>eofbit</td>
+<td>到达文件结束返回真</td>
+</tr>
+<tr>
+<td>good()</td>
+<td>goodbit</td>
+<td>流状态正常返回真</td>
+</tr>
+<tr>
+<td>clear()</td>
+<td></td>
+<td>清除条件状态，设置为goodbit</td>
+</tr>
+<tr>
+<td>clear(flags)</td>
+<td></td>
+<td>根据指定的标志位，将对应的条件状态复位</td>
+</tr>
+<tr>
+<td>setstate(flags)</td>
+<td></td>
+<td>根据指定的标志位，将对应的条件状态置位</td>
+</tr>
+<tr>
+<td>rdstate()</td>
+<td></td>
+<td>返回当前的条件状态</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-2输出缓冲"><a href="#1-2输出缓冲" class="headerlink" title="1.2输出缓冲"></a>1.2输出缓冲</h2><p>每个输出流都管理一个缓冲区，用来保存程序读写的数据。导致缓冲刷新（即将数据真正的写入到设备文件）的原因有：</p>
+<ul>
+<li>程序正常结束</li>
+<li>缓冲区满</li>
+<li>使用操纵符如 <code>endl</code>，来显示的刷新缓冲区</li>
+<li>使用 <code>unitbuf</code> 设置流的内部状态，来清空缓冲区</li>
+<li><strong>当一个输出流关联到另外一个流时</strong>，当读写关联流时，相应的输出流的缓冲区被刷新</li>
+</ul>
+<p><code>unitbuf</code>使用后，所有的输出操作后都会立即刷新缓冲区，此时可以使用 <code>nounitbuf</code> 回到正常的缓冲方式。 使用 <code>tie</code> 方法可以关联两个流，使用无参版本的 <code>tie</code> 会返回当前流管理按的流指针，如果没有关联流则返回空指针。使用带参数的版本绑定相应的流到当前流。</p>
+<h2 id="1-3-文件输入输出"><a href="#1-3-文件输入输出" class="headerlink" title="1.3 文件输入输出"></a>1.3 文件输入输出</h2><p>与标准输入输出流相比， <code>fstream</code> 新增了几个操作：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fstream fstrm(s)</td>
+<td>创建fstream，并打开s指定的文件</td>
+</tr>
+<tr>
+<td>fstream fstrm(s, mode)</td>
+<td>和上个类似，mode指打开的文件模式</td>
+</tr>
+<tr>
+<td>fstrm.open(s)</td>
+<td>打开s指定的文件</td>
+</tr>
+<tr>
+<td>fstrm.close()</td>
+<td>关闭fastream绑定的文件</td>
+</tr>
+<tr>
+<td>fstrm.is_open()</td>
+<td>返回当前文件是否成功打开</td>
+</tr>
+</tbody>
+</table>
+<p>当构造一个fstream对象时，指定了文件，则 <code>open()</code> 方法自动被调用，而对象析构的时候， <code>close()</code> 方法自动被调用。</p>
+<p>上面提到了 fstream 的文件模式：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>in</td>
+<td>以只读方式打开</td>
+<td>只可以对ifstream和fstream对象指定in模式</td>
+</tr>
+<tr>
+<td>out</td>
+<td>以写方式打开</td>
+<td>只可以对ofstream和fstream对象指定out模式</td>
+</tr>
+<tr>
+<td>trunc</td>
+<td>截断文件</td>
+<td>只有当out也被设定的时候，才可以设定trunc模式</td>
+</tr>
+<tr>
+<td>app</td>
+<td>每次写操作均定位到文件末尾</td>
+<td>只要trunc没被设定，就可以设定app模式，且app模式默认打开out模式</td>
+</tr>
+<tr>
+<td>ate</td>
+<td>打开后定位到文件末尾</td>
+<td>可以和任何搭配</td>
+</tr>
+<tr>
+<td>binary</td>
+<td>以二进制方式打开</td>
+<td>可以和任何搭配</td>
+</tr>
+</tbody>
+</table>
+<p>需要注意的是：</p>
+<ol>
+<li>以 out 模式打开文件会丢弃已有数据</li>
+<li>每次调用 open 都会确定文件模式</li>
+</ol>
+<h2 id="1-3-string流"><a href="#1-3-string流" class="headerlink" title="1.3 string流"></a>1.3 string流</h2><p>string流用于字符串的处理，通常可用于格式化输入输出。</p>
+<h1 id="二、容器"><a href="#二、容器" class="headerlink" title="二、容器"></a>二、容器</h1><p>C++中的容器类包括”顺序存储结构”和”关联存储结构”，前者包括vector，list，deque等；后者包括set，map，multiset，multimap等。若需要存储的元素数在编译器间就可以确定，可以使用数组来存储，否则，就需要用到容器类了。 有一些操作是所有容器都可以使用的：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C c;</td>
+<td>默认构造函数，构造空容器</td>
+</tr>
+<tr>
+<td>C c(c2)</td>
+<td>构造c2的拷贝c1</td>
+</tr>
+<tr>
+<td>C c(b, e)</td>
+<td>构造c，将迭代器b和e之间的元素拷贝至c</td>
+</tr>
+<tr>
+<td>c1 = c2</td>
+<td>将c1中的元素替换为c2</td>
+</tr>
+<tr>
+<td>c1 = ｛a, b, c…｝</td>
+<td>将c1中的元素替换为列表中的元素</td>
+</tr>
+<tr>
+<td>a.swap(b)/swap(a,b)</td>
+<td>交换a和b的元素</td>
+</tr>
+<tr>
+<td>c.size()</td>
+<td>返回c中的元素数目（不支持forward_list）</td>
+</tr>
+<tr>
+<td>c.max_size()</td>
+<td>返回c可以保存的最大元素数目</td>
+</tr>
+<tr>
+<td>c.empty()</td>
+<td>如果c中存储了元素，返回false，否则返回 true</td>
+</tr>
+<tr>
+<td>c.begin()</td>
+<td>返回指向c的第一个元素的迭代器</td>
+</tr>
+<tr>
+<td>c.end()</td>
+<td>返回指向c的超尾的迭代器</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-1-顺序容器"><a href="#2-1-顺序容器" class="headerlink" title="2.1 顺序容器"></a>2.1 顺序容器</h2><p>顺序容器提供了快速顺序访问元素的能力，但是对与增删操作和非顺序访问操作有所性能折中。标准库中的顺序容器有：</p>
+<table>
+<thead>
+<tr>
+<th>容器名</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vector</td>
+<td>可变大小数组</td>
+</tr>
+<tr>
+<td>deque</td>
+<td>双端队列</td>
+</tr>
+<tr>
+<td>list</td>
+<td>双向链表</td>
+</tr>
+<tr>
+<td>forward_list</td>
+<td>单向链表</td>
+</tr>
+<tr>
+<td>array</td>
+<td>固定大小数组</td>
+</tr>
+<tr>
+<td>string</td>
+<td>与vector相似，但专门用来保存字符</td>
+</tr>
+</tbody>
+</table>
+<p>顺序容器共有的方法有:</p>
+<ul>
+<li><code>emplace(C++11 新增)</code>， 插入一个对象</li>
+<li><code>insert</code>, 插入一个拷贝</li>
+<li><code>resize(n)</code>, 重新设置大小</li>
+<li><code>assign</code>，替换</li>
+<li><code>erase</code>， 删除</li>
+<li><code>clear</code>，清除所有元素</li>
+<li><code>front</code>，返回第一个元素</li>
+</ul>
+<p><code>vector</code>, <code>forward_list</code>, <code>list</code>, <code>deque</code> 共有的方法有：</p>
+<ul>
+<li><code>back</code>， 返回最后一个元素</li>
+<li><code>push_back</code>， 插入到末尾</li>
+<li><code>pop_back</code>， 删除最后一个元素</li>
+<li><code>emplace_back</code>， 追加到末尾</li>
+<li><code>push_front</code>，插入到队首</li>
+<li><code>pop_front</code>，删除队首</li>
+<li><code>emplace_front</code>，追加到队首</li>
+<li><code>at</code>，返回相应的对象</li>
+</ul>
+<p><code>vector</code> 独有的操作有：</p>
+<ul>
+<li><code>capacity</code>， 返回能够存储的总量</li>
+<li><code>reserver</code>， 提醒至少需要存储相应个元素的空间</li>
+</ul>
+<p><code>list</code> 独有的操作有：</p>
+<ul>
+<li><code>splice</code>， 移动指定的元素</li>
+<li><code>remove</code>， 删除相应值的所有元素</li>
+<li><code>unique</code>，删除连续的相同元素，仅保留一个</li>
+<li><code>merge</code>，合并两个链表，并排序</li>
+<li><code>sort</code>，排序</li>
+<li><code>reverse</code>,反转</li>
+</ul>
+<h2 id="2-2-关联容器"><a href="#2-2-关联容器" class="headerlink" title="2.2 关联容器"></a>2.2 关联容器</h2><p>关联容器和顺序容器不同，关联容器中的元素是按照元素关键字来保存和访问的。关联容器有两个主要类型： <code>map</code> 和 <code>set</code>。</p>
+<ul>
+<li><code>map</code> 中的元素是一些关键字-值的对，关键字起到索引的作用，而值为对应索引的数据</li>
+<li><code>set</code> 中的元素只包含一个关键字。</li>
+</ul>
+<p>除了 <code>map</code> 和 <code>set</code>， 还有对应的 <code>multimap</code>和 <code>multiset</code>。此外， c++ 还定义了相应的无序集合 <code>unordered _map</code>等。</p>
+<p>相应的关联容器的操作有</p>
+<ul>
+<li><code>key_comp</code>, 返回比较对象</li>
+<li><code>value_comp</code>，返回 <code>value_comp</code> 对象</li>
+<li><code>insert</code>， 插入</li>
+<li><code>emplace</code>， 插入对象</li>
+<li><code>erase</code>， 擦除</li>
+<li><code>clear</code>， 清空</li>
+<li><code>find</code>， 寻找相应的键</li>
+<li><code>count</code>， 返回相应键的数量</li>
+<li><code>lower_bound</code>, 返回不小于指定键的元素迭代器</li>
+<li><code>upper_bound</code>， 返回大于k的元素迭代器</li>
+<li><code>equal_range</code>， 返回第一个成员为 <code>a.lower_bound(k)</code> 第二个成员为 <code>a.upper_bound(k)</code> 的值对</li>
+<li><code>operator</code>， 返回一个指向yu指定的键关联的值的引用</li>
+</ul>
+<p>无序容器的操作有</p>
+<ul>
+<li><code>hash_function</code> 返回使用的哈希函数</li>
+<li><code>key_eq</code> 返回创建时使用的键值相等谓词</li>
+<li><code>bucket_count</code>， 返回桶数</li>
+</ul>
+<h1 id="三、泛型算法"><a href="#三、泛型算法" class="headerlink" title="三、泛型算法"></a>三、泛型算法</h1><p>对于算法，算法本身不执行容器的操作，它们只会运行在迭代器之上，执行迭代器的操作。所以：算法永远不会改变底层容器的大小。</p>
+<h2 id="3-1-算法分类"><a href="#3-1-算法分类" class="headerlink" title="3.1 算法分类"></a>3.1 算法分类</h2><ol>
+<li><strong>查找对象的算法</strong> 相应的算法有 <code>find</code>， <code>count</code>， <code>adjacent_find</code>, <code>search_n</code>, <code>search</code>, <code>find_first_of</code>, <code>find_end</code></li>
+<li><strong>其它只读算法</strong> <code>for_each</code>, <code>mismatch</code>, <code>equal</code></li>
+<li><strong>二分搜索算法</strong> <code>lower_bound</code>， <code>upper_bount</code>， <code>equal_range</code>， <code>binary_search</code></li>
+<li><strong>写容器操作</strong> <code>fill</code>， <code>generate</code>， <code>copy</code>， <code>move</code>， <code>transform</code>， <code>replace_copy</code>， <code>merge</code>， <code>iter_swap</code>， <code>swap_ranges</code>， <code>replace</code>， <code>copy_backward</code>， <code>move_backward</code>， <code>inplace</code></li>
+<li><strong>划分算法</strong> <code>is_partitionedis</code>， <code>partitioned_copy</code>， <code>partition_point</code>， <code>stable_partition</code>， <code>partition</code></li>
+<li><strong>排序算法</strong> <code>sort</code>, <code>is_sorted</code>, <code>partial_sort</code>, <code>partial_sort_copy</code>, <code>nth_element</code></li>
+<li><strong>通用重排算法</strong> <code>remove</code>， <code>unique</code>， <code>rotate</code>， <code>reverse</code>， <code>random_shuffle</code>， <code>shuffle</code></li>
+<li><strong>排列算法</strong> <code>is_permutation</code>, <code>next_permutation</code>, <code>prev_permutation</code></li>
+<li><strong>有序序列的集合算法</strong> <code>set_inion</code>, <code>set_intersection</code>, <code>set_symmetric_difference</code></li>
+<li><strong>最小值和最大值</strong> <code>min</code>， <code>minmax</code>， <code>max</code>，</li>
+<li><strong>数值算法</strong> <code>accumulate</code>， <code>inner_product</code>， <code>partial_sum</code>， <code>adjacent_difference</code>， <code>itoa</code></li>
+</ol>
+<h2 id="3-2-lambda"><a href="#3-2-lambda" class="headerlink" title="3.2 lambda"></a>3.2 lambda</h2><p>一个lambda表示一个可调用的代码单元。他的形式如下： [capture list] (parameter list) -&gt; return type {function body} <code>capture list</code> 是lambda所在的函数中定义的局部变量的列表 <code>return type</code> <code>parameter list</code> <code>function body</code> 表示相应的返回值，参数列表，函数体</p>
+<p>lambda可以忽略参数列表和返回类型，但是必须包含捕获列表和函数体。</p>
+<h1 id="四、智能指针"><a href="#四、智能指针" class="headerlink" title="四、智能指针"></a>四、智能指针</h1><p>通常我们使用 <code>new</code> 和 <code>delete</code> 来管理动态内存的。但是，这样的使用很容易出现问题：我们有可能会忘记释放内存造成内存泄漏；或者我们有可能使用了已释放的指针，导致非法访问。因为C++中定义了智能指针。 智能指针其实也是模版，C++中定义了三个相关的类：</p>
+<ul>
+<li><code>shared_ptr</code> 允许多个指针指向同一个对象</li>
+<li><code>unique_ptr</code> 仅允许一个指针指向对象</li>
+<li><code>weak_ptr</code> 弱引用，指向 <code>shared_ptr</code> 所管理的对象</li>
+</ul>
+<p>智能指针的相应操作有：</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shared_ptr <t> sp / unique_ptr<t> up</t></t></td>
+<td>空智能指针，可以指向类型为T的对象</td>
+</tr>
+<tr>
+<td>p</td>
+<td>可以把智能指针本身作为判断，如果p指向了一个对象，则返回true</td>
+</tr>
+<tr>
+<td>*p</td>
+<td>解引用，获得指向的对象</td>
+</tr>
+<tr>
+<td>p-&gt;mem</td>
+<td>等价于(*p).mem</td>
+</tr>
+<tr>
+<td>swap(p, q) / p.swap(q)</td>
+<td>交换</td>
+</tr>
+<tr>
+<td>make_shared <t>(args)</t></td>
+<td>返回一个shared_ptr</td>
+</tr>
+<tr>
+<td>shared_ptr<t>p (q)</t></td>
+<td>p 是 q 的拷贝</td>
+</tr>
+<tr>
+<td>p = q</td>
+<td>拷贝</td>
+</tr>
+<tr>
+<td>p.use_count()</td>
+<td>返回与p共享对象的智能指针对象</td>
+</tr>
+<tr>
+<td>p.unique()</td>
+<td>如果p.use_count()为1，返回true</td>
+</tr>
+</tbody>
+</table>
+<p>当智能指针创建之后，每对shared_ptr的拷贝和赋值，都会使 shared_ptr 的引用计数加一。 当一个shared_ptr被销毁时，shared_ptr 的引用计数会递减。 当动态内存的引用计数为0时， shared_ptr 的析构函数会自动销毁所管理的对象。 我们可能会在下面的三种情况下使用智能指针：</p>
+<ul>
+<li>程序不知道自己需要使用多少对象</li>
+<li>程序不知道所需对象的准确类型</li>
+<li>程序需要在多个对象间共享数据</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/03/01/C-学习笔记（三）——STL/" title="C++学习笔记（三）——C++标准库">http://myintelex.github.io/2017/03/01/C-学习笔记（三）——STL/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2017/03/01/C-学习笔记（三）——STL/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/02/28/C-整形和字符串的转换/">
+                    C++ string、char *和int的转换
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、IO库"><span class="toc-text">一、IO库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1条件状态"><span class="toc-text">1.1条件状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2输出缓冲"><span class="toc-text">1.2输出缓冲</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-文件输入输出"><span class="toc-text">1.3 文件输入输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-string流"><span class="toc-text">1.3 string流</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、容器"><span class="toc-text">二、容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-顺序容器"><span class="toc-text">2.1 顺序容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-关联容器"><span class="toc-text">2.2 关联容器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、泛型算法"><span class="toc-text">三、泛型算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-算法分类"><span class="toc-text">3.1 算法分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-lambda"><span class="toc-text">3.2 lambda</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、智能指针"><span class="toc-text">四、智能指针</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/03/01/C-学习笔记（三）——STL/" data-title="C++学习笔记（三）——C++标准库" data-url="http://myintelex.github.io/2017/03/01/C-学习笔记（三）——STL/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
