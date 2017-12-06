@@ -69,5 +69,5 @@ theme: yelee
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/myintelex/myintelex.github.io.git
+  repository: ssh://git@github.com/myintelex/myintelex.github.io.git
   branch: master
