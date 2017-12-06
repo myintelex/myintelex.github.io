@@ -7,8 +7,8 @@ tags: [Google, C++, Code Style]
 
 最近把 Google C++ Style Guide 从头到尾看了一遍，把相应的内容记录在这里，也规范下以后自己的代码。  
 
-![Google C++ Style Guide](http://ogf054qp1.bkt.clouddn.com/Google%20C++%20Style%20Guide.png)
 <!--more-->
+![Google C++ Style Guide](http://ogf054qp1.bkt.clouddn.com/Google%20C++%20Style%20Guide.png)
 
 ## Header Files
 通常每一个 `.cpp` 文件都应该有一个对应的 `.h` 头文件，对于一个头文件来说（1）需要**Self-contained**，即一个头文件应该有相应的**#define 保护**、并包含所有他需要的其它头文件；（2）尽量应使用头文件而不是**前置声明**；（3）不能滥用**内联函数**只在函数少于10行的时候才使用内联函数；（4）使用标准的**头文件包含顺序**来增强可读性，避免隐藏依赖。  

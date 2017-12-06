@@ -7,6 +7,7 @@ tags: [Linux, Shell]
 
 Shell 是 Unix 系统下的一个命令解释器，主要用于系统和用户的交互。在 Unix 上有各种不同版本的 Shell，Bash是Linux标准默认的Shell，它是BourneAgain Shell的缩写。我们这里主要讨论的也是 Bash。
 
+<!--more-->
 Linux常用命令表 ( 约60个常用命令)|
 
 |分类|命令|
@@ -16,7 +17,6 @@ Linux常用命令表 ( 约60个常用命令)|
 |用户管理|`useradd`, `userdel`, `usermod`, `groupadd`, `groupdel`, `groupmod`, `groups`, `passwd`, `id`, `who`, `whoami`|
 |系统及相关|`su`, `sudo`, `export`, `shutdown`, `poweroff`,`halt`, `reboot`, `ps`, `top`, `uname`, `uptime`, `clear`, `cal`, `date/time`|
 |网络配置|`netstat`, `nslookup`, `finger`, `ping`, `ifconfig`, `ftp`, `telnet`, `ssh`|
-<!--more-->
 
 ## Shell 编程
 Shell 脚本（shell script），是一种为shell编写的脚本程序。

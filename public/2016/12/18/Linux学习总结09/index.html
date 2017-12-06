@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="网络编程离不开的基础是网络体系结构，通常说的是 OSI协议参考模型，它是一个七层网络协议模型。而我们通常使用的 Internet 是基于 TCP/IP 协议的，TCP/IP 协议是 OSI 协议的一个4层简化模型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习总结（九）——网络编程">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/18/Linux学习总结09/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="网络编程离不开的基础是网络体系结构，通常说的是 OSI协议参考模型，它是一个七层网络协议模型。而我们通常使用的 Internet 是基于 TCP/IP 协议的，TCP/IP 协议是 OSI 协议的一个4层简化模型。">
+<meta property="og:image" content="http://ogf054qp1.bkt.clouddn.com/OSI.png">
+<meta property="og:image" content="http://ogf054qp1.bkt.clouddn.com/TCP%E5%8C%85%E5%A4%B4.png">
+<meta property="og:updated_time" content="2017-12-06T13:42:16.154Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux学习总结（九）——网络编程">
+<meta name="twitter:description" content="网络编程离不开的基础是网络体系结构，通常说的是 OSI协议参考模型，它是一个七层网络协议模型。而我们通常使用的 Internet 是基于 TCP/IP 协议的，TCP/IP 协议是 OSI 协议的一个4层简化模型。">
+<meta name="twitter:image" content="http://ogf054qp1.bkt.clouddn.com/OSI.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux学习总结（九）——网络编程 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux学习总结09" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/18/Linux学习总结09/" class="article-date">
+      <time datetime="2016-12-18T03:52:36.000Z" itemprop="datePublished">2016-12-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux学习总结（九）——网络编程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UDP/">UDP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/广播/">广播</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/组播/">组播</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>网络编程离不开的基础是网络体系结构，通常说的是 OSI协议参考模型，它是一个七层网络协议模型。而我们通常使用的 Internet 是基于 TCP/IP 协议的，TCP/IP 协议是 OSI 协议的一个4层简化模型。<br><a id="more"></a><br>他们之间的对应关系如下图：<br><img src="http://ogf054qp1.bkt.clouddn.com/OSI.png" alt="网络协议模型"></p>
+<p>自下而上，简单介绍下相应各层在整体架构中的作用:</p>
+<ol>
+<li><strong>网络接口层</strong>：<br><code>Network Interface Layer</code> 是 TCP/IP 的最底层，负责将二进制转换为数据帧，并进行数据帧的发送和接收。</li>
+<li><strong>网络层</strong>：<br><code>Internet Layer</code> 负责在主机之间的通信中选择数据包的传输路径。网络互连层定义了分组格式和协议，即 IP协议（Internet Protocol）。</li>
+<li><strong>传输层</strong>：<br>在 TCP/IP 模型中，传输层的功能是使源端主机和目标端主机上的对等实体可以进行会话。在传输层定义了两种服务质量不同的协议。<br>即：传输控制协议 <strong>TCP</strong>（<code>transmission control protocol</code>）和用户数据报协议 <strong>UDP</strong>（<code>user datagram Protocol</code>）。</li>
+<li><strong>应用层</strong>：<br>TCP/IP 模型将 OSI 参考模型中的会话层和表示层的功能合并到应用层实现。应用层面向不同的网络应用引入了不同的应用层协议。其中，有基于 TCP 协议的，如文件传输协议（File Transfer Protocol，FTP）、虚拟终端协议（TELNET）、超文本链接协议（Hyper Text Transfer Protocol，HTTP），也有基于 UDP 协议的。</li>
+</ol>
+<p>我们在这里主要讨论的是第三层传输层的具体内容，即 TCP 和 UDP。</p>
+<h2 id="一、网络编程基础知识"><a href="#一、网络编程基础知识" class="headerlink" title="一、网络编程基础知识"></a>一、网络编程基础知识</h2><h3 id="1-套接字"><a href="#1-套接字" class="headerlink" title="1. 套接字"></a>1. 套接字</h3><p>套接字（Socket）是一种特殊的 I/O 接口，也是一种文件描述符。可以用于本地和网络通信，对于网络通信而言，每一个 Socket 都可以用网路地址结构（协议，本地地址，本地端口）来表示。Socket 通过一个特殊的函数创建，并返回一个整形的 Socket 描述符。</p>
+<blockquote>
+<p>套接字分为三种：</p>
+<ul>
+<li>流式套接字（SOCK_STREAM）：TCP 通信使用的就是流式套接字。</li>
+<li>数据包套接字（SOCK_DGRAM)：UDP 通信使用的就是数据包套接字。</li>
+<li>原始套接字（SOCKRAW）：原始套接字允许对底层协议进行直接的访问，主要用于协议的开发。</li>
+</ul>
+</blockquote>
+<p>套接字有几个相关函数：</p>
+<ul>
+<li><p>套接字的创建：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">socket</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">int</span> type, <span class="keyword">int</span> protocol)</span></span>;</div></pre></td></tr></table></figure>
+<p>功能：创建一个套接字。<br>参数：<code>family</code> 指定相应的协议族，<code>type</code> 指定套接字类型，<code>protocol</code> 为0,(原始套接字除外)。<br>返回值：成功返回非负的描述符，失败返回-1。</p>
+</li>
+<li><p>获取套接字选项：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getsockopt</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> level, <span class="keyword">int</span> optname, <span class="keyword">void</span> *optval, <span class="keyword">socklen_t</span> *optlen)</span></span>;</div></pre></td></tr></table></figure>
+<p>功能：获取套接字选项<br>参数：<code>sockfd</code> 套接字描述符；<code>level</code> 选项所属协议层；<code>optname</code> 选项名称；<code>optval</code> 保存选项的缓存区；<code>optlen</code> 选项值长度。<br>返回值：成功返回0，失败返回-1，并设置 errno。</p>
+</li>
+<li><p>设置套接字选项：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">setsockopt</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> level, <span class="keyword">int</span> optname, <span class="keyword">void</span> *optval, <span class="keyword">socklen_t</span> *optlen)</span></span>;</div></pre></td></tr></table></figure>
+<p>功能：设置套接字选项<br>参数：<code>sockfd</code> 套接字描述符；<code>level</code> 选项所属协议层；<code>optname</code> 选项名称；<code>optval</code> 保存选项的缓存区；<code>optlen</code> 选项值长度。<br>返回值：成功返回0，失败返回-1，并设置 errno。</p>
+</li>
+</ul>
+<p>相应的套接字选项及说明如下：</p>
+<table>
+<thead>
+<tr>
+<th>选项名称</th>
+<th>说明</th>
+<th>数据类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LEVEL</strong></td>
+<td><strong>SOL_SOCKET</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>SO_BROADCAST</td>
+<td>允许发送广播数据报</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_DEBUG</td>
+<td>使能调试跟踪</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_DONTROUTE</td>
+<td>旁路路由表查询</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_ERROR</td>
+<td>获取待处理错误并消除</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_KEEPALIVE</td>
+<td>周期性测试连接是否存活</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_LINGER</td>
+<td>若有数据待发送则延迟关闭</td>
+<td>linger{}</td>
+</tr>
+<tr>
+<td>SO_OOBINLINE</td>
+<td>让接收到的带外数据继续在线存放</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_RCVBUF</td>
+<td>接收缓冲区大小</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_SNDBUF</td>
+<td>发送缓冲区大小</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_RCVTIMEO</td>
+<td>接收超时</td>
+<td>timeval{}</td>
+</tr>
+<tr>
+<td>SO_SNDTIMEO</td>
+<td>发送超时</td>
+<td>timeval{}</td>
+</tr>
+<tr>
+<td>SO_REUSEADDR</td>
+<td>允许重用本地地址</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_REUSEPORT</td>
+<td>允许重用本地地址</td>
+<td>int</td>
+</tr>
+<tr>
+<td>SO_TYPE</td>
+<td>取得套接口类型</td>
+<td>int</td>
+</tr>
+<tr>
+<td><strong>LEVEL</strong></td>
+<td><strong>IPPROTO_IP</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>IP_HDRINCL</td>
+<td>IP头部包括数据</td>
+<td>int</td>
+</tr>
+<tr>
+<td>IP_OPTIONS</td>
+<td>IP头部选项</td>
+<td>见后面说明</td>
+</tr>
+<tr>
+<td>IP_TOS</td>
+<td>服务类型和优先权</td>
+<td>int</td>
+</tr>
+<tr>
+<td>IP_TTL</td>
+<td>存活时间</td>
+<td>int</td>
+</tr>
+<tr>
+<td>IP_ADD_MEMBERSHIP</td>
+<td>加入多播组</td>
+<td>ip_mreq{}</td>
+</tr>
+<tr>
+<td>IP_DROP_MEMBERSHIP</td>
+<td>离开多播组</td>
+<td>ip_mreq{}</td>
+</tr>
+<tr>
+<td><strong>LEVEL</strong></td>
+<td><strong>IPPROTO_TCP</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>TCP_KEEPALIVE</td>
+<td>控测对方是否存活前连接闲置秒数</td>
+<td>int</td>
+</tr>
+<tr>
+<td>TCP_MAXRT</td>
+<td>TCP最大重传时间</td>
+<td>int</td>
+</tr>
+<tr>
+<td>TCP_MAXSEG</td>
+<td>TCP最大分节大小</td>
+<td>int</td>
+</tr>
+<tr>
+<td>TCP_NODELAY</td>
+<td>禁止Nagle算法</td>
+<td>int</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-IP-端口和网络字节序"><a href="#2-IP-端口和网络字节序" class="headerlink" title="2. IP/端口和网络字节序"></a>2. IP/端口和网络字节序</h3><p>IP 地址用来标识网络中的一台主机，端口用来标识主机内部的某个套接字。下面介绍几个相关的函数：</p>
+<ol>
+<li><p>地址格式转换函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">inet_addr</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *strptr)</span></span>;                            </div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">inet_pton</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">const</span> <span class="keyword">char</span> *src, <span class="keyword">void</span> *dst)</span></span>;</div><div class="line"><span class="function"><span class="keyword">char</span>* <span class="title">inet_ntop</span><span class="params">(<span class="keyword">int</span> family, <span class="keyword">void</span> *src, <span class="keyword">char</span> *dst, <span class="keyword">size_t</span> len)</span></span>;</div></pre></td></tr></table></figure>
+<p>函数 <code>inet_addr()</code>/ <code>inet_pton</code> 用来要转换的字符串转换为 32 二进制IP地址（网络字节序）。函数 <code>inet_ntop</code> 是相应的反向操作。<br><code>family</code> 指的是地址族，用来区分 IPv4（AF_INET）和 IPv6（AF_INET6）。<br><code>inet_addr()</code> 成功返回相应的地址，失败返回-1；<code>inet_pton</code> 成功返回0，失败返回-1； <code>inet_ntop</code> 成功返回 dst，失败返回NULL。</p>
+</li>
+<li><p>地址结构<br>地址信息有两个相关的结构体：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> sockaddr &#123;</div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">short</span> sa_family; <span class="comment">//地址族</span></div><div class="line">  <span class="keyword">char</span> sa_data[<span class="number">14</span>];         <span class="comment">//14字节的协议地址</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">struct</span> sockaddr_in &#123;</div><div class="line">  shor <span class="keyword">int</span> sin_family;         <span class="comment">//地址族</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="keyword">int</span> sin_port; <span class="comment">//端口号</span></div><div class="line">  <span class="keyword">struct</span> in_addr sin_addr;     <span class="comment">//IP地址</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">char</span> sin_zero[<span class="number">8</span>];   <span class="comment">//填充0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这两个数据类型大小相同，通常用 <code>sockaddr_in</code> 来保存某个网络地址，使用是强转成 <code>sockaddr</code>。<code>sa_family</code> 常见值有：</p>
+<ul>
+<li><code>AF_INET</code>  IPv4 协议</li>
+<li><code>AF_INET6</code> IPv6 协议</li>
+<li><code>AF_LOCAL</code> UNIX域协议</li>
+<li><code>AF_LINK</code> 链路地址协议</li>
+<li><code>AF_KEY</code> 密钥套接字</li>
+</ul>
+</li>
+<li><p>网络字节序<br>计算机的多字节整形存储方式有两种：大端（高位字节存储在地位地址）小端（高位字节存储在高位地址）。为了保证网络通信的一致性，数据以大端方式传输，所以需要相应的转换函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></div><div class="line"><span class="keyword">uint16_t</span> htons(<span class="keyword">uint16_t</span> hostshort);</div><div class="line"><span class="keyword">uint32_t</span> htonl(<span class="keyword">uint32_t</span> hostlong);</div><div class="line"><span class="keyword">uint16_t</span> ntohs(<span class="keyword">uint16_t</span> netshort);</div><div class="line"><span class="keyword">uint32_t</span> ntohl(<span class="keyword">uint32_t</span> netlong);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="二、TCP-网络编程"><a href="#二、TCP-网络编程" class="headerlink" title="二、TCP 网络编程"></a>二、TCP 网络编程</h2><p>TCP 向应用层提供可靠的面向链接的全双工数据流传输服务。它能提供高可靠性通信（数据无误，数据无丢失，数据无失序，数据无重复到达）。</p>
+<h3 id="1-3次握手协议和两次挥手"><a href="#1-3次握手协议和两次挥手" class="headerlink" title="1. 3次握手协议和两次挥手"></a>1. 3次握手协议和两次挥手</h3><p>TCP 的面向连接指的是：当计算机双方通信的时候必须先建立连接，然后进行数据通信，最后关闭连接。TCP 在建立连接时有三个步骤：</p>
+<ul>
+<li><strong>第一步</strong> ： （客户端 -&gt; 服务端）客户端向服务端发送一个包含 SYN 标志的 TCP 报文，并进入 SYN_SEND 状态，等待确认。</li>
+<li><strong>第二步</strong> ： （服务端 -&gt; 客户端）服务端在收到客户端的 SYN 报文之后，返回一个 SYN+ACK 的报文，表示服务端收到客户端的 SYN，服务端进入 SYN_RECV 状态。</li>
+<li><strong>第三步</strong> ： （客户端 -&gt; 服务端）客户端在收到服务端的 SYN+ACK 报文之后，向确认端发送确认 ACK 报文，客户端和服务端都进入 ESTABLISHED 状态。</li>
+</ul>
+<p>在发送方发送一个数据包之后，会启动一个定时器，当数据包到达目的地之后，接收方会返回一个数据包，其中含有一个确认序号，如果发送方的定时器在确认信息到达之前超时，发送方会重发数据。</p>
+<p>由于TCP连接是全双工的，因此每个方向都必须单独进行关闭。这个原则是当一方完成它的数据发送任务后就能发送一个FIN来终止这个方向的连接。收到一个 FIN只意味着这一方向上没有数据流动，一个TCP连接在收到一个FIN后仍能发送数据。首先进行关闭的一方将执行主动关闭，而另一方执行被动关闭。</p>
+<ul>
+<li><strong>第一步</strong> 客户端A发送一个FIN，用来关闭客户A到服务器B的数据传送。 </li>
+<li><strong>第二步</strong> 服务器B收到这个FIN，它发回一个ACK，确认序号为收到的序号加1。和SYN一样，一个FIN将占用一个序号。 </li>
+<li><strong>第三步</strong> 服务器B关闭与客户端A的连接，发送一个FIN给客户端A。 </li>
+<li><strong>第四步</strong> 客户端A发回ACK报文确认，并将确认序号设置为收到序号加1。  </li>
+</ul>
+<h3 id="2-TCP-的数据包头"><a href="#2-TCP-的数据包头" class="headerlink" title="2. TCP 的数据包头"></a>2. TCP 的数据包头</h3><p><img src="http://ogf054qp1.bkt.clouddn.com/TCP%E5%8C%85%E5%A4%B4.png" alt="TCP 包头"></p>
+<ol>
+<li><strong>源端口/目的端口</strong>：16bit，标识本地和远端的端口号。</li>
+<li><strong>顺序号</strong>：32bit，标识发送的数据包的顺序。</li>
+<li><strong>确认号</strong>：32bit，希望收到的下一包数据的序列号。</li>
+<li><strong>TCP头长</strong>：4bit，表明 TCP 头中包含多少个32bit。</li>
+<li><strong>6bit 未用</strong>。</li>
+<li><strong>URG</strong>：表示紧急指针字段有效。</li>
+<li><strong>ACK</strong>：置位表示确认号字段有效；</li>
+<li><strong>PSH</strong>：表示当前报文需要请求推（push）操作；</li>
+<li><strong>RST</strong>：置位表示复位TCP连接；</li>
+<li><strong>SYN</strong>：用于建立TCP连接时同步序号；</li>
+<li><strong>FIN</strong>：用于释放TCP连接时标识发送方比特流结束。 </li>
+<li><strong>窗口</strong>：16位，表示源主机在请求接收端等待确认之前需要接收的字节数。它用于流量控制。</li>
+<li><strong>校验位</strong>：16位。用于检查TCP数据包头和数据的一致性。</li>
+<li><strong>紧急指针</strong>：16位。当URG码有效时只向紧急数据字节。</li>
+<li><strong>可选项</strong>：存在时表示TCP包头后还有另外的4字节数据。包括最大 TCP 载荷/窗口比例/选择重发数据包等选项。</li>
+</ol>
+<h3 id="3-服务器端-TCP-网络编程："><a href="#3-服务器端-TCP-网络编程：" class="headerlink" title="3. 服务器端 TCP 网络编程："></a>3. 服务器端 TCP 网络编程：</h3><p>TCP编程模型可分为服务器端和客户端两种，一个完整的服务器端 TCP 编程模型有6步：</p>
+<ol>
+<li>创建一个套接字 <code>socket()</code></li>
+<li><p>连接到指定的地址和端口</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">bind</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *myaddr, <span class="keyword">socket_t</span> addrlen)</span></span>;</div></pre></td></tr></table></figure>
+<p> 功能：将一个本地协议赋予一个套接字。<br> 参数：<code>sockfd</code> 套接字描述符，<code>myaddr</code> 指定的地址结构的指针，<code>addrlen</code> 该地址结构长度。<br> 返回值：成功返回0，失败返回-1；</p>
+</li>
+<li><p>设置为监听模式</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">listen</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">int</span> backlog)</span></span>;</div></pre></td></tr></table></figure>
+<p> 功能：将一个未连接的套接字转换为一个被动套接字<br> 参数：<code>sockfd</code> 套接字描述符，<code>backlog</code> 相应的套接字排队的最大连接个数。<br> 返回值：成功返回0，失败返回-1；</p>
+</li>
+<li><p>等待接收客户端的连接请求</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">accept</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *cliaddr, <span class="keyword">socket_t</span> addrlen)</span></span>;</div></pre></td></tr></table></figure>
+<p> 功能：从已完成的链接队列队头返回下一个已完成连接，如果队列为空，进程进入睡眠（默认为阻塞模式）。<br> 参数：<code>sockfd</code> 套接字描述符，<code>cliaddr</code>/<code>addrlen</code> 用来存储对端的地址结构和长度<br> 返回值：成功返回非负的描述符，失败返回-1；</p>
+</li>
+<li><p>发送和接收数据：<code>send()</code>/<code>recv()</code></p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">recvform</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">void</span> *buff, <span class="keyword">size_t</span> nbytes, <span class="keyword">int</span> flags)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sendto</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">void</span> *buff, <span class="keyword">size_t</span> nbytes, <span class="keyword">int</span> flags)</span></span>;</div></pre></td></tr></table></figure>
+<p> 功能：类似标准的 <code>read()</code> 和 <code>write()</code> 函数。<br> 参数：前三个函数同 <code>read()</code>/<code>write()</code>， <code>flags</code> 一般是0。<br> 返回值：成功返回读或写的字节数，失败返回-1。</p>
+</li>
+<li><p>关闭套接字 <code>close()</code></p>
+</li>
+</ol>
+<h3 id="4-客户端的-TCP-编程模型"><a href="#4-客户端的-TCP-编程模型" class="headerlink" title="4. 客户端的 TCP 编程模型"></a>4. 客户端的 TCP 编程模型</h3><ol>
+<li>创建一个套接字：<code>socket()</code></li>
+<li><p>建立连接</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">connect</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *servaddr, <span class="keyword">socket_t</span> addrlen)</span></span>;</div></pre></td></tr></table></figure>
+<p> 功能：建立与 TCP 服务器的连接<br> 参数：<code>sockfd</code> 套接字描述符，<code>servaddr</code>/<code>addrlen</code> 用来存储服务器端的地址结构和长度<br> 返回值：成功返回0，失败返回-1；</p>
+</li>
+<li>发送和接收数据:<code>send()</code>/<code>recv()</code></li>
+<li>关闭套接字 <code>close()</code></li>
+</ol>
+<h2 id="三、UDP编程模型"><a href="#三、UDP编程模型" class="headerlink" title="三、UDP编程模型"></a>三、UDP编程模型</h2><p>UDP 即用户数据报协议，是一种面向无连接的不可靠的传输协议，具有消耗资源少，处理速度快的特点。<br>UDP 的数据包头比较简单，包含源和目的的地址（各16bit）8位空位，8位协议位，16位 UDP 长度。<br>UDP 网络编程和 TCP 网络编程的区别在于：UDP 是不可靠的数据报协议，客户端不与服务器建立连接，直接使用 <code>sendto()</code> 函数向服务器发送数据，而服务器同样不用接收连接，使用 <code>recvform</code> 返回相应的数据。</p>
+<h3 id="1-UDP-网络编程模型"><a href="#1-UDP-网络编程模型" class="headerlink" title="1. UDP 网络编程模型"></a>1. UDP 网络编程模型</h3><ul>
+<li><p>UDP 服务器端编程模型</p>
+<ol>
+<li>创建一个套接字：同 TCP。</li>
+<li>连接到指定的地址和端口 <code>bind()</code></li>
+<li><p>发送和接收数据 用 <code>sendto()</code>/<code>recvform()</code></p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">recvform</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">void</span> *buff, <span class="keyword">size_t</span> nbytes, <span class="keyword">int</span> flags,</span></span></div><div class="line">             <span class="keyword">struct</span> sockaddr *from, <span class="keyword">socklen_t</span> *addrlen);</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sendto</span><span class="params">(<span class="keyword">int</span> sockfd, <span class="keyword">void</span> *buff, <span class="keyword">size_t</span> nbytes, <span class="keyword">int</span> flags,</span></span></div><div class="line">             <span class="keyword">struct</span> sockaddr *to, <span class="keyword">socklen_t</span> *addrlen);</div></pre></td></tr></table></figure>
+<p>功能：类似标准的 <code>read()</code> 和 <code>write()</code> 函数。<br>参数：前三个函数同 <code>read()</code>/<code>write()</code>， <code>flags</code> 一般是0， <code>from</code>/<code>to</code> 分别是对端的地址结构指针， <code>addrlen</code> 是对端的地址结构长度。<br>返回值：成功返回读或写的字节数，失败返回-1。</p>
+</li>
+<li><p>关闭套接字 <code>close()</code></p>
+</li>
+</ol>
+</li>
+<li><p>UDP 客户端编程模型</p>
+<ol>
+<li>创建一个套接字：同 TCP。</li>
+<li>发送和接收数据 用 <code>sendto()</code>/<code>recvform()</code></li>
+<li>关闭套接字 <code>close()</code></li>
+</ol>
+</li>
+</ul>
+<h3 id="2-组播与广播编程"><a href="#2-组播与广播编程" class="headerlink" title="2. 组播与广播编程"></a>2. 组播与广播编程</h3><p>之前我们处理的都是单播程序：一个进程就与另一个进程通信。TCP 只支持单播寻址，而 UDP 还支持其他的寻址类型。</p>
+<ul>
+<li>单播（unicast）：向标识的单独接口递送数据，TCP 仅支持此种</li>
+<li>任播（anycast）：向标识的一组接口中的一个递送数据</li>
+<li>组播（multicast）：向标识的一组中的所有接口递送数据</li>
+<li>广播（broadcast）：向全体递送数据</li>
+</ul>
+<p>广播和组播都需要使用UDP，都不能使用TCP。IPv4地址可以使用｛子网id，主机id｝来表示，-1表示所有位都为1的字段，广播可以分为几种： </p>
+<ul>
+<li><p>子网定向广播地址，｛子网id，-1｝，指定子网上所有接口的广播地址</p>
+<blockquote>
+<p>192.168.1.0/24 该子网上的广播地址192.168.1.255 </p>
+</blockquote>
+</li>
+<li><p>受限广播地址｛-1，-1｝即 <code>255.255.255.255</code>。</p>
+</li>
+</ul>
+<ol>
+<li><p>广播的流程<br>发送广播的流程是：</p>
+<ul>
+<li>创建 UDP 套接字</li>
+<li>指定目标地址和端口</li>
+<li><p>设置套接字选项允许发送广播包</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &amp;on, <span class="keyword">sizeof</span>(on));</div></pre></td></tr></table></figure>
+</li>
+<li><p>发送广播包</p>
+</li>
+</ul>
+<p>接收广播包的流程是：</p>
+<ul>
+<li>创建 UDP 套接字</li>
+<li>绑定目标地址和端口</li>
+<li>接收广播包</li>
+</ul>
+</li>
+<li><p>广播的缺点</p>
+<ul>
+<li><p>当使用单播时：<br>发送端UDP 套接字承载了目的 IP，比如 192.168.32.3，和目的端口 比如 7433，在传输层，对他冠以一个 UDP 首部，在 IPv4 中标识为 17， 其次在网络层，标识为 IPv4, 确定了外出接口，接口层的以太网接口将相应的目的IP映射成 相应的以太网地址，并标识相应的帧类型为 IPv4（0x0800）。<br>该数据在接口层传输，相应的主机接口首先判断该帧的以太网地址是否和本机一致：不一致忽略，一致读取整个帧，单播对非目的主机不造成任何额外开销。目的主机接口读取整个帧后，比较相应的帧类型 0x0800，传递给相应网络层协议 IPv4，网络层比较相应的 IP 是否和本机一致，一致后接收，随后查看相应的协议字段 17，数据被传送给传输层 UDP，UDP 查看相应的目的端口，把数据置于相应的套接字接收队列。</p>
+</li>
+<li><p>当使用广播时：<br>发送端UDP 套接字承载了目的 IP，比如 192.168.32.255，和目的端口 比如 7433，在传输层，对他冠以一个 UDP 首部，在 IPv4 中标识为 17， 其次在网络层，标识为 IPv4, 确定了外出接口，接口层的以太网接口将相应的目的IP映射成所在以太网的子网的以太网地址，此时这个以太网地址为全1的地址，并标识相应的帧类型为 IPv4（0x0800）。<br>该数据在接口层传输，该子网内所有的主机接口都会判断该帧的以太网地址是和本机一致，读取整个帧，单播对非目的主机不造成任何额外开销。目的主机接口读取整个帧后，比较相应的帧类型 0x0800，传递给相应网络层协议 IPv4，网络层比较相应的 IP 是否和本机一致，一致后接收，随后查看相应的协议字段 17，数据被传送给传输层 UDP，UDP 查看相应的目的端口，如果有相应端口的应用进程，执行相应的接收程序，如果没有相应的进程，则 UDP 丢弃当前数据包。</p>
+</li>
+</ul>
+<p>所以广播存在的问题是：子网上所有使用 IP 协议的主机都必须沿相应的协议传输到 UDP 层判断自己是否参加了相应的广播。所有不使用 IP 协议的主机也都必须在接口层接收所用的数据，并在网络层读取判断。</p>
+</li>
+<li><p>组播地址<br>IPv4 地址可以分为五类：</p>
+<ul>
+<li>A 类：最高位0，主机号占 24 位，地址范围为：1.0.0.1 到 126.255.255.254</li>
+<li>B 类：最高两位10，主机号占 16 位，地址范围为：128.0.0.1 到 191.255.255.254</li>
+<li>C 类：最高三位110，主机号占 8 位，地址范围为：192.0.1.1 到 223.255.255.254</li>
+<li>D 类：最高四位1110，地址范围为：224.0.0.1 到 239.255.255.254</li>
+<li>E 类：保留<br>其中，D类地址为组播地址，每一个组播地址代表一个多播组。</li>
+</ul>
+</li>
+<li><p>组播的流程<br>发送组播的流程是：</p>
+<ul>
+<li>创建 UDP 套接字</li>
+<li>指定目标地址和端口</li>
+<li>发送组播包</li>
+</ul>
+<p>接收组播的流程是：</p>
+<ul>
+<li>创建 UDP 套接字</li>
+<li><p>加入多播组</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &amp;mreq, <span class="keyword">sizeof</span>(mreq));</div></pre></td></tr></table></figure>
+</li>
+<li><p>绑定地址和端口</p>
+</li>
+<li>发送组播包</li>
+</ul>
+</li>
+</ol>
+<h2 id="四、本地套接字"><a href="#四、本地套接字" class="headerlink" title="四、本地套接字"></a>四、本地套接字</h2><p>套接字的引用本来就只支持本地通信，目前很多前台后台进程依旧使用 UNIX 域套接字进行通信，本地套接字的特点是使用简单，效率高。本地套接字也分为流式套接字和用户数据报两种类型。具体的编程方法和相应 TCP / UDP 套接字基本一致，区别仅是使用的协议和地址不同，这里就不再详细描述。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/18/Linux学习总结09/" title="Linux学习总结（九）——网络编程">http://myintelex.github.io/2016/12/18/Linux学习总结09/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/18/Linux学习总结09/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/18/Linux学习总结08/">
+                    Linux学习总结（八）——线程
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结07/">
+                    Linux学习总结（七）——进程间通信
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、网络编程基础知识"><span class="toc-text">一、网络编程基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-套接字"><span class="toc-text">1. 套接字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-IP-端口和网络字节序"><span class="toc-text">2. IP/端口和网络字节序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、TCP-网络编程"><span class="toc-text">二、TCP 网络编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3次握手协议和两次挥手"><span class="toc-text">1. 3次握手协议和两次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-TCP-的数据包头"><span class="toc-text">2. TCP 的数据包头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-服务器端-TCP-网络编程："><span class="toc-text">3. 服务器端 TCP 网络编程：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-客户端的-TCP-编程模型"><span class="toc-text">4. 客户端的 TCP 编程模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、UDP编程模型"><span class="toc-text">三、UDP编程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-UDP-网络编程模型"><span class="toc-text">1. UDP 网络编程模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-组播与广播编程"><span class="toc-text">2. 组播与广播编程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、本地套接字"><span class="toc-text">四、本地套接字</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/18/Linux学习总结09/" data-title="Linux学习总结（九）——网络编程" data-url="http://myintelex.github.io/2016/12/18/Linux学习总结09/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

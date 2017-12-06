@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="C 库函数主要指那些由美国国家标准协会（ANSI）或国际标准化组织(ISO)发布的标准中规定的库函数，按照标准 C 的要求来进行 C 语言编程是很重要的，因为这样你的代码才有可能跨平台使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言学习总结（五）——C库函数总结">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/08/C语言学习总结（五）——C库函数总结/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="C 库函数主要指那些由美国国家标准协会（ANSI）或国际标准化组织(ISO)发布的标准中规定的库函数，按照标准 C 的要求来进行 C 语言编程是很重要的，因为这样你的代码才有可能跨平台使用。">
+<meta property="og:updated_time" content="2016-12-21T14:08:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言学习总结（五）——C库函数总结">
+<meta name="twitter:description" content="C 库函数主要指那些由美国国家标准协会（ANSI）或国际标准化组织(ISO)发布的标准中规定的库函数，按照标准 C 的要求来进行 C 语言编程是很重要的，因为这样你的代码才有可能跨平台使用。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C语言学习总结（五）——C库函数总结 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C语言学习总结（五）——C库函数总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/08/C语言学习总结（五）——C库函数总结/" class="article-date">
+      <time datetime="2016-12-08T06:31:21.000Z" itemprop="datePublished">2016-12-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C语言学习总结（五）——C库函数总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/C语言学习总结/">C语言学习总结</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C语言/">C语言</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/标准C库/">标准C库</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>C 库函数主要指那些由美国国家标准协会（ANSI）或国际标准化组织(ISO)发布的标准中规定的库函数，按照标准 C 的要求来进行 C 语言编程是很重要的，因为这样你的代码才有可能跨平台使用。<br><a id="more"></a><br>最早的 <code>C89</code> 中有15个标准头文件：</p>
+<blockquote>
+<p> assert.h   ctype.h   errno.h   float.h   limits.h<br> locale.h   math.h   setjmp.h   signal.h   stdarg.h<br> stddef.h   stdio.h   stdlib.h   string.h   time.h   </p>
+</blockquote>
+<p>随后的 <code>C95</code> 增加了3个标准头文件：</p>
+<blockquote>
+<p>iso646.h   wchar.h   wctype.h </p>
+</blockquote>
+<p>其次 <code>C99</code> 增加了6个标准头文件：</p>
+<blockquote>
+<p> complex.h    fenv.h   inttypes.h    stdbool.h    stdint.h   tgmath.h </p>
+</blockquote>
+<p>最新的 <code>C11</code> 又增加了5个标准头文件：</p>
+<blockquote>
+<p> stdalign.h   stdatomic.h   stdnoreturn.h   threads.h   uchar.h </p>
+</blockquote>
+<p>所以目前总共有29个标准头文件，但是大部分的编译器并没有支持全部的C标注，所以目前我们在这里讨论的主要还是 <code>C89</code> 中的15个标准头文件。</p>
+<h2 id="相关头文件的内容说明"><a href="#相关头文件的内容说明" class="headerlink" title="相关头文件的内容说明"></a>相关头文件的内容说明</h2><p><code>C89</code> 的15个标准头文件的主要内容如下：</p>
+<table>
+<thead>
+<tr>
+<th>头文件</th>
+<th>说明</th>
+<th>头文件</th>
+<th>说明</th>
+<th>头文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>assert.h</td>
+<td>断言相关</td>
+<td>ctype.h</td>
+<td>字符类型判断</td>
+<td>errno.h</td>
+<td>标准错误机制</td>
+</tr>
+<tr>
+<td>float.h</td>
+<td>浮点限制</td>
+<td>limits.h</td>
+<td>整形限制</td>
+<td>locale.h</td>
+<td>本地化接口</td>
+</tr>
+<tr>
+<td>math.h</td>
+<td>数学函数</td>
+<td>setjmp.h</td>
+<td>非本地跳转</td>
+<td>signal.h</td>
+<td>信号相关</td>
+</tr>
+<tr>
+<td>stdarg.h</td>
+<td>可变参数处理</td>
+<td>stddef.h</td>
+<td>宏和类型定义</td>
+<td>stdio.h</td>
+<td>标准I/O</td>
+</tr>
+<tr>
+<td>stdlib.h</td>
+<td>标准工具库</td>
+<td>string.h</td>
+<td>字符串和内存处理</td>
+<td>time.h</td>
+<td>时间相关</td>
+</tr>
+</tbody>
+</table>
+<p>有人说，标准库(C89)——也就是ISO C——可以分为3组，根据这3组可以分出三种层次的程序员：</p>
+<ul>
+<li>合格程序员： ctype.h 、 stdio.h 、 stdlib.h 、 string </li>
+<li>熟练程序员： assert.h 、 limits.h 、 stddef.h 、 time.h </li>
+<li>优秀程序员： float.h 、 math.h 、 errno.h 、 locale.h 、 setjmp.h 、 signal.h 、 stdarg.h<br>作为一个走在优秀程序员路上的 XX 程序员，这里简单把三个层次分开说一下。</li>
+</ul>
+<h2 id="合格程序员的层次"><a href="#合格程序员的层次" class="headerlink" title="合格程序员的层次"></a>合格程序员的层次</h2><h3 id="ctype-h"><a href="#ctype-h" class="headerlink" title="ctype.h"></a>ctype.h</h3><p> ctype.h 这个头文件主要定义了一批 C 语言字符分类函数，所有的函数都只有一个参数，且参数和返回值均为 <code>int</code> 类型。下面是简单的函数介绍：</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+<th>函数名</th>
+<th>说明</th>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isalpha</td>
+<td>是否为字母</td>
+<td>isdigit</td>
+<td>是否为数字</td>
+<td>isalnum</td>
+<td>是否为数字或字母</td>
+</tr>
+<tr>
+<td>iscntrl</td>
+<td>是否为控制字符</td>
+<td>isgraph</td>
+<td>是否为图形文字</td>
+<td>isupper</td>
+<td>是否为大写字母</td>
+</tr>
+<tr>
+<td>islower</td>
+<td>是否为小写字母</td>
+<td>tolower</td>
+<td>转换为小写字母</td>
+<td>toupper</td>
+<td>转换为大写字母</td>
+</tr>
+<tr>
+<td>isprintf</td>
+<td>是否为可打印字符</td>
+<td>ispunct</td>
+<td>是否为标点符号</td>
+<td>isspace</td>
+<td>是否为空白</td>
+</tr>
+<tr>
+<td>isxdigit</td>
+<td>是否为十六进制的数字</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="stdio-h"><a href="#stdio-h" class="headerlink" title="stdio.h"></a>stdio.h</h3><p> stdio.h 这个头文件应该是大多数人接触 C 语言的时候第一个认识的 C 库函数。这个函数最常用，但是也很复杂。它定义了三种类型，一些宏和很多的输入输出函数。</p>
+<ol>
+<li>定义的三种类型：  <ul>
+<li><code>size_t</code> 是由 <code>sizeof</code> 关键字产生的无符号整类型。</li>
+<li><code>FILE</code> 是一个结构体类型，记录了控制流需要的所有信息，包括它的文件定位符、指向相关缓冲的指针、记录是否发生了读/写错误的错误提示符和记录文件是否结束的文件结束符。 </li>
+<li><code>fpos_t</code>包含可以唯一指定文件中的每一个位置所需的所有信息。</li>
+</ul>
+</li>
+<li>定义了一些常量：  <ul>
+<li><code>NULL</code> 空值 </li>
+<li><code>_IOFBF</code> 表示完全缓冲 <code>_IOLBF</code> 表示线缓冲 <code>_IONBF</code> 表示无缓存</li>
+<li><code>BUFSIZ</code> 是<code>setbuf</code>函数所使用的缓冲区的大小</li>
+<li><code>EOF</code> 是负整数,该表达式由几个函数返回来说明文件的结束，即一个流输入结束了(END OF FILE)</li>
+<li><code>FOPEN_MAX</code> (20)同时打开的文件的最大数量</li>
+<li><code>FILENAME_MAX</code> 文件名的最大长度</li>
+<li><code>L_tmpnam</code>整数，最大长度的临时文件名</li>
+<li><code>SEEK_CUR</code>取得目前文件位置 <code>SEEK_END</code> 将读写位置移到文件尾时 <code>SEEK_SET</code> 将读写位置移到文件开头</li>
+<li><code>TMP_MAX</code> 表示<code>tmpnam</code>函数可以生成的单独文件名的最大数目</li>
+<li><code>`stderr</code>标准错误流，默认为屏幕, 可输出到文件 <code>stdin</code>标准输入流，默认为键盘 <code>stdout</code>标准输出流，默认为屏幕 </li>
+</ul>
+</li>
+<li>一些相关的函数<ul>
+<li>文件操作函数 （4个）<br><code>int remove(const char *filename);</code>  删除文件<br><code>int rename(const char *old, const char *new);</code>  重命名文件<br><code>FILE *tmpfile(void);</code> 创建一个临时的二进制文件，并通过模式“wb+”打开。<br><code>char *tmpname（char *s）;</code> 生成一个字符串，这个字符串是一个有效的文件名。  </li>
+<li>文件访问函数 (6个)<br><code>FILE* fopen(const char *filename, const char *mode);</code>打开名字为 <code>filename</code> 指向的文件，并且把这个文件和一个流相关联。<br><code>FILE* freopen(const char *filename, const char *mode, FILE *stream);</code>打开名字为 <code>filename</code> 指向的文件，并且把它和 <code>stream</code> 指向的流关联在一起。<br><code>int fclose(FILE *stream);</code>使 <code>stream</code> 指向的流被清空，并且和流相关联的文件被关闭。<br><code>int fflush(FILE *stream);</code>对 <code>stream</code> 指向的流执行清空行为。<br><code>void setbuf(FILE *stream, char *buf);</code>除了没有返回值，等价于函数 <code>setvbuf</code>。<br><code>void setvbuf(FILE *stream, char *buf, int mode, size_t size);</code>设定 <code>stream</code> 缓冲的方式。   </li>
+<li>格式化的输入输出函数 （9个）<br><code>int fprintf(FILE *stream, const char *format, ...);</code><br><code>int printf(const char *format, ...);</code><br><code>int sprintf(char *s, const char *format, ...);</code><br>返回传送的字符的数目。<br><code>int fscanf(FILE *stream, const char *format, ...);</code><br><code>int scanf(const char *format, ...);</code><br><code>int sscanf(char *s, const char *format, ...);</code><br>如果在任何转换之前发生了输入失败，返回 <code>EOF</code>；否则返回赋值的输入项的数目。<br><code>int vfprintf(FILE *stream, const char *format, va_list arg);</code><br><code>int vprintf(const char *format, va_list arg);</code><br><code>int vsprintf(char *s, const char *format, va_list arg);</code><br>等价于对应的 <code>printf</code> 函数，不过可变参数表用 <code>arg</code> 代替。   </li>
+<li>字符输入/输出函数 （11个）<br><code>int fgetc(FILE *stream);</code>从 <code>stream</code> 指向的输入流中读取下一个字符。<br><code>int getc(FILE *stream);</code>等价于函数 <code>fgetc</code>。<br><code>int getchar(void);</code>等价于用参数 <code>stdin</code> 调用函数 <code>getc</code>。<br><code>int fputc(int c, FILE *stream);</code>把字符写到指向的输出流中指定的位置处。<br><code>int putc(int c, FILE *stream);</code>等价于 <code>fputc。</code><br><code>int putchar(int c);</code> 等价于把stdout作为第二个参数调用的 <code>putc。</code><br><code>char *fgets(char *s, int n, FILE *stream);</code>从 <code>stream</code>指向的流中读取字符。<br><code>int fputs(const char *s, FILE *stream);</code>把 <code>s</code> 指向的串写入 <code>stream</code> 指向的流中。<br><code>char *gets(char *s);</code>从 <code>stdin</code> 指向的输入流中读取若干个字符，并将其保留到 <code>s</code> 指向的数组中，直到遇到文件结束符或者读取一个换行符。<br><code>int puts(const char *s);</code>把 <code>s</code> 指向的串写到 <code>stdout</code> 指向的流中，并且在输出最后添加一个换行符。<br><code>int ungetc(int c, FILE *stream);</code> 把 <code>c</code> 指定的字符（转换为 <code>unsigned char</code> 类型）退回到 <code>stream</code> 指向的输入流中。  </li>
+<li>直接输入/输出函数 （2个）<br><code>size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);</code><br>从 <code>stream</code> 指向的流中读取最多 <code>nmemb</code> 个元素到 <code>ptr</code> 指向的数组中 。<br><code>size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);</code><br>从 <code>ptr</code> 指向的数组中读取最多 <code>nmemb</code> 个元素并将其写到 <code>stream</code> 指向的流中。  </li>
+<li>文件定位函数 (5个)<br><code>int fgetpos(FILE *stream, fpos_t *pos);</code><br>把 <code>stream</code> 指向的流的文件定位符的当前值存储到 <code>pos</code> 指向的对象中。<br><code>int fsetpos(FILE *stream, const fpos_t *pos);</code><br>根据 <code>pos</code> 指向的对象的值来设置 <code>stream</code> 指向的流的文件定位符，<br><code>long int ftell(FILE *stream);</code><br>获得 <code>stream</code> 指向的流的文件定位符的当前值。<br><code>int fseek(FILE *stream, long int offset, int whence);</code><br>为 <code>stream</code> 指向的流设置文件定位符。<br><code>void rewind(FILE *stream);</code><br>把 <code>stream</code> 指向的流的文件定位符设置在文件的开始位置，等价于 <code>(void)fseek(stream, 0L, SEEK_SET);</code>，只不过流的错误指示符也被清零。</li>
+<li>错误处理函数 (4个)<br><code>void clearerr(FILE *stream);</code><br>清空 <code>stream</code> 指向的流的文件结束符和错误指示符。<br><code>int feof(FILE *stream);</code><br>测试 <code>stream</code> 指向的流的文件结束符。当且仅当 <code>stream</code> 流设置了文件结束符时函数返回一个非0值。<br><code>int ferror(FILE *stream);</code><br>测试 <code>stream</code> 指向的流的错误指示符。当且仅当 <code>stream</code> 流设置了错误指示符时函数返回一个非0值。<br><code>void perror(const char *s);</code><br>把整数表达式 <code>errno</code> 中的错误编号转换为一条错误消息。</li>
+</ul>
+</li>
+</ol>
+<h3 id="stdlib-h"><a href="#stdlib-h" class="headerlink" title="stdlib.h"></a>stdlib.h</h3><p>是标准工具库。包含了C语言的中最常用的系统函数</p>
+<ol>
+<li>定义了五个宏<ul>
+<li><code>NULL</code> 空</li>
+<li><code>EXIT_FAILURE</code> 失败状态码</li>
+<li><code>EXIT_SUCCESS</code> 成功状态码</li>
+<li><code>RAND_MAX rand</code> 的最大返回值</li>
+<li><code>MB_CUR_MAX</code> 多字节字符中的最大字节数</li>
+</ul>
+</li>
+<li>定义了四个类型：<ul>
+<li><code>size_t</code> 是由 <code>sizeof</code> 关键字产生的无符号整类型。</li>
+<li><code>wchar_t</code> 是一个整型，标识一个宽字节字符，例如 <code>L’x’</code> 的类型就是 <code>wchar_t</code>。</li>
+<li><code>div_t</code> 是结构体类型 作为 <code>div</code> 函数的返回类型</li>
+<li><code>ldiv_t</code> 是一个结构类型，是函数 <code>ldiv</code> 的返回值类型。</li>
+</ul>
+</li>
+<li>定义了六类函数：<ul>
+<li>字符串函数<br><code>double atof(const char *nptr);</code> 将字符串转换成浮点型数<br><code>int atoi(const char *nptr);</code> 将字符串转换成整型数<br><code>long int atol(const char *nptr);</code>将字符串转换成长整型数<br><code>double strtod(const char *nptr, char **endptr);</code>将字符串转换成浮点数<br><code>long int strtol(const char *nptr, char **endptr, int base);</code>将字符串转换成长整型数<br><code>unsigned long int strtoul(const char *nptr, char **endptr, int base);</code> 将字符串转换成无符号长整型数 </li>
+<li>内存控制函数<br><code>void *calloc(size_t nmemb, size_t size);</code> 配置内存空间<br><code>void free(void *ptr);</code> 释放原先配置的内存<br><code>void *malloc(size_t size);</code> 配置内存空间<br><code>void *realloc(void *ptr, size_t size);</code>重新分配主存</li>
+<li>环境函数<br><code>int atexit(void (*func)(void));</code><br>注册func指向的函数，该函数在程序正常终止的时候被调用。<br><code>void exit(int status);</code><br>使程序正常终止。<br><code>void abort(void);</code><br>使程序异常终止，除非捕获了信号SIGABRT且信号处理程序没有返回。<br><code>char *getenv(const char *name);</code><br>搜索宿主环境提供的环境表，来查找一个能和name指向的串匹配的串。<br><code>int system(const char *string);</code><br>把sring指向的串传递给宿主环境，然后命令处理程序按照实现定义的方式执行它。</li>
+<li>搜索和排序函数<br><code>void bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (*compare)(const void , const void *));</code><br>搜索一个拥有 <code>nmemb</code> 个元素的数组，来查找与 <code>key</code> 指向的对象匹配的元素，<br><code>void qsort(void base, size_t nmemb, size_t size, int (*compare)(const void , const void *));</code><br>根据 <code>compare</code> 所指向的比较函数将数组内容排列成升序。</li>
+<li>数学函数<br><code>int abs(int j);</code>计算整型数的绝对值<br><code>long int labs(long int j);</code>将两个整数相除, 返回商和余数<br><code>div_t div(int number, int denom);</code>取长整型绝对值<br><code>ldiv_t ldiv(long int number, long int denom);</code>两个长整型数相除, 返回商和余数<br><code>int rand(void);</code> 随机数发生器<br><code>void srand(unsigned int seed);</code> 设置随机数种子</li>
+<li>多字节函数<br><code>int mblen(const char *s, size_t n);</code>根据locale的设置确定字符的字节数<br><code>int mbtowc(wchar_t *pwc, const char *s, size_t n);</code>把多字节字符转换为宽字符<br><code>int wctomb(char *s, wchar_t wchar);</code>把宽字符转换为多字节字符<br><code>size_t mbstowcs(wchar_t *pwcs, const char *s, size_t n);</code>把多字节字符串转换为宽字符串<br><code>size_t wcstombs(char *s, const wchar_t *pwcs, size_t n);</code>把宽字符串转换为多字节字符串</li>
+</ul>
+</li>
+</ol>
+<h3 id="string"><a href="#string" class="headerlink" title="string"></a>string</h3><p>包含了C语言的最常用的字符串操作函数</p>
+<ol>
+<li>定义了一个宏： <code>NULL</code> 空</li>
+<li>定义了一个变量： <code>size_t</code></li>
+<li>定义了五类函数：<ul>
+<li>名字以mem开头的函数对任意的字符序列进行操作。其中一个参数指向字符串的起始位置，另一个参数对元素的个数尽行计数。<br><code>void *memmove(void *s1, const void *s2, size_t n);</code><br><code>void *memcpy(void *s1, const void *s2, size_t n);</code><br>memmove和memcpy均从s2指向的对象中复制n个字符到s1指向的对象中，返回s1的值。不同之处在于，当复制发生在两个重叠的对象中，memcpy对这种行为未定义，memmove则可以正确执行。<br><code>int memcmp(const void *s1, const void *s2, size_t n);</code><br>比较s1和s2指向的对象中前n个字符。<br><code>void *memchr(const void *s, int c, size_t n);</code><br>返回指向定位的字符的指针，如果没有返回空指针。<br><code>void *memset(void *s, int c, size_t n);</code><br>把c的值复制到s指向的对象的前n个字符的每个字符中，返回s的值。</li>
+<li>名字以strn开头的函数对非空字符序列进行操作。<br><code>char *strcpy(char *s1, const char *s2);</code><br>包括终止的空字符，返回s1的值<br><code>char *strcat(char *s1, const char *s2);</code><br>包括终止的空字符，返回s1的值。<br><code>int strcmp(const char *s1, const char *s2);</code><br>比较s1和s2指向的串。<br><code>char *strchr(const char *s, int c);</code><br>终止的空字符被认为串的一部分。<br><code>char *strrchr(cosnt char *s, int c);</code><br>确定c在s指向的串中最后一次出现的位置。r意为right一侧。<br><code>char *strstr(const char *s1, const char *s2);</code><br>s2指向的串的字符序列在s1指向的串中第一次出现的位置。<br><code>size_t strspn(const char *s1, const char *s2);</code><br>计算s1指向的字符串中完全由s2指向的字符串中的字符组成的最大初始段的长度。也就是说，它从s1的开头搜索一个和s2中的任意元素都不匹配的字符，返回此字符的下标。<br><code>size_t strcspn(const char *s1, const char *s2);</code><br>查找两个字符串第一个相同的字符在s1中的位置，也就是The first char both in s1 and s2，如果没有则返回终止的空字符的索引。<br>strcspn和strchr很相似，但它匹配的是任意一个字符集而不是一个字符。<br><code>char *strpbrk(const char *s1, const char *s2);</code><br>确定s2指向的串中的任意的字符在s1中第一次出现的位置。<br><code>char *strtok(char *s1, const char *s2);</code><br>分解字符串为一组字符串。s1为要分解的字符串，s2为分隔符字符串。</li>
+<li>名字以str开头的函数对空字符结尾的字符序列进行操作。<br><code>char *strncpy(char *s1, const char *s2, size_t n);</code><br>从s2指向的数组中复制最多n个字符（包括空字符），不会在s1的末尾自动添加空字符；如果达到n个字符之前遇到了空字符，则复制完空字符后停止，并在s1指向的数组后面添加空字符，直到写入了n个字符。<br>简单来说，复制，直到遇到空字符或达到n个字符，如果此时复制的字符数未达到n，就填充空字符，直到字符数达到n。<br><code>char *strncat(char *s1, const char *s2, size_t n);</code><br>从s2指向的数组中将最多n个字符（空字符及其后面的字符不添加）添加到s1指向的串的结尾。在最后的结果后面加上一个空字符。<br>简单来说，cat，直到遇到空字符或达到n个字符，最后的结果一定以空字符结尾。<br><code>int strncmp(const char *s1, const char *s2, size_t n);</code><br>对s1和s2指向的数组中的最多n个字符进行比较（空字符后面的字符不参加比较）。</li>
+<li>其他类<br><code>size_t strlen(const char *s);</code><br>计算s指向的串的长度，不包括结尾的空字符。<br><code>char *strerror(int errnum);</code><br>将errnum中的错误编号对应到一个错误信息串。</li>
+<li>与区域设置有关<br><code>int strcoll(const char *s1, const char *s2);</code><br>功能同strcmp，只是比较时串都被解释为适合当前区域设置的类别LC_COLLATE的形式。<br><code>size_t strxfrm(char *s1, const char *s2, size_t n);</code><br>如果区域选项是”POSIX”或者”C”，那么strxfrm()同用strncpy()来拷贝字符串是等价的。</li>
+</ul>
+</li>
+</ol>
+<h2 id="熟练程序员的层次："><a href="#熟练程序员的层次：" class="headerlink" title="熟练程序员的层次："></a>熟练程序员的层次：</h2><h3 id="assert-h"><a href="#assert-h" class="headerlink" title="assert.h"></a>assert.h</h3><p>这个头文件只定义了一个宏：<code>assert</code><br>如果条件为假，assert将输出一些信息并调用abort函数退出程序。<br>一个可能的实现：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NDEBUG</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span>	</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</div><div class="line">  <span class="keyword">int</span> a = <span class="number">12</span>;</div><div class="line">  <span class="keyword">int</span> b = <span class="number">24</span>;</div><div class="line">  assert( a &gt; b );</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"a is larger than b!"</span>);</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面的程序会发现程序中止，<code>printf</code> 并未执行，且有这样的输出：<code>main: Assertion &#39;a &gt; b&#39; failed.</code>原因就是因为 <code>a</code> 其实小于 <code>b</code>，导致断言失败，<code>assert</code> 输出错误信息，并调用 <code>abort()</code>中止了程序执行。</p>
+<h3 id="limits-h"><a href="#limits-h" class="headerlink" title="limits.h"></a>limits.h</h3><p>头文件定义了整型变量的一些极限值和设置。</p>
+<p><code>CHAR_BIT</code> 一个ASCII字符长度  <code>SCHAR_MIN</code> 字符型最小值<br><code>SCHAR_MAX</code> 字符型最大值  <code>UCHAR_MAX</code> 无符号字符型最大值<br><code>CHAR_MIN</code>/<code>CHAR_MAX</code> char字符的最大最小值，如果char字符正被表示有符号整数。它们的值就跟有符号整数一样。否则char字符的最小值就是0，最大值就是无符号char字符的最大值。<br><code>MB_LEN_MAX</code> 一个字符所占最大字节数<code>SHRT_MIN</code> 最小短整型<br><code>SHRT_MAX</code> 最大短整形 <code>USHRT_MAX</code> 最大无符号短整型<br><code>INT_MIN</code> 最小整型 <code>INT_MAX</code> 最大整形<br><code>UINT_MAX</code> 最大无符号整型 <code>LONG_MIN</code> 最小长整型<br><code>LONG_MAX</code> 最大长整型 <code>ULONG_MAX</code> 无符号长整型</p>
+<h3 id="stddef-h"><a href="#stddef-h" class="headerlink" title="stddef.h"></a>stddef.h</h3><p>此头文件定义了3个类型和2个宏，其中一些在其他头文件中也有定义。</p>
+<ul>
+<li>定义了三个类型<br><code>ptrdiff_t</code>两个指针相减的结果的类型，有符号整型，一般来说是int或long的typedef。<br><code>size_t</code>是sizeof操作符的结果的类型，无符号整型。<br><code>wchar_t</code>是一个整型，标识一个宽字节字符，例如L’x’的类型就是wchar_t。</li>
+<li>定义了两个宏<br><code>NULL</code> 空指针常量。<br><code>offsetof(type, member-designator)</code> 展开为一个size_t类型的整值常量表达式。</li>
+</ul>
+<h3 id="time-h"><a href="#time-h" class="headerlink" title="time.h"></a>time.h</h3><p>作时间的函数。 </p>
+<ol>
+<li><p>定义了两个宏</p>
+<ul>
+<li><code>NULL</code></li>
+<li><code>CLOCKS_PER_SEC</code> 使 <code>clock</code> 函数的返回值 <code>CLOCKS_PER_SEC</code> 的单位是秒</li>
+</ul>
+</li>
+<li><p>定义了四个类型<br>声明的类型有size_t、clock_t、time_t和struct tm。 </p>
+<ul>
+<li><code>size_t</code> 在 <code>stddef.h</code> 中已介绍过。 </li>
+<li><code>clock_t</code> 是 <code>clock</code> 函数的返回值类型</li>
+<li><code>time_t</code> 是 <code>time</code> 函数的返回值类型，</li>
+<li><code>struct tm</code> 保存了一个日历时间的各组成部分，比如年月日时分秒等。</li>
+</ul>
+</li>
+<li><p>定义了两类函数</p>
+<ul>
+<li>时间获取函数<br><code>time_t time(time_t *timer);</code><br>取得目前的时间<br><code>clock_t clock(void);</code><br>确定处理器使用的时间。</li>
+<li>时间转换函数<br><code>struct tm *gmtime(const time_t *timer);</code>把日期和时间转换为(GMT)时间<br><code>struct tm *localtime(const time_t *timer);</code>取得当地目前时间和日期<br><code>char *ctime(const time_t *timer);</code> 把日期和时间转换为字符串<br><code>time_t mktime(struct tm *timeptr);</code>将时间结构数据转换成经过的秒数<br><code>char *asctime(const struct tm *timeptr);</code>将时间和日期以字符串格式表示<br><code>size_t strftime(char *s, size_t maxsize, const char *format, const struct tm *timeptr);</code>将时间格式化</li>
+<li>其他函数<br><code>double difftime(time_t time1, time_t time0);</code><br>计算两个日历时间之差：<code>time1-time0，</code>返回以秒为单位的差值。这个函数似乎简单到没有存在的必要，直接执行减法不就得了。</li>
+</ul>
+</li>
+</ol>
+<h2 id="优秀程序员的层次："><a href="#优秀程序员的层次：" class="headerlink" title="优秀程序员的层次："></a>优秀程序员的层次：</h2><h3 id="float-h"><a href="#float-h" class="headerlink" title="float.h"></a>float.h</h3><p>float 头文件类似 limit 头文件，主要是浮点型数值的相关定义。</p>
+<p>在所有实例里<code>FLT</code>指的是<code>float</code>，<code>DBL</code>是<code>double</code>，<code>LDBL</code>指的是<code>long double</code>.</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FLT_ROUNDS</td>
+<td>定义浮点型数值四舍五入的方式，-1是不确定，0是向0，1是向最近，2是向正无穷大，3是负无穷大</td>
+</tr>
+<tr>
+<td>FLT_RADIX 2</td>
+<td>定义指数的基本表示（比如base-2是二进制，base-10是十进制表示法，16是十六进制）</td>
+</tr>
+<tr>
+<td>FLT_MANT_DIG，DBL_MANT_DIG，LDBL_MANT_DIG</td>
+<td>定义数值里数字的个数</td>
+</tr>
+<tr>
+<td>FLT_DIG 6，DBL_DIG 10，LDBL_DIG 10</td>
+<td>在四舍五入之后能不更改表示的最大小数位</td>
+</tr>
+<tr>
+<td>FLT_MIN_EXP，DBL_MIN_EXP，LDBL_MIN_EXP</td>
+<td>FLT_RADIX 的指数的最小负整数值</td>
+</tr>
+<tr>
+<td>FLT_MIN_10_EXP -37，DBL_MIN_10_EXP -37，LDBL_MIN_10_EXP -37</td>
+<td>10进制表示法的的指数的最小负整数值</td>
+</tr>
+<tr>
+<td>FLT_MAX_EXP ,DBL_MAX_EXP ,LDBL_MAX_EXP</td>
+<td>FLT_RADIX 的指数的最大整数值</td>
+</tr>
+<tr>
+<td>FLT_MAX_10_EXP +37 ,DBL_MAX_10_EXP ,LDBL_MAX_10_EXP +37 +37</td>
+<td>10进制表示法的的指数的最大整数值</td>
+</tr>
+<tr>
+<td>FLT_MAX 1E+37，DBL_MAX 1E+37，LDBL_MAX 1E+37</td>
+<td>浮点型的最大限</td>
+</tr>
+<tr>
+<td>FLT_EPSILON 1E-5，DBL_EPSILON 1E-9，LDBL_EPSILON 1E-9</td>
+<td>能表示的最小有符号数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="math-h"><a href="#math-h" class="headerlink" title="math.h"></a>math.h</h3><p>math.h是 C 语言内的数学函数库。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>含义</th>
+<th>函数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>三角函数</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double sin(double x);</td>
+<td>正弦</td>
+<td>double cos(double x);</td>
+<td>余弦</td>
+</tr>
+<tr>
+<td>double tan(double x);</td>
+<td>正切</td>
+<td>*cot三角函数，可以使用tan(PI/2-x)来实现。</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>反三角函数</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double asin(double x);</td>
+<td>结果介于[-PI/2, PI/2]</td>
+<td>double acos(double x);</td>
+<td>结果介于[0, PI]</td>
+</tr>
+<tr>
+<td>double atan(double x);</td>
+<td>反正切(主值), <br>结果介于[-PI/2, PI/2]</td>
+<td>double atan2(double y,double);</td>
+<td>反正切(整圆值),<br> 结果介于[-PI, PI]</td>
+</tr>
+<tr>
+<td><strong>双曲三角函数</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double sinh(double x);</td>
+<td>计算双曲正弦</td>
+<td>double cosh(double x);</td>
+<td>计算双曲余弦</td>
+</tr>
+<tr>
+<td>double tanh(double x);</td>
+<td>计算双曲正切</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>指数与对数</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double exp(double x);</td>
+<td>求取自然数e的幂</td>
+<td>double sqrt(double x);</td>
+<td>开平方</td>
+</tr>
+<tr>
+<td>double log(double x);</td>
+<td>以e为底的对数</td>
+<td>double log10(double x);</td>
+<td>以10为底的对数</td>
+</tr>
+<tr>
+<td>double pow(double x, double y);</td>
+<td>计算以x为底数的y次幂</td>
+<td>float powf(float x, float y);</td>
+<td>与pow一致，输入与输出皆为浮点数</td>
+</tr>
+<tr>
+<td><strong>取整</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double ceil(double);</td>
+<td>取上整</td>
+<td>double floor(double);</td>
+<td>取下整</td>
+</tr>
+<tr>
+<td><strong>标准化浮点数</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double frexp(double f, int *p);</td>
+<td>标准化浮点数,<br> f = x * 2^p, <br>已知f求x, p <br>( x介于[0.5, 1] )</td>
+<td>double ldexp(double x, int p);</td>
+<td>与frexp相反, 已知x, p求f</td>
+</tr>
+<tr>
+<td><strong>取整与取余</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>double modf(double, double*);</td>
+<td>将参数的整数部分通过指针回传, 返回小数部分</td>
+<td>double fmod(double, double);</td>
+<td>返回两参数相除的余数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="errno-h"><a href="#errno-h" class="headerlink" title="errno.h"></a>errno.h</h3><p>error定义了通过错误码来返回错误信息的宏：</p>
+<p><code>errno</code> 宏定义为一个 <code>int</code> 型态的左值, 包含任何函数使用 <code>errno</code> 功能所产生的上一个错误码。<br>一些表示错误码，定义为整数值的宏：<br><code>EDOM</code> 源自于函数的参数超出范围,例如 <code>sqrt(-1)</code><br><code>ERANGE</code> 源自于函数的结果超出范围,例如 <code>strtol(&quot;0xfffffffff&quot;,NULL,0)</code><br><code>EILSEQ</code> 源自于不合​​法的字符顺序,例如 <code>wcstombs(str, L&quot;\xffff&quot;, 2)</code></p>
+<h3 id="locale-h"><a href="#locale-h" class="headerlink" title="locale.h"></a>locale.h</h3><p>local 定义了区域设置相关的函数和相关的宏以及类型定义。</p>
+<ol>
+<li><p>定义了一个类型 <code>struct lconv;</code><br>其中几个比较重要的变量是<br><code>char *decimal_point;</code>格式化非货币量中的小数点字符<br><code>char *thousands_sep;</code> 用来对格式化的非货币量中小数点前面的数字进行分组的字符<br><code>char *grouping;</code> 用来说明格式化的非货币量中每一组数字的数目</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">   <span class="keyword">char</span> *decimal_point;</div><div class="line">   <span class="keyword">char</span> *thousands_sep;</div><div class="line">   <span class="keyword">char</span> *grouping;	</div><div class="line">   <span class="keyword">char</span> *int_curr_symbol;</div><div class="line">   <span class="keyword">char</span> *currency_symbol;</div><div class="line">   <span class="keyword">char</span> *mon_decimal_point;</div><div class="line">   <span class="keyword">char</span> *mon_thousands_sep;</div><div class="line">   <span class="keyword">char</span> *mon_grouping;</div><div class="line">   <span class="keyword">char</span> *positive_sign;</div><div class="line">   <span class="keyword">char</span> *negative_sign;</div><div class="line">   <span class="keyword">char</span> int_frac_digits;</div><div class="line">   <span class="keyword">char</span> frac_digits;</div><div class="line">   <span class="keyword">char</span> p_cs_precedes;</div><div class="line">   <span class="keyword">char</span> p_sep_by_space;</div><div class="line">   <span class="keyword">char</span> n_cs_precedes;</div><div class="line">   <span class="keyword">char</span> n_sep_by_space;</div><div class="line">   <span class="keyword">char</span> p_sign_posn;</div><div class="line">   <span class="keyword">char</span> n_sign_posn;</div><div class="line">&#125; lconv</div></pre></td></tr></table></figure>
+</li>
+<li><p>定义了两个函数<br><code>struct lconv *localeconv(void);</code> 用于返回当前区域中的数字和货币信息<br><code>char *setlocale(int category, const char *locale);</code>用于设置或返回当前的区域特性</p>
+</li>
+<li><p>定义了几个宏</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LC_ALL</td>
+<td>设置所有信息</td>
+</tr>
+<tr>
+<td>LC_COLLATE</td>
+<td>影响strcoll和strxfrm函数</td>
+</tr>
+<tr>
+<td>LC_CTYPE</td>
+<td>影响所有字符函数</td>
+</tr>
+<tr>
+<td>LC_MONETARY</td>
+<td>影响由 <code>localeconv</code> 函数提供的货币信息</td>
+</tr>
+<tr>
+<td>LC_NUMERIC</td>
+<td>影响十进制小数格式和 <code>localeconv</code> 函数提供的信息</td>
+</tr>
+<tr>
+<td>LC_TIME</td>
+<td>影响 <code>strftime</code> 函数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="setjmp-h"><a href="#setjmp-h" class="headerlink" title="setjmp.h"></a>setjmp.h</h3><p>setjmp 定义了一种特别的函数调用和函数返回顺序的方式。它允许程序流程从一个深层嵌套的函数中返回。</p>
+<blockquote>
+<p>typedef int jmp_buf[16];<br>int setjmp(jmp_buf);<br>void longjmp(jmp_buf, int);</p>
+</blockquote>
+<p>非本地跳转的原理非常简单： </p>
+<ol>
+<li><code>setjmp(j)</code>设置 <strong>jump</strong> 点，用正确的程序上下文填充 <code>jmp_buf</code> 对象 <code>j</code>。这个上下文包括程序存放位置，栈和框架指针，其它重要的寄存器和内存数据。当初始化完 <code>jump</code> 的上下文，<code>setjmp()</code> 返回0值。 </li>
+<li>以后调用 <code>longjmp(j,r)</code> 的效果就是一个非局部的 <code>goto</code> 或 <strong>长跳转</strong> 到由 <code>j</code> 描述的上下文处（也就是原来调用 <code>setjmp(j)</code> 处）。当作为长跳转的目标而被调用时，<code>setjmp()</code> 返回 <code>r</code> 或 <code>1</code>（如果 <code>r</code> 设为<code>0</code> 的话）。（记住，<code>setjmp()</code>不能在这种情况时返回0）<br>通过有两类返回值，<code>setjmp()</code> 让你知道它正在被怎么使用。当设置 <code>j</code> 时，<code>setjmp()</code> 如你期望地执行；但当作为长跳转的目标时，<code>setjmp()</code>就从外面 <strong>唤醒</strong> 它的上下文。你可以用 <code>longjmp()</code> 来终止异常，用 <code>setjmp()</code> 标记相应的异常处理程序。</li>
+</ol>
+<p>一个简单的例子如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span>  <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span>  <span class="meta-string">&lt;setjmp.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">static</span> jmp_buf buf;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">second</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"second\n"</span>);        </div><div class="line">  longjmp(buf,<span class="number">1</span>);            </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">first</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  second();</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"first\n"</span>);          </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;   </div><div class="line">  <span class="keyword">if</span> ( ! setjmp(buf) ) &#123;</div><div class="line">    first();               </div><div class="line">  &#125; <span class="keyword">else</span> &#123;                  </div><div class="line">    <span class="built_in">printf</span>(<span class="string">"main\n"</span>);  </div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>程序首先执行了 <code>setjmp</code> ，初始化了 <code>buf</code>，函数返回了0，进入 <code>first</code> 函数，执行了 <code>second</code> 函数，打印”second”，随后执行 <code>longjmp</code> 函数跳转到 <code>setjmp</code> 的地方，此时<code>setjmp</code> 的返回值为 1，所以直接进入 <code>else</code> 打印 “main” ，函数结束。</p>
+<h3 id="signal-h"><a href="#signal-h" class="headerlink" title="signal.h"></a>signal.h</h3><p>signal提供了一些定义和函数用来处理执行过程中产生的信号。</p>
+<ol>
+<li><p>定义了相关的宏</p>
+<ul>
+<li>以 <code>SIG_</code> 开头的宏用于定义信号处理函数:  <ul>
+<li><code>SIG_DFL</code> 默认信号处理函数。</li>
+<li><code>SIG_ERR</code> 表示一个错误信号，当signal函数调用失败时的返回值。</li>
+<li><code>SIG_IGN</code> 信号处理函数，表示忽略该信号。  </li>
+</ul>
+</li>
+<li>以<code>SIG</code>开头的宏是用来在下列情况下，用来表示一个信号代码：<ul>
+<li><code>SIGABRT</code> 异常终止（<code>abort</code>函数产生）。</li>
+<li><code>SIGFPE</code> 浮点错误（0作为除数产生的错误，非法的操作）。</li>
+<li><code>SIGILL</code> 非法操作（指令）。</li>
+<li><code>SIGINT</code> 交互式操作产生的信号（如CTRL - C）。</li>
+<li><code>SIGSEGV</code> 无效访问存储（片段的非法访问，内存非法访问）。</li>
+<li><code>SIGTERM</code> 终止请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>定义了一个变量<br><code>typedef sig_atomic_t</code><br><code>sig_atomic_t</code> 类型是int类型，用于接收 <code>signal</code> 函数的返回值。</p>
+</li>
+<li><p>定义了两个函数</p>
+</li>
+</ol>
+<ul>
+<li>signal 函数<br><code>void(*signal(int sig,void (*func)(int)))(int);</code><br>上面的函数定义中，<code>sig</code> 表示一个信号代码（相当于暗号类别），即是上面所定义的 <code>SIG</code> 开头的宏。当有信号出现（即当收到暗号）的时候，参数 <code>func</code> 所定义的函数就会被调用。</li>
+<li>raise 函数<br><code>int raise(int sig);</code><br>发出一个信号 <code>sig</code>。信号参数为 <code>SIG</code>开头的宏。</li>
+</ul>
+<h3 id="stdarg-h"><a href="#stdarg-h" class="headerlink" title="stdarg.h"></a>stdarg.h</h3><p>stdarg定义了一些宏，当函数参数未知时去获取函数的参数</p>
+<ol>
+<li><p>变量：<code>typedef va_list</code> 通过 <code>stdarg</code> 宏定义来访问一个函数的参数表，参数列表的末尾会用省略号省略 </p>
+</li>
+<li><p>宏：<br><code>void va_start(va_list ap, last_arg);</code><br>用va_arg和va_end宏初始化参数ap，last_arg是传给函数的固定参数的最后一个，省略号之前的那个参数注意va_start必须在使用va_arg和va_end之前调用<br><code>type va_arg(va_list ap, type);</code><br>用type类型扩展到参数表的下个参数<br>注意ap必须用va_start初始化，如果没有下一个参数，结果会是undefined<br><code>void va_end(va_list ap);</code><br>允许一个有参数表（使用va_start宏）的函数返回，如果返回之前没有调用va_end,结果会是undefined。参数变量列表可能不再使用（在没调用va_start的情况下调用va_end）</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/08/C语言学习总结（五）——C库函数总结/" title="C语言学习总结（五）——C库函数总结">http://myintelex.github.io/2016/12/08/C语言学习总结（五）——C库函数总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/08/C语言学习总结（五）——C库函数总结/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/13/Linux学习总结01/">
+                    Linux学习总结（一）——系统结构
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/02/Google-C-Style-Guide/">
+                    Google C++ Style Guide
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#相关头文件的内容说明"><span class="toc-text">相关头文件的内容说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合格程序员的层次"><span class="toc-text">合格程序员的层次</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ctype-h"><span class="toc-text">ctype.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdio-h"><span class="toc-text">stdio.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdlib-h"><span class="toc-text">stdlib.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#string"><span class="toc-text">string</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#熟练程序员的层次："><span class="toc-text">熟练程序员的层次：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#assert-h"><span class="toc-text">assert.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#limits-h"><span class="toc-text">limits.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stddef-h"><span class="toc-text">stddef.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#time-h"><span class="toc-text">time.h</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优秀程序员的层次："><span class="toc-text">优秀程序员的层次：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#float-h"><span class="toc-text">float.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#math-h"><span class="toc-text">math.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#errno-h"><span class="toc-text">errno.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#locale-h"><span class="toc-text">locale.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#setjmp-h"><span class="toc-text">setjmp.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#signal-h"><span class="toc-text">signal.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdarg-h"><span class="toc-text">stdarg.h</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/08/C语言学习总结（五）——C库函数总结/" data-title="C语言学习总结（五）——C库函数总结" data-url="http://myintelex.github.io/2016/12/08/C语言学习总结（五）——C库函数总结/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

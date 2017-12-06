@@ -4,10 +4,10 @@ date: 2016-12-20 01:08:01
 categories: 驱动开发
 tags: [驱动, file_operations, 驱动加载]
 ---
-
+本篇对字符设备驱动模型进行总结。
+<!--more-->
 ## 一、驱动结构
 如上篇博客所说驱动开发关注的是两个重要的结构体：`file_operations`、`inode`，而对字符驱动设备来讲，我们关注的是 `inode` 中的 `cdev` 结构体和 `file_operations` 中的相关的操作函数。
-<!--more-->
 `cdev` 结构体的定义如下：
 ````struct cdev {
     struct kobject kobj;         //内嵌的kobj对象

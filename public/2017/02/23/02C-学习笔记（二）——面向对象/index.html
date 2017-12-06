@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="今天在这里总结下 C++ 面向对象（OOP）的基本知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++学习笔记（二）——面向对象">
+<meta property="og:url" content="http://myintelex.github.io/2017/02/23/02C-学习笔记（二）——面向对象/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="今天在这里总结下 C++ 面向对象（OOP）的基本知识。">
+<meta property="og:updated_time" content="2017-12-06T13:32:14.095Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++学习笔记（二）——面向对象">
+<meta name="twitter:description" content="今天在这里总结下 C++ 面向对象（OOP）的基本知识。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C++学习笔记（二）——面向对象 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-02C-学习笔记（二）——面向对象" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/23/02C-学习笔记（二）——面向对象/" class="article-date">
+      <time datetime="2017-02-23T02:27:24.000Z" itemprop="datePublished">2017-02-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C++学习笔记（二）——面向对象
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/C-学习笔记/">C++学习笔记</a>
+    </div>
+
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>今天在这里总结下 C++ 面向对象（OOP）的基本知识。<br><a id="more"></a><br>OOP 的最重要的特性是：</p>
+<ol>
+<li>抽象</li>
+<li>封装和数据隐藏</li>
+<li>多态</li>
+<li>继承</li>
+</ol>
+<p>本篇博客将会从什么是类开始讲，随后说一说C++的访问控制和封装，随后是继承。</p>
+<h2 id="一、类的构成"><a href="#一、类的构成" class="headerlink" title="一、类的构成"></a>一、类的构成</h2><p>首先，我们明确什么是类，或者扩大来说什么是类型。我们先来看一下基本类型，如 <code>int</code>，指定一个变量为整形其实完成了三项工作：</p>
+<ul>
+<li>决定数据对象需要的内存数量</li>
+<li>决定了如何解释内存中的位</li>
+<li>决定了可使用数据对象执行的操作和方法</li>
+</ul>
+<p>类的基本思想是数据抽象和封装。它类似于基本类型，是用户定义并完成了上述功能。一个规范的类由两个部分组成：</p>
+<ul>
+<li>类声明：以数据成员的方式描述数据部分，以成员函数的方式描述公有接口</li>
+<li>类方法定义：描述如何实现类成员函数</li>
+</ul>
+<h3 id="1-1-类的声明"><a href="#1-1-类的声明" class="headerlink" title="1.1 类的声明"></a>1.1 类的声明</h3><p>如上面所说，类的声明是完成了类的数据成员和成员函数的定义。数据成员不必过多解释，我们需要注意的是两个概念：</p>
+<ul>
+<li>常数据成员</li>
+<li>静态数据成员</li>
+</ul>
+<ol>
+<li><p>常数据成员是指在类中定义的不能修改其值的一些数据成员，类似于我们以前学过的常变量，虽然是变量，也有自己的地址，但是一经赋初值，便不能再被修改。他有两个要点：</p>
+<ul>
+<li>类中的常数据成员<strong>只能通过构造函数的初始化参数列表</strong>进行初始化。</li>
+<li>常数据成员是实例化对象的一部分，可以用this指针访问。</li>
+</ul>
+</li>
+<li><p>静态数据成员存储空间不同于普通的数据成员，它不属于类的任何一个对象，是独立于对象存储的，因此：</p>
+<ul>
+<li>不可以通过对象的this指针来访问。</li>
+<li>静态数据成员不可以用参数初始化表进行初始化操作。</li>
+</ul>
+</li>
+</ol>
+<p>另一方面，类的成员函数就比较复杂了，除了一般的成员函数，有一些特殊的成员函数需要注意：</p>
+<ol>
+<li>构造函数<br>构造函数的任务是初始化类对象的数据成员。</li>
+<li>析构函数<br>与构造函数对应，析构函数负责类对象的销毁。尤其需要注意的是：对于构造函数中使用 <code>new</code> 创建的类型在析构函数中必须使用 <code>delete</code> 来销毁。</li>
+<li>自动成员函数<br>编译器会在需要的时候自动为类生成6个默认成员函数，它们分别是：<ul>
+<li>默认构造函数</li>
+<li>默认析构函数</li>
+<li>默认复制构造函数<br>其中需要注意的是默认复制构造函数，C++提供的默认复制构造函数工作的方法是：完成一个成员一个成员的复制，如果成员是类对象，则调用其复制构造函数或者默认复制构造函数。<br>在默认复制构造函数中，复制的策略是逐个成员依次复制，但是，一个类可能会拥有资源，如果复制构造函数简单地制作了一个该资源的复制，而不对它本身分配，就得面临一个麻烦的局面：两个对象都拥有同一个资源。当对象析构时，该资源将经历两次资源返还。<br>因此，对于在构造函数中进行了资源申请（<code>new</code> 申请堆空间、打开文件、占用硬件）的类，必须显式定义复制构造函数。</li>
+<li>赋值运算符</li>
+<li>地址运算符（一对）</li>
+</ul>
+</li>
+<li>静态成员函数<br>静态成员函数的使用是：静态成员函数只能访问静态成员</li>
+<li>友元函数<br>友元函数在类中声明——在函数前加 <code>friend</code>，但是友元函数并不是成员函数。<br>友元函数可以访问类成员。</li>
+<li>运算符重载</li>
+<li>自动类型转换<br>当构造函数只接受一个参数时，则该类可以与该参数类型相同的值转换。</li>
+<li>类型转换函数<br>C++提供类型转换函数来解决这个问题。类型转换函数的作用是将一个类的对象转换成另一类型的数据。</li>
+</ol>
+<h3 id="1-2-类定义"><a href="#1-2-类定义" class="headerlink" title="1.2 类定义"></a>1.2 类定义</h3><p>类的定义在这里不展开介绍，简单理解概念：</p>
+<ul>
+<li>类的定义是类成员函数实现</li>
+<li>应使用私有函数来处理不属于公有接口的实现细节</li>
+<li>定义位于类声明中的函数自动成为内联函数</li>
+<li>同一个类的所有对象共享同一组类方法</li>
+</ul>
+<h2 id="二、访问控制和封装"><a href="#二、访问控制和封装" class="headerlink" title="二、访问控制和封装"></a>二、访问控制和封装</h2><p>我们在类中使用访问说明符来加强类的封装型：</p>
+<ul>
+<li><code>private</code> 定义在 <code>private</code> 之后的成员可以呗类成员访问，但不能被使用该类的代码访问。</li>
+<li><code>public</code> 定义在 <code>public</code> 之后的成员在整个程序空间内可以被访问。</li>
+<li><code>protected</code> 定义在 <code>protected</code> 之后的是受保护变量，类内和子类可直接访问，也就是说，基类中有 <code>protected</code> 成员，子类继承于基类，那么也可以访问基类的 <code>protected</code> 成员，要是基类是 <code>private</code> 成员，则对于子类也是隐藏的，不可访问</li>
+</ul>
+<h2 id="三、继承"><a href="#三、继承" class="headerlink" title="三、继承"></a>三、继承</h2><p>面向对象程序设计的核心思想是数据抽象、继承和动态绑定。使用上面的数据抽象，我们可以将类的接口和实现分离。而使用继承，我们可以定义相似的类型，并对其相似部分建模，通过继承联系在一起的类构成了一种层次关系。通常在层次关系的根部有一个<strong>基类</strong>，其他类则直接或间接地从基类继承而来，称之为<strong>派生类</strong>。</p>
+<ul>
+<li>派生类继承了基类的实现</li>
+<li>派生类继承了基类的接口</li>
+<li>派生类需要自己的构造函数</li>
+<li>派生类可以根据需要添加额外的数据成员和成员函数</li>
+<li>派生类不可以直接访问基类的私有成员</li>
+<li>基类指针可以在不进行显式类型转换的情况下指向派生类对象</li>
+<li>基类引用可以在不进行显式类型转换的情况下引用派生类对象</li>
+</ul>
+<p>C++有三种继承关系：<strong>公有继承</strong>、<strong>保护继承</strong>和<strong>私有继承</strong>。</p>
+<ul>
+<li>公有继承：公有继承建立一种 <code>is-a</code> 关系，即派生类也是一个基类的对象，可以对基类对象执行的任何操作，都可以对派生类对象执行。</li>
+<li>保护继承：</li>
+<li>私有继承：使用私有继承，基类的公有方法将成为派生类的私有方法。在派生类中使用类名和作用域运算符来调用基类方法。</li>
+</ul>
+<p>保护继承、私有继承和包含、组合都用于实现 <code>has-a</code> 关系，即新的类将包含另外一个类的对象。</p>
+<h3 id="3-1-基类的定义"><a href="#3-1-基类的定义" class="headerlink" title="3.1 基类的定义"></a>3.1 基类的定义</h3><p>C++中，基类将类型相关的函数和派生类不加改变直接继承的函数区别对待，对于需要派生类各自定义适合自己的版本的函数，基类将这些函数声明为<strong>虚函数</strong>：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">function</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure></p>
+<p>任何构造函数之外的非静态函数都可以是虚函数，如果一个函数在基类中定义为虚函数，则在派生类中该函数隐式的也是虚函数。<br>基类中定义为<code>protect</code>的成员，可以被派生类直接访问，而不能被外部成员访问。</p>
+<p>C++可以通过使用<strong>纯虚函数</strong>来提供未实现的函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">function</span><span class="params">()</span> </span>= <span class="number">0</span>;</div></pre></td></tr></table></figure></p>
+<p>当类声明中包含有纯虚函数的时候，不能创建该类的对象。包含纯虚函数的类只能用作基类。<br>当我们需要一种必须实施的接口，我们可以定义<strong>ABC（abstract base class）</strong>———<strong>抽象基类</strong>，ABC要求具体派生类覆盖其纯虚函数，迫使派生类遵循ABC设置的接口规则。</p>
+<h3 id="3-2-派生类的定义"><a href="#3-2-派生类的定义" class="headerlink" title="3.2 派生类的定义"></a>3.2 派生类的定义</h3><p>派生类使用<strong>类派生列表</strong>明确自己是从哪个（哪些）基类继承而来的：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> ClassA : <span class="keyword">public</span> ClassB&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>因为派生类不能直接访问基类的私有成员，所以派生类的构造函数必须使用基类的构造函数，在定义派生类的构造函数时：</p>
+<ol>
+<li>首先创建基类对象</li>
+<li>派生类构造函数应通过成员初始化列表将基类信息传递给基类构造函数</li>
+<li>派生类构造函数应初始化派生类新增的数据成员</li>
+</ol>
+<h3 id="3-3-私有继承与保护继承"><a href="#3-3-私有继承与保护继承" class="headerlink" title="3.3 私有继承与保护继承"></a>3.3 私有继承与保护继承</h3><p>进行私有继承时，使用关键字 <code>private</code> 而不是 <code>public</code> 来声明基类。派生类会包含两个无名称的对象成员。派生类对基类的使用是：</p>
+<ul>
+<li>构造函数中，使用基类类名来初始化相应的成员；</li>
+<li>派生类的方法中使用基类名和作用域解析符来调用基类方法；</li>
+<li>派生类中使用强制类型转换来访问基类对象<br>*　私有继承可以访问保护成员</li>
+<li>私有继承可以重定义虚函数（非公开）</li>
+<li>使用using可以定义继承的方法为公开方法</li>
+</ul>
+<p>保护继承与私有继承类似，区别是保护继承中，基类的公有办法将成为派生类的保护方法。这样,保护继承继承的方法可以在后续的派生中使用</p>
+<h3 id="3-4-多重继承"><a href="#3-4-多重继承" class="headerlink" title="3.4 多重继承"></a>3.4 多重继承</h3><p><strong>MI</strong>——<strong>多重继承</strong>，描述的是有多个直接基类的类。</p>
+<ul>
+<li>为了让派生类从多个基类相同的类继承时只继承一个基类对象，C++定义了虚基类：在类声明时使用 <code>virtual</code> 关键字。</li>
+<li>使用虚基类的时候，编译器会隐式调用虚基类的默认构造函数，或显式的调用虚基类的相应构造函数。</li>
+<li>使用虚基类时，需要使用作用域运算符标明使用的方法的类型。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/23/02C-学习笔记（二）——面向对象/" title="C++学习笔记（二）——面向对象">http://myintelex.github.io/2017/02/23/02C-学习笔记（二）——面向对象/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2017/02/23/02C-学习笔记（二）——面向对象/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/02/24/操作系统命名规范/">
+                    操作系统命名规范
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/02/21/C-学习笔记（一）——基础知识/">
+                    C++学习笔记（一）——基础知识
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、类的构成"><span class="toc-text">一、类的构成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-类的声明"><span class="toc-text">1.1 类的声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-类定义"><span class="toc-text">1.2 类定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、访问控制和封装"><span class="toc-text">二、访问控制和封装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、继承"><span class="toc-text">三、继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-基类的定义"><span class="toc-text">3.1 基类的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-派生类的定义"><span class="toc-text">3.2 派生类的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-私有继承与保护继承"><span class="toc-text">3.3 私有继承与保护继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-多重继承"><span class="toc-text">3.4 多重继承</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/02/23/02C-学习笔记（二）——面向对象/" data-title="C++学习笔记（二）——面向对象" data-url="http://myintelex.github.io/2017/02/23/02C-学习笔记（二）——面向对象/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

@@ -8,7 +8,10 @@ tags:
   - 标准库
 ---
 
-C++的标准库的内容在50个头文件中定义。其中最重要的一部分是有关容器类和泛型算法的--------即 STL(Standard Template Library)。包括STL在内的C++头文件大致可以分为10类：
+C++的标准库的内容在50个头文件中定义。其中最重要的一部分是有关容器类和泛型算法的--------即 STL(Standard Template Library)。
+
+<!-- more -->
+包括STL在内的C++头文件大致可以分为10类：
 
 类型         | 头文件名
 ---------- | ------------------------------------------------------------------------------------
@@ -23,7 +26,6 @@ STL----算法|&lt;algorithm&gt;&lt;cstdlib&gt;&lt;ciso646&gt;
 数值操作|&lt;complex&gt;&lt;valarray&gt;&lt;numeric&gt;&lt;cmath&gt;&lt;cstdlib&gt;
 本地化|&lt;locale&gt;&lt;clocale&gt;
 
-<!-- more -->
 
  # 一、IO库
 

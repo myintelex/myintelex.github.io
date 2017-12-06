@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="Shell 的命令有很多，再加上相关软件的命令，更是多不胜数，这里总结了一些常见的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习总结（三）——Shell常见命令解析">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/16/Linux学习总结03/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="Shell 的命令有很多，再加上相关软件的命令，更是多不胜数，这里总结了一些常见的。">
+<meta property="og:updated_time" content="2017-12-06T13:38:42.254Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux学习总结（三）——Shell常见命令解析">
+<meta name="twitter:description" content="Shell 的命令有很多，再加上相关软件的命令，更是多不胜数，这里总结了一些常见的。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux学习总结（三）——Shell常见命令解析 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux学习总结03" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/Linux学习总结03/" class="article-date">
+      <time datetime="2016-12-16T05:20:25.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux学习总结（三）——Shell常见命令解析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/命令/">命令</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Shell 的命令有很多，再加上相关软件的命令，更是多不胜数，这里总结了一些常见的。<br><a id="more"></a><br>常见的命令大致也就可以分为这五类：</p>
+<ul>
+<li>文件相关：诸如文件及目录的创建/编辑/传输等</li>
+<li>磁盘相关：磁盘的检查/挂载/查看等</li>
+<li>系统相关：系统的相关设置等</li>
+<li>网络相关：网络的相关设置</li>
+<li>用户相关：用户的几个命令</li>
+</ul>
+<p>从今天开始，逐步将常见的 Shell 命令的用法总结一下，简单的仅仅做个记录，复杂的分析下用法。</p>
+<h2 id="文件的相关命令"><a href="#文件的相关命令" class="headerlink" title="文件的相关命令"></a>文件的相关命令</h2><p><code>cd</code> 切换目录，几个常用的用法是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd  进入家目录</div><div class="line">cd / 根目录</div><div class="line">cd - 进入上次工作的目录</div></pre></td></tr></table></figure></p>
+<p><code>whereis</code> 查找文件，查找的文件属性只能是原始代码(s)/二进制文件(b)/帮助文档(m)。<br>加相应的文件代码参数小写查找指定类型；<br>加相应的文件代码参数大写加目录在指定文件夹下查找;</p>
+<p><code>pwd</code> 显示工作目录</p>
+<p><code>file</code> 辨识文件类型。 </p>
+<p><code>ls</code> 列出目录内容。<br>-a或–all   下所有文件和目录。</p>
+<p><code>echo</code> 显示一段文字，经常配合使用 <code>|</code> 管道来使用</p>
+<p><code>cat</code> 将文件内容输出到标准输出<br>-n 或 –number 由 1 开始对所有输出的行数编号</p>
+<p><code>cp</code> 复制文件或目录<br>-f或–force 　强行复制文件或目录，不论目标文件或目录是否已存在。<br>-l或–link 　对源文件建立硬连接，而非复制文件。<br>-r 　递归处理，将指定目录下的文件与子目录一并处理。 </p>
+<p><code>mv</code> 移动或更名现有的文件或目录。</p>
+<p><code>rm</code> 删除文件或目录。<br>-d或–directory 　直接把欲删除的目录的硬连接数据删成0，删除该目录。<br>-f或–force 　强制删除文件或目录。<br>-i或–interactive 　删除既有文件或目录之前先询问用户。<br>-r或-R或–recursive 　递归处理，将指定目录下的所有文件及子目录一并处理。 </p>
+<p><code>mkdir</code> 建立文件夹<br>-m&lt;目录属性&gt;或–mode&lt;目录属性&gt;   建立目录时同时设置目录的权限。<br>-p或–parents   若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录。</p>
+<p><code>rmdir</code> 删除文件夹<br>-p或–parents   删除指定目录后，若该目录的上层目录已变成空目录，则将其一并删除。</p>
+<p><code>chowm/chgrp</code> 变更文件或目录的拥有者或所属群组。</p>
+<p><code>chmod</code> 变更文件或目录的权限。</p>
+<p><code>grep</code> 查找文件里符合条件的字符串。<br>-c或–count   计算符合范本样式的列数。</p>
+<p><code>find</code> 查找文件或目录。<br>-amin&lt;分钟&gt; 　查找在指定时间曾被存取过的文件或目录，单位以分钟计算。<br>-exec&lt;执行指令&gt; 　假设find指令的回传值为True，就执行该指令。<br>-name&lt;范本样式&gt; 　指定字符串作为寻找文件或目录的范本样式。<br>-size&lt;文件大小&gt; 　查找符合指定的文件大小的文件。<br>-type&lt;文件类型&gt; 　只寻找符合指定的文件类型的文件。 </p>
+<p><code>locate</code> 查找文件。 </p>
+<p><code>ln</code> 连接文件或目录。</p>
+<h2 id="系统相关命令"><a href="#系统相关命令" class="headerlink" title="系统相关命令"></a>系统相关命令</h2><p><code>alias</code> 设置指令的别名。</p>
+<p><code>export</code>  设置或显示环境变量。</p>
+<p><code>insmod</code> 载入模块。</p>
+<p><code>lsmod</code> 显示已载入系统的模块。</p>
+<p><code>modinfo</code> 显示kernel模块的信息。</p>
+<p><code>rmmod</code> 删除模块</p>
+<p><code>setenv</code> 查询或显示环境变量。</p>
+<p><code>adduser</code> 新增用户帐号。</p>
+<p><code>groupmod</code> 更改群组识别码或名称。</p>
+<p><code>su(super user)</code> 变更用户身份。</p>
+<p><code>sudo</code> 以其他身份来执行指令。</p>
+<p><code>free</code> 显示内存状态。</p>
+<p><code>ps</code> 报告程序状况。</p>
+<p><code>top</code> 显示，管理执行中的程序。<br>n&lt;执行次数&gt; 　设置监控信息的更新次数。 </p>
+<p><code>exit</code> 退出当前shell</p>
+<p><code>kill</code> 删除执行中的程序或工作。</p>
+<p><code>halt</code> 关闭系统。</p>
+<p><code>reboot</code> 重新开机。</p>
+<p><code>shutdown</code> <code>poweroff</code> 系统关机指令。</p>
+<h2 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h2><p><code>du(disk usage)</code> 显示目录或文件的大小。</p>
+<p><code>lndir(link directory)</code> 连接目录内容。</p>
+<p><code>stat</code> 显示inode内容。</p>
+<p><code>tree</code> 以树状图列出目录的内容。</p>
+<p><code>mount</code>,<code>umount</code> 挂载/卸除文件系统。</p>
+<p><code>mkfs(make file system)</code> 建立各种文件系统。</p>
+<h2 id="网络配置管理"><a href="#网络配置管理" class="headerlink" title="网络配置管理"></a>网络配置管理</h2><p><code>netstat</code><br>常用的网络状态：<br><code>LISTEN</code> ：在监听状态中。<br><code>ESTABLISHED</code> ：已建立联机的联机情况。<br><code>TIME_WAIT</code> ：该联机在目前已经是等待的状态。<br>常用命令：<br><code>netstat -e</code>显示关于以太网的统计数据<br><code>netstat -r</code>显示关于路由表的信息<br><code>netstat -a</code>显示一个所有的有效连接信息列表<br><code>netstat -n</code>显示所有已建立的有效连接</p>
+<blockquote>
+<p>配置 <code>IP</code>, <code>Netmask</code>, <code>Gateway</code> 在 <code>/etc/network/interfaces</code><br> 配置 <code>DNS</code> 在 <code>/etc/resolv.conf</code></p>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/16/Linux学习总结03/" title="Linux学习总结（三）——Shell常见命令解析">http://myintelex.github.io/2016/12/16/Linux学习总结03/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/16/Linux学习总结03/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结04/">
+                    Linux学习总结（四）——标准I/O与文件I/O
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结02/">
+                    Linux学习总结（二）——Shell编程
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的相关命令"><span class="toc-text">文件的相关命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#系统相关命令"><span class="toc-text">系统相关命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘管理"><span class="toc-text">磁盘管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网络配置管理"><span class="toc-text">网络配置管理</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/16/Linux学习总结03/" data-title="Linux学习总结（三）——Shell常见命令解析" data-url="http://myintelex.github.io/2016/12/16/Linux学习总结03/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="最近把 Google C++ Style Guide 从头到尾看了一遍，把相应的内容记录在这里，也规范下以后自己的代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google C++ Style Guide">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/02/Google-C-Style-Guide/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="最近把 Google C++ Style Guide 从头到尾看了一遍，把相应的内容记录在这里，也规范下以后自己的代码。">
+<meta property="og:image" content="http://ogf054qp1.bkt.clouddn.com/Google%20C++%20Style%20Guide.png">
+<meta property="og:updated_time" content="2017-12-06T13:36:09.199Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google C++ Style Guide">
+<meta name="twitter:description" content="最近把 Google C++ Style Guide 从头到尾看了一遍，把相应的内容记录在这里，也规范下以后自己的代码。">
+<meta name="twitter:image" content="http://ogf054qp1.bkt.clouddn.com/Google%20C++%20Style%20Guide.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Google C++ Style Guide | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Google-C-Style-Guide" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/02/Google-C-Style-Guide/" class="article-date">
+      <time datetime="2016-12-02T07:57:09.000Z" itemprop="datePublished">2016-12-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Google C++ Style Guide
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/学习记录/">学习记录</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Style/">Code Style</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>最近把 Google C++ Style Guide 从头到尾看了一遍，把相应的内容记录在这里，也规范下以后自己的代码。  </p>
+<a id="more"></a>
+<p><img src="http://ogf054qp1.bkt.clouddn.com/Google%20C++%20Style%20Guide.png" alt="Google C++ Style Guide"></p>
+<h2 id="Header-Files"><a href="#Header-Files" class="headerlink" title="Header Files"></a>Header Files</h2><p>通常每一个 <code>.cpp</code> 文件都应该有一个对应的 <code>.h</code> 头文件，对于一个头文件来说（1）需要<strong>Self-contained</strong>，即一个头文件应该有相应的<strong>#define 保护</strong>、并包含所有他需要的其它头文件；（2）尽量应使用头文件而不是<strong>前置声明</strong>；（3）不能滥用<strong>内联函数</strong>只在函数少于10行的时候才使用内联函数；（4）使用标准的<strong>头文件包含顺序</strong>来增强可读性，避免隐藏依赖。  </p>
+<ul>
+<li>#define保护的格式为 <code>#define &lt;PROJECT&gt;_&lt;PATH&gt;_&lt;FILE&gt;_H_</code></li>
+<li>头文件的包含顺序应该为：<ol>
+<li>优先位置，当前文件需要实现或测试的头文件</li>
+<li>C 系统文件</li>
+<li>C++ 系统文件</li>
+<li>其他库的 .h 文件</li>
+<li>本项目内 .h 文件</li>
+</ol>
+</li>
+</ul>
+<h2 id="Scoping"><a href="#Scoping" class="headerlink" title="Scoping"></a>Scoping</h2><p>作用域主要规范了 <code>名称空间</code>、<code>非成员函数</code>、<code>静态成员函数</code>、<code>全局函数</code>、<code>局部变量</code>、<code>静态和全局变量</code> 的使用规范：</p>
+<ul>
+<li>名称空间<ul>
+<li>推荐在 <code>.cpp</code> 文件中使用匿名名称空间</li>
+<li>不能在 <code>.h</code> 文件中使用匿名名称空间</li>
+<li>不要在名称空间 <code>std</code> 内声明任何东西</li>
+<li>不要使用 <code>using</code> 包含整个命名空间</li>
+<li>不要使用内联命名空间</li>
+<li>可以使用 <code>using</code> 声明</li>
+<li>可以使用名称空间别名</li>
+</ul>
+</li>
+<li>使用静态成员函数或名字空间内的非成员函数, 尽量不要用裸的全局函数。</li>
+<li>将函数变量尽可能置于最小作用域内, 并在变量声明时进行初始化。</li>
+<li>禁止使用 <code>class</code> 类型的静态或全局变量：它们会导致难以发现的 bug 和不确定的构造和析构函数调用顺序。不过 <code>constexpr</code> 变量除外，毕竟它们又不涉及动态初始化或析构。</li>
+</ul>
+<h2 id="Classes"><a href="#Classes" class="headerlink" title="Classes"></a>Classes</h2><p>在使用类的时候应遵循以下规则：</p>
+<ul>
+<li>不要在构造函数中进行复杂的初始化 (尤其是那些有可能失败或者需要调用虚函数的初始化)。</li>
+<li>对单个参数的构造函数使用 C++ 关键字 <code>explicit</code>.不要定义隐式转换。</li>
+<li>如果你的类型需要, 就让它们支持拷贝 / 移动. 否则, 就把隐式产生的拷贝和移动函数禁用。</li>
+<li>仅当只有数据时使用 <code>struct</code>, 其它一概使用 <code>class</code>。</li>
+<li>使用组合 (<code>composition</code>) 常常比使用继承更合理. 如果使用继承的话, 定义为 <code>public</code> 继承。</li>
+<li>只在以下情况我们才允许多重继承: 最多只有一个基类是非抽象类; 其它基类都是以 <code>Interface</code> 为后缀的 纯接口类。</li>
+<li>接口是指满足特定条件的类, 这些类以 <code>Interface</code> 为后缀 (不强制)。</li>
+<li>除少数特定环境外，不要重载运算符。</li>
+<li>将所有数据成员声明为 <code>private</code>, 并根据需要提供相应的存取函数，一般在头文件中把存取函数定义成内联函数。</li>
+<li><p>在类中使用特定的声明顺序: <code>public</code> 在 <code>private</code> 之前, 成员函数在数据成员 (变量) 前;<br>每个区段内的声明通常按以下顺序:</p>
+<ol>
+<li><code>typedefs</code> 和枚举</li>
+<li>常量</li>
+<li>构造函数</li>
+<li>析构函数</li>
+<li>成员函数, 含静态成员函数</li>
+<li>数据成员, 含静态数据成员<br>友元声明应该放在 <code>private</code> 区段. 如果用宏 <code>DISALLOW_COPY_AND_ASSIGN</code> 禁用拷贝和赋值, 应当将其置于 <code>private</code> 区段的末尾, 也即整个类声明的末尾.  </li>
+</ol>
+</li>
+<li><p><code>.cc</code> 文件中函数的定义应尽可能和声明顺序一致。</p>
+</li>
+</ul>
+<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><p>在定义函数时，参数顺序应该是：<strong>先输入，后输出</strong>。所有按引用传递的参数必须加上 <code>const</code> 。倾向编写简短, 凝练的函数，<strong>函数一般不应超过40行</strong>。<strong>重载函数</strong>时最好在函数名里加入参数信息。除以下情况，最好不要使用缺省参数：</p>
+<ul>
+<li>其一，位于 .cc 文件里的静态函数或匿名空间函数，毕竟都只能在局部文件里调用该函数了。</li>
+<li>其二，可以在构造函数里用缺省参数，毕竟不可能取得它们的地址。</li>
+<li>其三，可以用来模拟变长数组。</li>
+</ul>
+<h2 id="Other-C-Features"><a href="#Other-C-Features" class="headerlink" title="Other C++ Features"></a>Other C++ Features</h2><p>Google设定的C++的新特性规范有很多，从中选取了以下几条：</p>
+<ul>
+<li><p><code>Casting</code> 使用 C++ 的类型转换, 如 static_cast&lt;&gt;(). 不要使用 int y = (int)x 或 int y = int(x) 等转换方式;</p>
+</li>
+<li><p><code>Streams</code> 只在记录日志时使用流.</p>
+</li>
+<li><p><code>Preincrement and Predecrement</code> 对于迭代器和其他模板对象使用前缀形式 (<code>++i</code>) 的自增, 自减运算符.</p>
+</li>
+<li><p><code>Use of const</code> <code>const</code> 变量, 数据成员, 函数和参数为编译时类型检测增加了一层保障; 便于尽早发现错误。在任何可能的情况下使用 const:</p>
+<ul>
+<li>如果函数不会修改传你入的引用或指针类型参数, 该参数应声明为 const.</li>
+<li>尽可能将函数声明为 const. 访问函数应该总是 const. 其他不会修改任何数据成员, 未调用非 const 函数, 不会返回数据成员非 const 指针或引用的函数也应该声明成 const.</li>
+<li>如果数据成员在对象构造之后不再发生变化, 可将其定义为 const.</li>
+</ul>
+</li>
+<li><p><code>Use of constexpr</code> 在 C++11 里，用 <code>constexpr</code> 来定义真正的常量，或实现常量初始化。</p>
+</li>
+<li><p><code>Integer Types</code> C++ 内建整型中, 仅使用<code>int</code>。在需要确保整型大小时, 可以使用 <code>&lt;stdint.h&gt;</code> 中长度精确的整型。</p>
+</li>
+<li><p><code>Preprocessor Macros</code> 如果要使用宏, 尽可能遵守:</p>
+<ul>
+<li>不要在 .h 文件中定义宏.</li>
+<li>在马上要使用时才进行 #define, 使用后要立即 #undef.</li>
+<li>不要只是对已经存在的宏使用#undef，选择一个不会冲突的名称；</li>
+<li>不要试图使用展开后会导致 C++ 构造不稳定的宏, 不然也至少要附上文档说明其行为.</li>
+<li>不要用 ## 处理函数，类和变量的名字。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><code>nullptr/NULL/0</code> 整数用 <code>0</code>, 实数用 <code>0.0</code>, 指针用 <code>nullptr</code> 或 <code>NUL</code>, 字符 (串) 用 <code>&#39;\0&#39;</code>.</p>
+</li>
+<li><p><code>sizeof</code> 尽可能用 sizeof(varname) 代替 sizeof(type).</p>
+</li>
+<li><p><code>auto</code> 用 <code>auto</code> 绕过烦琐的类型名，只要可读性好就继续用，别用在局部变量之外的地方。</p>
+</li>
+</ul>
+<h2 id="Naming"><a href="#Naming" class="headerlink" title="Naming"></a>Naming</h2><p>命名的一致性是规则代码最鲜明的体现，规则的命名可以快速的让阅读者获知名字代表的是函数还是类型还是常量，命名需要遵守的最基本的原则是<code>要有描述性；少用缩写</code>。对不同的类型，以不同的方式进行命名，规则如下：</p>
+<ul>
+<li><strong>文件名</strong>要全部小写, 可以包含下划线 (<code>_</code>) 或连字符 (<code>-</code>)。<code>_</code> 更好：<code>my_useful_class.cc</code>。</li>
+<li><strong>类型名称</strong>（类, 结构体, 类型定义 (typedef), 枚举）的每个单词首字母均大写, 不包含下划线: <code>MyExcitingClass</code>, <code>MyExcitingEnum</code>。</li>
+<li><strong>变量名</strong>一律小写, 单词之间用下划线连接. 类的成员变量以下划线结尾, 但结构体的就不用，如: <code>a_local_variable</code>, <code>a_struct_data_member</code>, <code>a_class_data_member_</code>。</li>
+<li><strong>在全局或类里的常量</strong>名称前加 <code>k</code>: <code>kDaysInAWeek</code>。且除去开头的 k 之外每个单词开头字母均大写。</li>
+<li><strong>常规函数</strong>使用大小写混合, <strong>取值和设值函数</strong>则要求与变量名匹配: <code>MyExcitingFunction()</code>, <code>MyExcitingMethod()</code>, <code>my_exciting_member_variable()</code>, <code>set_my_exciting_member_variable()</code>。</li>
+<li><strong>名字空间</strong>用小写字母命名, 并基于项目名称和目录结构: <code>google_awesome_project</code>。</li>
+<li><strong>枚举</strong>的命名应当和<strong>常量</strong>或<strong>宏</strong>一致: <code>kEnumName</code> 或是 <code>ENUM_NAME</code>。</li>
+<li>如果你一定要用<strong>宏</strong>, 像这样命名: <code>MY_MACRO_THAT_SCARES_SMALL_CHILDREN</code>。</li>
+</ul>
+<h2 id="Comments"><a href="#Comments" class="headerlink" title="Comments"></a>Comments</h2><p>注释虽然写起来很痛苦, 但对保证代码可读性至关重要。但同时需要记住的是: 注释固然很重要, 但<code>最好的代码本身应该是自文档化</code>。有意义的类型名和变量名, 要远胜过要用注释解释的含糊不清的名字。注释主要有以下7类：</p>
+<h3 id="1-文件注释"><a href="#1-文件注释" class="headerlink" title="1. 文件注释"></a>1. 文件注释</h3><p>在每一个文件开头加入版权公告, 然后是文件内容描述。每个文件都应该包含以下项, 依次是:</p>
+<ul>
+<li>版权声明 (比如, <code>Copyright 2008 Google Inc.</code>)</li>
+<li>许可证. 为项目选择合适的许可证版本 (比如, <code>Apache 2.0</code>, <code>BSD</code>, <code>LGPL</code>, <code>GPL</code>)</li>
+<li>作者: 标识文件的原始作者.</li>
+<li>文件内容:紧接着版权许可和作者信息之后, 每个文件都要用注释描述文件内容。<br>通常, <code>.h</code> 文件要对所声明的类的功能和用法作简单说明. <code>.cc</code> 文件通常包含了更多的实现细节或算法技巧讨论。</li>
+</ul>
+<h3 id="2-类注释"><a href="#2-类注释" class="headerlink" title="2. 类注释"></a>2. 类注释</h3><p>每个类的定义都要附带一份注释, 描述类的功能和用法.</p>
+<h3 id="3-函数注释"><a href="#3-函数注释" class="headerlink" title="3. 函数注释"></a>3. 函数注释</h3><p>函数声明处注释描述函数功能; 定义处描述函数实现.</p>
+<ul>
+<li><p>函数声明:  </p>
+<ul>
+<li>函数的输入输出.</li>
+<li>对类成员函数而言: 函数调用期间对象是否需要保持引用参数, 是否会释放这些参数.</li>
+<li>如果函数分配了空间, 需要由调用者释放.</li>
+<li>参数是否可以为 NULL.</li>
+<li>是否存在函数使用上的性能隐患.</li>
+<li>如果函数是可重入的, 其同步前提是什么?</li>
+</ul>
+</li>
+<li><p>函数定义:<br>每个函数定义时要用注释说明函数功能和实现要点. 比如说说你用的编程技巧, 实现的大致步骤, 或解释如此实现的理由, 为什么前半部分要加锁而后半部分不需要.</p>
+</li>
+</ul>
+<h3 id="4-变量注释"><a href="#4-变量注释" class="headerlink" title="4. 变量注释"></a>4. 变量注释</h3><p>通常变量名本身足以很好说明变量用途. 某些情况下, 也需要额外的注释说明.</p>
+<ul>
+<li>类数据成员:每个类数据成员 (也叫实例变量或成员变量) 都应该用注释说明用途. 如果变量可以接受 NULL 或 -1 等警戒值, 须加以说明。</li>
+<li>全局变量:和数据成员一样, 所有全局变量也要注释说明含义及用途。</li>
+</ul>
+<h3 id="5-实现注释"><a href="#5-实现注释" class="headerlink" title="5. 实现注释"></a>5. 实现注释</h3><p>对于代码中巧妙的, 晦涩的, 有趣的, 重要的地方加以注释。</p>
+<ul>
+<li>比较隐晦的地方要在行尾加入注释. 在行尾空两格进行注释。</li>
+<li>如果你需要连续进行多行注释, 可以使之对齐获得更好的可读性。</li>
+<li>向函数传入 NULL, 布尔值或整数时, 要注释说明含义, 或使用常量让代码望文知意。</li>
+<li><strong>永远不要</strong>用自然语言翻译代码作为注释. 要假设读代码的人 C++ 水平比你高, 即便他/她可能不知道你的用意。</li>
+</ul>
+<h3 id="6-TODO-注释"><a href="#6-TODO-注释" class="headerlink" title="6. TODO 注释"></a>6. <code>TODO</code> 注释</h3><p>对那些临时的, 短期的解决方案, 或已经够好但仍不完美的代码使用 <code>TODO</code> 注释。<br><code>TODO</code> 注释要使用全大写的字符串 <code>TODO</code>, 在随后的圆括号里写上你的大名, 邮件地址, 或其它身份标识. 冒号是可选的. 主要目的是让添加注释的人 (也是可以请求提供更多细节的人) 可根据规范的 <code>TODO</code> 格式进行查找. 添加 <code>TODO</code> 注释并不意味着你要自己来修正。</p>
+<h3 id="7-弃用注释"><a href="#7-弃用注释" class="headerlink" title="7. 弃用注释"></a>7. 弃用注释</h3><p>通过弃用注释（<code>DEPRECATED comments</code>）以标记某接口点（<code>interface points</code>）已弃用。</p>
+<h2 id="Formatting"><a href="#Formatting" class="headerlink" title="Formatting"></a>Formatting</h2><p>代码风格和格式是一个比较个人化的问题, 但整个项目(或一个人的所有项目)服从统一的编程风格是很重要的, 只有这样才能让所有人能很轻松的阅读和理解代码。</p>
+<h3 id="1-行长度"><a href="#1-行长度" class="headerlink" title="1. 行长度"></a>1. 行长度</h3><p>每一行代码字符数不超过 80.</p>
+<h3 id="2-非-ASCII-字符"><a href="#2-非-ASCII-字符" class="headerlink" title="2. 非 ASCII 字符"></a>2. 非 <code>ASCII</code> 字符</h3><p>尽量不使用非 <code>ASCII</code> 字符, 使用时必须使用 <code>UTF-8</code> 编码.</p>
+<h3 id="3-空格还是制表位"><a href="#3-空格还是制表位" class="headerlink" title="3. 空格还是制表位"></a>3. 空格还是制表位</h3><p>只使用空格, 每次缩进 2 个空格.</p>
+<h3 id="4-函数声明与定义"><a href="#4-函数声明与定义" class="headerlink" title="4. 函数声明与定义"></a>4. 函数声明与定义</h3><p>返回类型和函数名在同一行, 参数也尽量放在同一行，如果放不下就对形参分行。<br>注意以下几点:</p>
+<ul>
+<li>如果返回类型和函数名在一行放不下，分行。</li>
+<li>如果返回类型那个与函数声明或定义分行了，不要缩进。</li>
+<li>左圆括号总是和函数名在同一行;</li>
+<li>函数名和左圆括号间没有空格;</li>
+<li>圆括号与参数间没有空格;</li>
+<li>左大括号总在最后一个参数同一行的末尾处;</li>
+<li>如果其它风格规则允许的话，右大括号总是单独位于函数最后一行，或者与左大括号同一行。</li>
+<li>右大括号和左大括号间总是有一个空格;</li>
+<li>函数声明和定义中的所有形参必须有命名且一致;</li>
+<li>所有形参应尽可能对齐;</li>
+<li>缺省缩进为 2 个空格;</li>
+<li>换行后的参数保持 4 个空格的缩进;</li>
+</ul>
+<h3 id="5-Lambda-表达式"><a href="#5-Lambda-表达式" class="headerlink" title="5. Lambda 表达式"></a>5. <code>Lambda</code> 表达式</h3><p>其它函数怎么格式化形参和函数体，<code>Lambda</code> 表达式就怎么格式化；捕获列表同理。</p>
+<h3 id="6-函数调用"><a href="#6-函数调用" class="headerlink" title="6. 函数调用"></a>6. 函数调用</h3><p>要么一行写完函数调用，要么在圆括号里对参数分行，要么参数另起一行且缩进四格。如果没有其它顾虑的话，尽可能精简行数，比如把多个参数适当地放在同一行里。函数调用遵循如下形式：</p>
+<ul>
+<li>如果同一行放不下，可断为多行，后面每一行都和第一个实参对齐，左圆括号后和右圆括号前不要留空格：</li>
+<li>参数也可以放在次行，缩进四格：</li>
+<li>把多个参数放在同一行，是为了减少函数调用所需的行数，除非影响到可读性。有人认为把每个参数都独立成行，不仅更好读，而且方便编辑参数。不过，比起所谓的参数编辑，我们更看重可读性，且后者比较好办：</li>
+<li>如果一些参数本身就是略复杂的表达式，且降低了可读性。那么可以直接创建临时变量描述该表达式，并传递给函数,或者放着不管，补充上注释：</li>
+<li>如果某参数独立成行，对可读性更有帮助的话，就这么办。</li>
+<li>此外，如果一系列参数本身就有一定的结构，可以酌情地按其结构来决定参数格式：</li>
+</ul>
+<h3 id="7-列表初始化格式"><a href="#7-列表初始化格式" class="headerlink" title="7. 列表初始化格式"></a>7. 列表初始化格式</h3><p>您平时怎么格式化函数调用，就怎么格式化。</p>
+<h3 id="8-条件语句"><a href="#8-条件语句" class="headerlink" title="8. 条件语句"></a>8. 条件语句</h3><p>倾向于不在圆括号内使用空格. 关键字 <code>if</code> 和 <code>else</code> 另起一行.<br>对基本条件语句有两种可以接受的格式. 一种在圆括号和条件之间有空格, 另一种没有。只要其中一个分支用了大括号，所有分支都要用上大括号。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (condition) &#123;  圆括号里没空格紧邻。</div><div class="line">  ...  <span class="comment">// 2 空格缩进。</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;  <span class="comment">// else 与 if 的右括号同一行。</span></div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="9-循环和开关选择语句"><a href="#9-循环和开关选择语句" class="headerlink" title="9. 循环和开关选择语句"></a>9. 循环和开关选择语句</h3><p><code>switch</code> 语句可以使用大括号分段，以表明 <code>cases</code> 之间不是连在一起的。在单语句循环里，括号可用可不用。空循环体应使用 <code>{}</code> 或 <code>continue</code>.<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">switch</span> (var) &#123;</div><div class="line">  <span class="keyword">case</span> <span class="number">0</span>: &#123;  <span class="comment">// 2 空格缩进</span></div><div class="line">    ...      <span class="comment">// 4 空格缩进</span></div><div class="line">    <span class="keyword">break</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">case</span> <span class="number">1</span>: &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">break</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">default</span>: &#123;</div><div class="line">    assert(<span class="literal">false</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在单语句循环里，括号可用可不用：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; kSomeNumber; ++i)</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"I love you\n"</span>);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; kSomeNumber; ++i) &#123;</div><div class="line">  <span class="built_in">printf</span>(<span class="string">"I take it back\n"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>空循环体应使用 <code>{}</code> 或 <code>continue</code>, 而不是一个简单的分号.<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (condition) &#123;</div><div class="line"><span class="comment">// 反复循环直到条件失效。</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; kSomeNumber; ++i) &#123;&#125;  <span class="comment">// 可 - 空循环体。</span></div><div class="line"><span class="keyword">while</span> (condition) <span class="keyword">continue</span>;  <span class="comment">// 可 - contunue 表明没有逻辑。</span></div></pre></td></tr></table></figure></p>
+<h3 id="10-指针和引用表达式"><a href="#10-指针和引用表达式" class="headerlink" title="10. 指针和引用表达式"></a>10. 指针和引用表达式</h3><p>句点或箭头前后不要有空格. 指针/地址操作符 (<code>*</code>, <code>&amp;</code>) 之后不能有空格.<br>下面是指针和引用表达式的正确使用范例:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">x = *p;</div><div class="line">p = &amp;x;</div><div class="line">x = r.y;</div><div class="line">x = r-&gt;y;</div></pre></td></tr></table></figure></p>
+<h3 id="11-布尔表达式"><a href="#11-布尔表达式" class="headerlink" title="11. 布尔表达式"></a>11. 布尔表达式</h3><p>如果一个布尔表达式超过 标准行宽, 断行方式要统一一下.<br>下例中, 逻辑与 (<code>&amp;&amp;</code>) 操作符总位于行尾:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (this_one_thing &gt; this_other_thing &amp;&amp;</div><div class="line">  a_third_thing == a_fourth_thing &amp;&amp;</div><div class="line">  yet_another &amp; last_one) &#123;</div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="12-函数返回值"><a href="#12-函数返回值" class="headerlink" title="12. 函数返回值"></a>12. 函数返回值</h3><p><code>return</code> 表达式里时没必要都用圆括号，变量返回时不要使用圆括号，可以用圆括号把复杂表达式圈起来，改善可读性。</p>
+<h3 id="13-变量及数组初始化"><a href="#13-变量及数组初始化" class="headerlink" title="13. 变量及数组初始化"></a>13. 变量及数组初始化</h3><p>用 <code>=</code>, <code>()</code> 和 <code>{}</code> 均可。请务必小心列表初始化 <code>{...}</code>。 </p>
+<h3 id="14-预处理指令"><a href="#14-预处理指令" class="headerlink" title="14. 预处理指令"></a>14. 预处理指令</h3><p>预处理指令不要缩进, 从行首开始。即使预处理指令位于缩进代码块中, 指令也应从行首开始.<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 可 - directives at beginning of line</span></div><div class="line"><span class="keyword">if</span> (lopsided_score) &#123;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> DISASTER_PENDING      <span class="comment">// 正确 -- 行开头起。</span></span></div><div class="line">  DropEverything();</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">  BackToNormal();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="15-类格式"><a href="#15-类格式" class="headerlink" title="15. 类格式"></a>15. 类格式</h3><p>访问控制块的声明依次序是 <code>public:</code>, <code>protected:</code>, <code>private:</code>, 每次缩进 1 个空格.<br>类声明 (对类注释不了解的话, 参考 类注释) 的基本格式如下:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> MyClass : <span class="keyword">public</span> OtherClass &#123;</div><div class="line"> <span class="keyword">public</span>:      <span class="comment">// 注意有 1 空格缩进!</span></div><div class="line">  MyClass();  <span class="comment">// 照常，2 空格缩进。</span></div><div class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">MyClass</span><span class="params">(<span class="keyword">int</span> var)</span></span>;</div><div class="line">  ~MyClass() &#123;&#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">SomeFunction</span><span class="params">()</span></span>;</div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">SomeFunctionThatDoesNothing</span><span class="params">()</span> </span>&#123;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">void</span> <span class="title">set_some_var</span><span class="params">(<span class="keyword">int</span> var)</span> </span>&#123; some_var_ = var; &#125;</div><div class="line">  <span class="function"><span class="keyword">int</span> <span class="title">some_var</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> some_var_; &#125;</div><div class="line"></div><div class="line"> <span class="keyword">private</span>:</div><div class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">SomeInternalFunction</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">  <span class="keyword">int</span> some_var_;</div><div class="line">  <span class="keyword">int</span> some_other_var_;</div><div class="line">  DISALLOW_COPY_AND_ASSIGN(MyClass);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>注意事项:</p>
+<ul>
+<li>所有基类名应在 80 列限制下尽量与子类名放在同一行.</li>
+<li>关键词 public:, protected:, private: 要缩进 1 个空格.</li>
+<li>除第一个关键词 (一般是 public) 外, 其他关键词前要空一行. 如果类比较小的话也可以不空.</li>
+<li>这些关键词后不要保留空行.</li>
+<li>public 放在最前面, 然后是 protected, 最后是 private.</li>
+</ul>
+<h3 id="16-构造函数初始值列表"><a href="#16-构造函数初始值列表" class="headerlink" title="16. 构造函数初始值列表"></a>16. 构造函数初始值列表</h3><p>构造函数初始值列表放在同一行或按四格缩进并排几行.</p>
+<h3 id="17-名字空间格式化"><a href="#17-名字空间格式化" class="headerlink" title="17. 名字空间格式化"></a>17. 名字空间格式化</h3><p>名字空间 不要增加额外的缩进层次,</p>
+<h3 id="18-水平留白"><a href="#18-水平留白" class="headerlink" title="18. 水平留白"></a>18. 水平留白</h3><p>水平留白的使用因地制宜. 永远不要在行尾添加没意义的留白.</p>
+<ul>
+<li>常规<ul>
+<li>左大括号前恒有空格。</li>
+<li>分号前不加空格。</li>
+<li>大括号内部可与空格紧邻也不可，不过两边都要加上。</li>
+<li>继承与初始化列表中的冒号前后恒有空格。</li>
+<li>内联函数实现，在大括号内部加上空格并编写实现。</li>
+<li>大括号里面是空的话，不加空格。</li>
+</ul>
+</li>
+<li>循环和条件语句<ul>
+<li>if 条件语句和循环语句关键字后均有空格。</li>
+<li>圆括号内部不紧邻空格。</li>
+<li>循环和条件语句的圆括号里可以与空格紧邻。</li>
+<li>循环里内 <code>;</code> 后恒有空格，<code>；</code> 前可以加个空格。</li>
+<li><code>switch</code> <code>case</code> 的冒号前无空格。</li>
+</ul>
+</li>
+<li>操作符:<ul>
+<li>赋值操作系统前后恒有空格。</li>
+<li>其它二元操作符也前后恒有空格，不过对 factors 前后不加空格也可以。</li>
+<li>圆括号内部不紧邻空格。</li>
+<li>在参数和一元操作符之间不加空格。</li>
+</ul>
+</li>
+<li>模板和转换:<ul>
+<li>尖叫括号(&lt; and &gt;) 不与空格紧邻，&lt; 前没有空格，&gt;( 之间也没有。</li>
+<li>在类型与指针操作符之间留空格也可以，但要保持一致。</li>
+<li>您或许可以在 &lt; &lt; 里加上一对对称的空格。</li>
+</ul>
+</li>
+</ul>
+<h3 id="19-垂直留白"><a href="#19-垂直留白" class="headerlink" title="19. 垂直留白"></a>19. 垂直留白</h3><p>垂直留白越少越好.<br>这不仅仅是规则而是原则问题了: 不在万不得已, 不要使用空行. </p>
+<ul>
+<li>两个函数定义之间的空行不要超过 2 行</li>
+<li>函数体首尾不要留空行, 函数体中也不要随意添加空行.</li>
+<li>函数体内开头或结尾的空行可读性微乎其微。</li>
+<li>在多重 if-else 块里加空行或许有点可读性。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/02/Google-C-Style-Guide/" title="Google C++ Style Guide">http://myintelex.github.io/2016/12/02/Google-C-Style-Guide/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/02/Google-C-Style-Guide/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/08/C语言学习总结（五）——C库函数总结/">
+                    C语言学习总结（五）——C库函数总结
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/11/30/线性表的实现/">
+                    线性表的实现--链表
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Header-Files"><span class="toc-text">Header Files</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scoping"><span class="toc-text">Scoping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Classes"><span class="toc-text">Classes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Functions"><span class="toc-text">Functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Other-C-Features"><span class="toc-text">Other C++ Features</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Naming"><span class="toc-text">Naming</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comments"><span class="toc-text">Comments</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件注释"><span class="toc-text">1. 文件注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-类注释"><span class="toc-text">2. 类注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-函数注释"><span class="toc-text">3. 函数注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-变量注释"><span class="toc-text">4. 变量注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-实现注释"><span class="toc-text">5. 实现注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-TODO-注释"><span class="toc-text">6. TODO 注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-弃用注释"><span class="toc-text">7. 弃用注释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Formatting"><span class="toc-text">Formatting</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-行长度"><span class="toc-text">1. 行长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-非-ASCII-字符"><span class="toc-text">2. 非 ASCII 字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-空格还是制表位"><span class="toc-text">3. 空格还是制表位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-函数声明与定义"><span class="toc-text">4. 函数声明与定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Lambda-表达式"><span class="toc-text">5. Lambda 表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-函数调用"><span class="toc-text">6. 函数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-列表初始化格式"><span class="toc-text">7. 列表初始化格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-条件语句"><span class="toc-text">8. 条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-循环和开关选择语句"><span class="toc-text">9. 循环和开关选择语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-指针和引用表达式"><span class="toc-text">10. 指针和引用表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-布尔表达式"><span class="toc-text">11. 布尔表达式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-函数返回值"><span class="toc-text">12. 函数返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-变量及数组初始化"><span class="toc-text">13. 变量及数组初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-预处理指令"><span class="toc-text">14. 预处理指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-类格式"><span class="toc-text">15. 类格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-构造函数初始值列表"><span class="toc-text">16. 构造函数初始值列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-名字空间格式化"><span class="toc-text">17. 名字空间格式化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-水平留白"><span class="toc-text">18. 水平留白</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-垂直留白"><span class="toc-text">19. 垂直留白</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/02/Google-C-Style-Guide/" data-title="Google C++ Style Guide" data-url="http://myintelex.github.io/2016/12/02/Google-C-Style-Guide/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

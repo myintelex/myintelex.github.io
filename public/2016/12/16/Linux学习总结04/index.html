@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="在应用开发中，经常要访问文件，Linux 下的文件读写方式分为两大类：标准 I/O 和 文件 I/O，下面分别介绍下两种 I/O 的相关操作，并比较下两种 I/O 的特点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux学习总结（四）——标准I/O与文件I/O">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/16/Linux学习总结04/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="在应用开发中，经常要访问文件，Linux 下的文件读写方式分为两大类：标准 I/O 和 文件 I/O，下面分别介绍下两种 I/O 的相关操作，并比较下两种 I/O 的特点。">
+<meta property="og:updated_time" content="2016-12-21T14:07:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux学习总结（四）——标准I/O与文件I/O">
+<meta name="twitter:description" content="在应用开发中，经常要访问文件，Linux 下的文件读写方式分为两大类：标准 I/O 和 文件 I/O，下面分别介绍下两种 I/O 的相关操作，并比较下两种 I/O 的特点。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux学习总结（四）——标准I/O与文件I/O | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux学习总结04" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/Linux学习总结04/" class="article-date">
+      <time datetime="2016-12-16T06:54:55.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux学习总结（四）——标准I/O与文件I/O
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/I-O/">I/O</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/select/">select</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在应用开发中，经常要访问文件，Linux 下的文件读写方式分为两大类：标准 I/O 和 文件 I/O，下面分别介绍下两种 I/O 的相关操作，并比较下两种 I/O 的特点。<br><a id="more"></a></p>
+<h2 id="一、标准I-O"><a href="#一、标准I-O" class="headerlink" title="一、标准I/O"></a>一、标准I/O</h2><p>标准I/O库接口由ANSI C标准定义，标准IO函数提供了一种对不用缓冲IO函数的带缓冲的接口。不仅在UNIX系统，在很多操作系统上都实现了标准I/O库，标准I/O库处理很多细节，如缓存分配、以优化长度执行I/O等，这样使用户不必关心如何选择合适的块长度。标准I/O在系统调用基础上构造的，它便于用户使用。标准I/O有两个很重要的定义。</p>
+<ul>
+<li>文件指针<br><code>FILE</code>：每个被打开的文件都在内存中开辟一个区域，用来存放文件的有关信息。这些信息保存在一个结构体类型的变量中，该结构体类型是由系统定义的，称为<code>FILE</code>。</li>
+<li>流<br><code>stream</code>：所有的I/O操作本质上都是从文件中输入或输出字节流，所以称为流。</li>
+</ul>
+<p>标准I/O预定义3个流，他们可以自动地为进程所使用：标准输入/标准输出/标准错误输出。</p>
+<h3 id="1-文件缓冲"><a href="#1-文件缓冲" class="headerlink" title="1. 文件缓冲"></a>1. 文件缓冲</h3><p>系统自动的在内存中为每一个正在使用的文件开辟一个缓冲区，从内存向磁盘输出数据必须先送到内存缓冲区，装满缓冲区在一起送到磁盘中去。从磁盘中读数据，则一次从磁盘文件将一批数据读入到内存缓冲区中，然后再从缓冲区逐个的将数据送到程序的数据区。这样的目的是尽量减少使用<code>read</code>/<code>write</code>的调用。文件缓冲可以分为三类：</p>
+<ul>
+<li>全缓冲<br>当填满I/O缓存后才进行实际I/O操作，或者满足一定条件后，系统通过调用malloc来获得所需要的缓冲区域，默认值。<br>刷新(<code>fflush</code>)：标准I/O的写操作。<br>当缓冲区满了，或者满足一定的条件后，就会执行刷新操作。</li>
+<li>行缓冲<br>当在输入和输出中遇到新行符(<code>\n</code>)时，进行I/O操作。<br>当流遇到一个终端时，典型的行缓存。</li>
+<li>无缓冲<br>标准错误流<code>stderr</code>无缓冲。<br>很多的人机交互界面要求不可全缓冲。</li>
+</ul>
+<h3 id="2-打开流"><a href="#2-打开流" class="headerlink" title="2. 打开流"></a>2. 打开流</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function">FILE *<span class="title">fopen</span> <span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path, <span class="keyword">const</span> <span class="keyword">char</span> *mode)</span></span>;</div><div class="line"><span class="function">FILE *<span class="title">freopen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *<span class="keyword">restrict</span> pathname, <span class="keyword">const</span> <span class="keyword">char</span> *<span class="keyword">restrict</span> type, FILE* <span class="keyword">restrict</span> fp)</span></span></div></pre></td></tr></table></figure>
+<p><code>fopen()</code>打开由 <code>path</code> 指定的一个文件。<br><code>mode</code> 的值如下：<br><code>r</code>/<code>rb</code> 打开只读文件，该文件必须存在。<br><code>w</code>/<code>wb</code> 打开只写文件，若文件存在则文件长度清为0，若文件不存在则建立该文件。<br><code>a</code>/<code>ab</code> 以附加的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾。<br>当给定 <code>b</code> 参数时，表示以二进制方式打开文件。</p>
+<h3 id="3-关闭流"><a href="#3-关闭流" class="headerlink" title="3. 关闭流"></a>3. 关闭流</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fclose</span><span class="params">(FILE *stream)</span></span>;</div></pre></td></tr></table></figure>
+<p><code>fclose()</code>用于关闭一个已经打开的流:调用成功返回0，失败返回EOF，并设置errno。<br>在该文件被关闭之前，刷新缓存中的数据。如果标准I / O库已经为该流自动分配了一个缓存，则释放此缓存。<br>当一个进程正常终止时(直接调用exit函数，或从main函数返回)，则所有带未写缓存数据的标准I/O流都被刷新，所有打开的标准I/O流都被关闭。<br>在调用 <code>fclose()</code> 关闭流后对流所进行的任何操作，包括再次调用 <code>fclose()</code>，其结果都将是未知的</p>
+<h3 id="4-读写流"><a href="#4-读写流" class="headerlink" title="4. 读写流"></a>4. 读写流</h3><p>调用 <code>fopen()</code> 成功打开流之后，可采用三种不同方式对其进行读写操作:</p>
+<ul>
+<li>每次一个字符的I/O。<br>使用 <code>fgetc()</code>/<code>fputc()</code> 一次读或写一个字符。</li>
+<li>每次一行的I/O。<br>使用 <code>fgets()</code> 和 <code>fputs()</code> 一次读或写一行。每行都以一个换行符终止。当调用 <code>fgets()</code> 时，应指明能处理的最大行长度。</li>
+<li>直接I/O。<br><code>fread()</code> 和 <code>fwrite()</code> 函数支持这种类型的I/O。每次I/O操作读或写某种数量的对象，而每个对象具有指定的长度。这两个函数常用于从二进制文件中读或写。</li>
+</ul>
+<ol>
+<li><p>字符I/O</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getc</span><span class="params">(FILE *stream)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fgetc</span><span class="params">(FILE *stream)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getchar</span><span class="params">(<span class="keyword">void</span>)</span></span>;</div></pre></td></tr></table></figure>
+<p>三个函数的返回：若成功则为下一个字符，若已处文件尾端或出错则为<code>EOF</code>。<br>函数<code>getchar()</code>等同于<code>getc(stdin)</code><br>注意，不管是出错还是到达文件尾端，这三个函数都返回同样的值。为了区分这两种不同的情况，必须调用<code>ferror()</code>或<code>feof()</code>。<br><code>getc()</code>的实现是一个宏，而<code>fgetc()</code>是一个函数。<br>返回值为int类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">putc</span><span class="params">(<span class="keyword">int</span> c, FILE *stream)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fputc</span><span class="params">(<span class="keyword">int</span> c, FILE *stream)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">putchar</span><span class="params">(<span class="keyword">int</span> c)</span></span>;</div></pre></td></tr></table></figure>
+<p><code>putchar(c)</code> 等价于 <code>putc(c,stdout)</code>。<br>出错返回 <code>EOF</code>。<br><code>putc()</code>实现为宏，<code>/fputc()</code>实现为函数。</p>
+</li>
+<li><p>行I/O</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">char</span> *<span class="title">gets</span><span class="params">(<span class="keyword">char</span> *s)</span></span>;</div><div class="line"><span class="function"><span class="keyword">char</span> *<span class="title">fgets</span><span class="params">(<span class="keyword">char</span> *s, <span class="keyword">int</span> size, FILE *stream)</span></span>;</div></pre></td></tr></table></figure>
+<p>两个函数返回：若成功则为<code>buf</code>，若已处文件尾端或出错则为<code>null</code>。<br>这两个函数都指定了缓存地址<code>s</code>，读入的行将送入其中。<code>gets()</code>从标准输入读，而<code>fgets()</code>则从指定的流读。<br>对于<code>fgets()</code>，必须指定缓存<code>s</code>的长度<code>n</code>。此函数一直读到下一个换行符为止，但是不超过<code>n-1</code>个字符，读入的字符被送入缓存。该缓存以<code>null</code>字符结尾。如若该行，包括最后一个换行符的字符数超过<code>n-1</code>，则只返回一个不完整的行，而且最后总是以<code>null</code>字符结尾。对<code>fgets()</code>的下一次调用会继续读该行。<br><code>gets()</code>是一个不推荐使用的函数，因为调用者在使用<code>gets()</code>时不能指定缓存的长度，这样就可能造成<strong>缓存越界</strong>（如若该行长于缓存长度），写到缓存之后的存储空间中，从而产生不可预料的后果。<br><code>gets()</code>与<code>fgets()</code>的另一个区别是，<code>gets()</code>并不将换行符存入缓存中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">puts</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fputs</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s, FILE *stream)</span></span>;</div></pre></td></tr></table></figure>
+<p>两个函数返回：若成功则为非负值，若出错则为<code>EOF</code>。<br>函数<code>fputs()</code>将一个以<code>null</code>符终止的字符串写到指定的流，终止符<code>null</code>不输出。注意，并不一定是每次输出的字符串都包含一个换行符。<br><code>puts()</code>将一个以<code>null</code>符终止的字符串写到标准输出，终止符不输出。随后，<code>puts()</code>又将一个换行符写到标准输出。<br><code>puts()</code>并不像它所对应的<code>gets()</code>那样不安全。但是我们还是应避免使用它，以免需要记住它在最后又加上了一个换行符。如果总是使用<code>fgets()</code>和<code>fputs()</code>,那么就会熟知<strong>在每行终止处我们必须自己加一个换行符</strong>。</p>
+</li>
+<li><p>二进制I/O</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">size_t</span> fread(<span class="keyword">void</span> *ptr, <span class="keyword">size_t</span> size, <span class="keyword">size_t</span> nmemb, FILE *stream);</div><div class="line"><span class="keyword">size_t</span> fwrite(<span class="keyword">const</span> <span class="keyword">void</span> *ptr, <span class="keyword">size_t</span> size, <span class="keyword">size_t</span> nmemb, FILE *stream);</div></pre></td></tr></table></figure>
+<p>两个函数的返回：读或写的对象数<br>对于二进制数据我们更愿意一次读或写整个结构。<br>为了使用<code>getc()</code>或<code>putc()</code>做到这一点，必须循环读取整个结构，一次读或写一个字节。(效率低)<br><code>fputs()</code>在遇到<code>null</code>字节时就停止，而在结构中可能含有<code>null</code>字节，所以不能使用每次一行函数实现这种要求。如果输入数据中包含有<code>null</code>字节或换行符，则<code>fgets()</code>也不能正确工作。(实现限制)</p>
+</li>
+</ol>
+<h3 id="5-刷新流"><a href="#5-刷新流" class="headerlink" title="5. 刷新流"></a>5. 刷新流</h3><p><code>int fflush(FILE *fp);</code><br>可强制刷新一个流。此函数将流缓冲区中所有未写的数据写到文件中。</p>
+<h3 id="6-定位流"><a href="#6-定位流" class="headerlink" title="6. 定位流"></a>6. 定位流</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fseek</span><span class="params">(FILE *stream, <span class="keyword">long</span> offset, <span class="keyword">int</span> whence)</span></span>;</div><div class="line"><span class="function"><span class="keyword">long</span> <span class="title">ftell</span><span class="params">(FILE *stream)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">rewind</span><span class="params">(FILE *stream)</span></span>;</div></pre></td></tr></table></figure>
+<p><code>ftell()</code>用于取得当前的文件位置，调用成功则为当前文件位置指示，若出错则为<code>-1L</code><br><code>fseek()</code>用户设定<code>stream</code>流的文件位置指示，调用成功返回0，失败返回-1，并设置<code>errno</code><br><code>fseek()</code>的<code>whence</code>参数：<code>SEEK_SET</code>/ <code>SEEK_CUR</code>/ <code>SEEK_END</code>。<br><code>rewind()</code>用于设定流的文件位置指示为文件开始，该函数调用成功无返回值。<br><code>rewind()</code>等价于<code>(void)fseek(stream, 0L, SEEK_SET)</code></p>
+<h2 id="二、文件IO"><a href="#二、文件IO" class="headerlink" title="二、文件IO"></a>二、文件IO</h2><p>文件I/O用于应用层与内核层之间文件的输入输出，他的原理是内核通过inode号区分不同的文件，进程中对不同文件的区分使用ID号，来映射不同的inode。文件IO直接调用了系统接口 不需要依赖标准C库。文件I/O是不带缓冲的，对于Linux内核来讲，所有打开文件都由文件描述符表示。当打开一个现存文件或创建一个新文件时，内核向进程返回一个文件描述符。当读、写一个文件时，用open或creat返回的文件描述符标识该文件，将其作为参数传送给read或write。文件描述符的定义：</p>
+<ul>
+<li>内核顺序分配的非负整数</li>
+<li>内核用以标识一个特定进程正在访问的文件</li>
+<li>其他资源(socket、pipe等)的访问标识<br>标准输入、标准输出和标准出错由shell默认打开，分别为0/1/2。</li>
+</ul>
+<h3 id="1-文件I-O的打开-创建-关闭"><a href="#1-文件I-O的打开-创建-关闭" class="headerlink" title="1. 文件I/O的打开/创建/关闭"></a>1. 文件I/O的打开/创建/关闭</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">open</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *pathname, <span class="keyword">int</span> flags, <span class="keyword">mode_t</span> mode)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">creat</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *pathname, <span class="keyword">mode_t</span> mode)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">close</span><span class="params">(<span class="keyword">int</span> flags)</span></span>;</div></pre></td></tr></table></figure>
+<p><code>open()</code>和<code>creat()</code>调用成功返回文件描述符，失败返回-1，并设置errno。<br><code>open()</code>/<code>creat()</code>调用返回的文件描述符一定是最小的可用文件描述符。<br><code>creat()</code>等价于<code>open(pathname, O_CREAT|O_WRONLY|O_TRUNC, mode)</code><br><code>pathname</code>是需要打开的文件路径，<code>flags</code>是打开的模式：</p>
+<ul>
+<li><code>O_APPEND</code> 附加模式，在NFS文件系统下可能会出错，该模式可以自动置文件指针到文件末尾</li>
+<li><code>O_CREAT</code> 创建文件</li>
+<li><code>O_EXCL</code> 在CREAT后，若文件存在不创建，返回-1，否则创建</li>
+<li><code>O_RDWR</code> 读写模式打开</li>
+<li><code>O_RDONLY</code> 只读模式打开</li>
+<li><code>O_WRONLY</code> 只写模式打开</li>
+<li><code>O_TRUNC</code> 清零模式<br><code>mode</code>权限 仅在创建模式下使用,成功：返回ID号，失败返回文件标识号。</li>
+</ul>
+<p><code>close()</code>调用成功返回0，出错返回-1，并设置errno。<br>当一个进程终止时，该进程打开的所有文件都由内核自动关闭。<br>关闭一个文件的同时，也释放该进程加在该文件上的所有记录锁。</p>
+<h3 id="2-文件I-O的读写"><a href="#2-文件I-O的读写" class="headerlink" title="2. 文件I/O的读写"></a>2. 文件I/O的读写</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ssize_t</span> read(<span class="keyword">int</span> fd, <span class="keyword">void</span> *buff, <span class="keyword">size_t</span> count);</div><div class="line"><span class="keyword">ssize_t</span> write(<span class="keyword">int</span> fd, <span class="keyword">void</span> *buff, <span class="keyword">size_t</span> count);</div></pre></td></tr></table></figure>
+<p><code>write()</code>/<code>read()</code>调用成功返回已读/写的字节数，失败返回-1，并设置<code>errno</code>。<br><code>write()</code>的返回值通常与<code>count</code>不同，因此需要循环将全部待写的数据全部写入文件。<br><code>write()</code>出错的常见原因：<strong>磁盘已满或者超过了一个给定进程的文件长度限制</strong>。<br>对于普通文件，写操作从文件的当前位移量处开始，如果在打开文件时，指定了O_APPEND参数，则每次写操作前，将文件位移量设置在文件的当前结尾处，在一次成功的写操作后，该文件的位移量增加实际写的字节数。读操作从文件的当前位移量处开始，在成功返回之前，该位移量增加实际读取的字节数。</p>
+<h3 id="3-文件I-O的定位"><a href="#3-文件I-O的定位" class="headerlink" title="3. 文件I/O的定位"></a>3. 文件I/O的定位</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">off_t</span> lseek(<span class="keyword">int</span> fd, <span class="keyword">off_t</span> offset, <span class="keyword">int</span> whence);</div></pre></td></tr></table></figure>
+<p>每个打开的文件都有一个与其相关的“当前文件位移量”，它是一个非负整数，用以度量从文件开始处计算的字节数。<br>通常，读/写操作都从当前文件位移量处开始，在读/写调用成功后，使位移量增加所读或者所写的字节数。<br><code>lseek()</code>调用成功为新的文件位移量，失败返回-1，并设置errno。<br><code>lseek()</code>只对常规文件有效，对socket、管道、FIFO等进行lseek()操作失败。<br><code>lseek()</code>仅将当前文件的位移量记录在内核中，它并不引起任何I/O操作。<br>文件位移量可以大于文件的当前长度，在这种情况下，对该文件的写操作会延长文件，并形成空洞。</p>
+<h2 id="三、两种I-O模型的比较"><a href="#三、两种I-O模型的比较" class="headerlink" title="三、两种I/O模型的比较"></a>三、两种I/O模型的比较</h2><table>
+<thead>
+<tr>
+<th>I/O模型</th>
+<th>文件I/O</th>
+<th>标准I/O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>缓冲方式</td>
+<td>非缓冲I/O</td>
+<td>缓冲I/O</td>
+</tr>
+<tr>
+<td>操作对象</td>
+<td>文件描述符</td>
+<td>流(FILE )</td>
+</tr>
+<tr>
+<td>打开</td>
+<td>open()</td>
+<td>fopen()/freopen()/fdopen()</td>
+</tr>
+<tr>
+<td>读</td>
+<td>read()</td>
+<td>fread()/fgetc()/fgets()…</td>
+</tr>
+<tr>
+<td>写</td>
+<td>write()</td>
+<td>fwrite()/fputc()/fputs()…</td>
+</tr>
+<tr>
+<td>定位</td>
+<td>lseek()</td>
+<td>fseek()/ftell()/rewind()/fsetpos()/fgetpos()</td>
+</tr>
+<tr>
+<td>关闭</td>
+<td>close()</td>
+<td>fclose()</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/16/Linux学习总结04/" title="Linux学习总结（四）——标准I/O与文件I/O">http://myintelex.github.io/2016/12/16/Linux学习总结04/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/16/Linux学习总结04/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结05/">
+                    Linux学习总结（五）——高级I/O
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/16/Linux学习总结03/">
+                    Linux学习总结（三）——Shell常见命令解析
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、标准I-O"><span class="toc-text">一、标准I/O</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件缓冲"><span class="toc-text">1. 文件缓冲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-打开流"><span class="toc-text">2. 打开流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-关闭流"><span class="toc-text">3. 关闭流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-读写流"><span class="toc-text">4. 读写流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-刷新流"><span class="toc-text">5. 刷新流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-定位流"><span class="toc-text">6. 定位流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、文件IO"><span class="toc-text">二、文件IO</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-文件I-O的打开-创建-关闭"><span class="toc-text">1. 文件I/O的打开/创建/关闭</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-文件I-O的读写"><span class="toc-text">2. 文件I/O的读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-文件I-O的定位"><span class="toc-text">3. 文件I/O的定位</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、两种I-O模型的比较"><span class="toc-text">三、两种I/O模型的比较</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/16/Linux学习总结04/" data-title="Linux学习总结（四）——标准I/O与文件I/O" data-url="http://myintelex.github.io/2016/12/16/Linux学习总结04/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="最近看了《程序员的修炼之道-从小工到专家》，里面讲的是怎样成为一个注重实效的程序员。讲的是程序员，但是其实中间的很多道理作为一个职场人来说，都是适用的。因为最近看得个人管理方面的书籍比较多，还是按照很多大师经常提到的道、术、器、用四个字来总结一下这本书，也是给自己的一个发展定位：我自己想要成为一个怎样的程序员。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《程序员的修炼之道》读书笔记">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/28/《程序员的修炼之道》读书笔记/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="最近看了《程序员的修炼之道-从小工到专家》，里面讲的是怎样成为一个注重实效的程序员。讲的是程序员，但是其实中间的很多道理作为一个职场人来说，都是适用的。因为最近看得个人管理方面的书籍比较多，还是按照很多大师经常提到的道、术、器、用四个字来总结一下这本书，也是给自己的一个发展定位：我自己想要成为一个怎样的程序员。">
+<meta property="og:image" content="http://ogf054qp1.bkt.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93-%E8%87%AA%E5%B7%B1%E6%95%B4%E7%90%86%20%282%29.png">
+<meta property="og:updated_time" content="2017-12-06T13:31:48.408Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《程序员的修炼之道》读书笔记">
+<meta name="twitter:description" content="最近看了《程序员的修炼之道-从小工到专家》，里面讲的是怎样成为一个注重实效的程序员。讲的是程序员，但是其实中间的很多道理作为一个职场人来说，都是适用的。因为最近看得个人管理方面的书籍比较多，还是按照很多大师经常提到的道、术、器、用四个字来总结一下这本书，也是给自己的一个发展定位：我自己想要成为一个怎样的程序员。">
+<meta name="twitter:image" content="http://ogf054qp1.bkt.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93-%E8%87%AA%E5%B7%B1%E6%95%B4%E7%90%86%20%282%29.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>《程序员的修炼之道》读书笔记 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-《程序员的修炼之道》读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/28/《程序员的修炼之道》读书笔记/" class="article-date">
+      <time datetime="2016-12-28T10:07:47.000Z" itemprop="datePublished">2016-12-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      《程序员的修炼之道》读书笔记
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/程序员的修炼之道/">程序员的修炼之道</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>最近看了《程序员的修炼之道-从小工到专家》，里面讲的是怎样成为一个注重实效的程序员。讲的是程序员，但是其实中间的很多道理作为一个职场人来说，都是适用的。因为最近看得个人管理方面的书籍比较多，还是按照很多大师经常提到的<strong>道、术、器、用</strong>四个字来总结一下这本书，也是给自己的一个发展定位：我自己想要成为一个怎样的程序员。</p>
+<a id="more"></a>
+<p><img src="http://ogf054qp1.bkt.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93-%E8%87%AA%E5%B7%B1%E6%95%B4%E7%90%86%20%282%29.png" alt="程序员的修炼之道"></p>
+<h2 id="道：一个注重实效程序员需要秉持的理念"><a href="#道：一个注重实效程序员需要秉持的理念" class="headerlink" title="道：一个注重实效程序员需要秉持的理念"></a>道：一个注重实效程序员需要秉持的理念</h2><p>书的第一章的名字叫<em>注重实效的哲学</em>。其实不像很多人想的那样，程序员并不是一个冷冰冰的枯燥的集体。反而，程序员是更多善于思考的一个集体，不仅仅是对工作，对于人生、世界，程序员都有属于自己的解释。所以才会有这么多的程序员的纷争，从大了讲有自由与封建（开源/闭源）之争；往具体处说，又有诸如<strong>UNIX哲学</strong>等哲学流派。但作为一个注重实效的程序员，秉持的理念是怎样的、他的人生观应该是怎样的？这本书的第一章给开了个头。</p>
+<p>注重实效的程序员在编程的时候，他们是<strong>完美主义</strong>和<strong>实用主义</strong>的结合者。他们对自己的代码要求完美，对自己的<strong>错误负责</strong>，他们不能容忍破窗户的存在，因为它最终会导致一个失败的项目。但同时，他们也知道在什么时候止步，他们明白他们是在一个不完美的世界上开发代码的，所以他们通常把质量作为一种需求，而不是一个极大的简单期望。<br>但是他们的世界是<strong>宏观</strong>的，他们往往想要从更高的角度来思考问题。他们需要确认自己的每一步都是为了自己的最终愿景，每一行代码都是为了项目的完美实现。他们秉持着这样的价值观，不断的判断自己是否偏离了最终的方向。<br>另一方面，所有的高效的程序员都是进化论的支持者，所以他们十分注重自己的进化。他们往往会定期的<strong>投资自己</strong>，用知识不断武装自己，来适应不断更新的环境。同时，他们不断的同环境<strong>交流</strong>，很多时候是使用网络或者书面的形式。同时，他们会让自己的产品同样是可进化的化，具有<strong>可撤销性</strong>，来适应环境。<br>最终，是所有注重实效的程序员都坚持的一个原则：简单原则。他们会尽一切可能<strong>避免重复</strong>，尽一切的可能进行<strong>正交</strong>的操作。</p>
+<h2 id="术：实现高效的流程方法"><a href="#术：实现高效的流程方法" class="headerlink" title="术：实现高效的流程方法"></a>术：实现高效的流程方法</h2><p>根据上面的原则，我们有通常的几个规律来实现我们的项目。<br>当我们面对一个新的项目的时候，我们不应该过于详细的进行每个模块的设计，而是应该使用<strong>曳光弹</strong>，首先搭建起我们软件框架。随后，在我们缺的程序框架上进行完善。这样能够高效的优先确定我们的路径。<br>随后，当我们实现具体的功能的时候，我们可以使用<strong>原型</strong>，原型可以允许适当的忽略某些细节，来快速验证我们的想法。<br>针对具体的问题，我们应该刨除编程语言的干扰，靠近问题领域编程，使用领域语言对问题进行有针对性的开发。<br>另外两个适用的通用规律是<strong>估算</strong>和<strong>合约</strong>。我们应该使用合约对我们的项目需求和设计进行规范，我们应该使用估算对我们的项目建立模型，设定自己的计划，随后进行代码迭代。</p>
+<h2 id="器：带来效率提升的工具"><a href="#器：带来效率提升的工具" class="headerlink" title="器：带来效率提升的工具"></a>器：带来效率提升的工具</h2><p>从思想上提高了认识之后，我们可以从工具着手提高我们的效率。当然最先确定应该是我们的<strong>编辑器</strong>，一个高效的编辑器应该满足下面的特点：</p>
+<ul>
+<li>可配置 </li>
+<li>可扩展</li>
+<li>可编程<br>使用适当的编辑器可以快速的帮助我们提高生产效率。此外我们应该使用适当的<strong>调试工具</strong>，及时的进行我们的测试和错误跟踪。随后我们应学会使用<strong>源码控制工具</strong>，使用源码控制工具不仅可以帮助撤销错误的操作，还可以让我们能够快速的定位错误，自动化的进行测试。这是最重要的三个工具，另外一些可以提高我们工作效率的工具是：</li>
+<li><strong>纯文本</strong>，它可以用来保存我们的配置、数据、历史工作等，这是一种通用不过时的工具，可以协同我们的开发、测试，且不受特定语言和系统的影响。</li>
+<li><strong>命令行工具</strong>和<strong>脚本语言</strong>，有效的利用这两者一方面可以让我更加深入的使用计算机的很多功能，另一方面提供了我们自动化的方式来进行的我们的编码、测试、乃至快捷地搭建我们的架构。同时可以帮助我们编写自己的<strong>代码生成器</strong>，避免我们进行重复的工作。</li>
+</ul>
+<h2 id="用：践行高效的过程"><a href="#用：践行高效的过程" class="headerlink" title="用：践行高效的过程"></a>用：践行高效的过程</h2><h3 id="1-项目之前"><a href="#1-项目之前" class="headerlink" title="1. 项目之前"></a>1. 项目之前</h3><p>在一个项目开始之前，我们需要的是深入挖掘需求，按照合约设计的方法，规范我们的项目。我们应该找到我们的设计的边际，找到我们真正的约束。</p>
+<h3 id="2-项目架构"><a href="#2-项目架构" class="headerlink" title="2. 项目架构"></a>2. 项目架构</h3><p>对于软件的架构，如上所说，应遵顼<strong>正交性</strong>的原则，这就要求我们将我们模块之间的耦合降低至最低，有下面的方法帮助我们实现这个目的：</p>
+<ol>
+<li><p>我们按照德墨忒耳法则来编写代码：</p>
+<blockquote>
+<p>得墨忒耳定律－－对象 O 的 M 方法，可以访问/调用如下的：</p>
+<ul>
+<li>对象 O 本身</li>
+<li>M方法的传入参数</li>
+<li>M方法中创建或实例化的任意对象</li>
+<li>对象 O 直接的组件对象</li>
+<li>在M范围内，可被O访问的全局变量</li>
+</ul>
+</blockquote>
+</li>
+<li><p>我们使用元程序的设计<br>使用我们上面提到的纯文本工具，将我们的配置等抽离出来。将抽象放进代码，将细节放进元数据。</p>
+</li>
+<li><p>我们将时间解耦<br>将那些时间上不互相依赖的模块解耦，提高并发性。</p>
+</li>
+<li><p>使用合适的软件架构，如：<br>使用 MVC 架构，将视图和模型分开<br>使用 Blackboard 架构，协调工作流。</p>
+</li>
+</ol>
+<h3 id="3-项目编程"><a href="#3-项目编程" class="headerlink" title="3. 项目编程"></a>3. 项目编程</h3><p>当我们编程的时候，应该首先保证程序的准确性，主要是两个方面：</p>
+<ul>
+<li>让错误尽可能早的体现出来，而不是让错误来破坏我们的代码。</li>
+<li>对于不可能发生的事情，应该使用<strong>断言</strong>确保它不会发生。</li>
+</ul>
+<p>另外，我们需要认清<strong>异常</strong>的意义：异常应该用于异常的问题，而不是那些我们自己需要前置判断的问题。比如我们的资源使用，必须考虑到<strong>资源配平</strong>的问题。</p>
+<p>其次，我们应在编程的过程中重视<strong>重构</strong>和<strong>测试</strong>的意义。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/28/《程序员的修炼之道》读书笔记/" title="《程序员的修炼之道》读书笔记">http://myintelex.github.io/2016/12/28/《程序员的修炼之道》读书笔记/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/28/《程序员的修炼之道》读书笔记/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/02/21/C-学习笔记（一）——基础知识/">
+                    C++学习笔记（一）——基础知识
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发07/">
+                    Linux驱动开发（七）——设备驱动模型
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#道：一个注重实效程序员需要秉持的理念"><span class="toc-text">道：一个注重实效程序员需要秉持的理念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#术：实现高效的流程方法"><span class="toc-text">术：实现高效的流程方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#器：带来效率提升的工具"><span class="toc-text">器：带来效率提升的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用：践行高效的过程"><span class="toc-text">用：践行高效的过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-项目之前"><span class="toc-text">1. 项目之前</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-项目架构"><span class="toc-text">2. 项目架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-项目编程"><span class="toc-text">3. 项目编程</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/28/《程序员的修炼之道》读书笔记/" data-title="《程序员的修炼之道》读书笔记" data-url="http://myintelex.github.io/2016/12/28/《程序员的修炼之道》读书笔记/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2017 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

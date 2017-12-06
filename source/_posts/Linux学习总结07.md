@@ -4,7 +4,9 @@ date: 2016-12-16 15:54:55
 categories: Linux学习记录
 tags: [进程间通信, 消息队列, 共享内存, 信号量]
 ---
-Linux 的进程间通信方式是从 UNIX 平台继承而来的。传统的 UNIX 进程间通信方式有三种：管道、FIFO、信号。System V 进程间通信包括 System V 消息队列、 System V 信号量和 System V 共享内存。POSIX 进程间通信机制包括 POSIX 消息队列、POSIX 信号量和 POSIX 共享内存区。现在 Linux 中主要使用的进程间通信方式有：
+Linux 的进程间通信方式是从 UNIX 平台继承而来的。传统的 UNIX 进程间通信方式有三种：管道、FIFO、信号。System V 进程间通信包括 System V 消息队列、 System V 信号量和 System V 共享内存。POSIX 进程间通信机制包括 POSIX 消息队列、POSIX 信号量和 POSIX 共享内存区。
+ <!--more-->
+现在 Linux 中主要使用的进程间通信方式有：
  * 无名管道（pipe）和有名管道（fifo）
  * 信号（signal）
  * 消息队列（message queue）
@@ -12,7 +14,6 @@ Linux 的进程间通信方式是从 UNIX 平台继承而来的。传统的 UNIX
  * 信号量（semaphore）
  * 套接字（socket）
 
- <!--more-->
 
 ## 一、管道通信
 1. 无名管道 pipe 
