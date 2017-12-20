@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。">
+<meta name="description" content="本文只是简单对 VS Code 的快捷键进行总结。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线性表的实现--链表">
-<meta property="og:url" content="http://myintelex.github.io/2016/11/30/线性表的实现/index.html">
+<meta property="og:title" content="VS Code 快捷键总结">
+<meta property="og:url" content="http://myintelex.github.io/2017/12/10/VS-Code-快捷键总结/index.html">
 <meta property="og:site_name" content="Myintelex">
-<meta property="og:description" content="线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。">
-<meta property="og:updated_time" content="2016-12-16T01:29:00.000Z">
+<meta property="og:description" content="本文只是简单对 VS Code 的快捷键进行总结。">
+<meta property="og:updated_time" content="2017-12-10T10:12:14.946Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线性表的实现--链表">
-<meta name="twitter:description" content="线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。">
+<meta name="twitter:title" content="VS Code 快捷键总结">
+<meta name="twitter:description" content="本文只是简单对 VS Code 的快捷键进行总结。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>线性表的实现--链表 | Myintelex</title>
+<title>VS Code 快捷键总结 | Myintelex</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -208,11 +208,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-线性表的实现" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-VS-Code-快捷键总结" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/30/线性表的实现/" class="article-date">
-      <time datetime="2016-11-30T06:57:14.000Z" itemprop="datePublished">2016-11-30</time>
+      <a href="/2017/12/10/VS-Code-快捷键总结/" class="article-date">
+      <time datetime="2017-12-10T08:42:10.000Z" itemprop="datePublished">2017-12-10</time>
 </a>
 
 
@@ -227,7 +227,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      线性表的实现--链表
+      VS Code 快捷键总结
     </h1>
   
 
@@ -236,13 +236,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/数据结构/">数据结构</a>
+    <a class="article-category-link" href="/categories/工具使用/">工具使用</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线性表/">线性表</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IDE/">IDE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VS-Code/">VS Code</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -252,56 +252,13 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。<br><a id="more"></a></p>
-<h2 id="单向链表"><a href="#单向链表" class="headerlink" title="单向链表"></a>单向链表</h2><p>单向链表(单链表)是链表的一种，它由节点组成，每个节点都包含下一个节点的指针。</p>
-<pre><code>typedef struct node {
-    datatype data;
-    struct node * next;
-}listnode;
-</code></pre><h3 id="单链表创建"><a href="#单链表创建" class="headerlink" title="单链表创建"></a>单链表创建</h3><p>通常我们创建一个空链表的时候指的是我们创建了一个头结点，这个节点指向了链表的第一个节点。</p>
-<pre><code>listnode * list_create() {
-    listnode * H;
-
-    H = (listnode *)malloc(sizeof(listnode));
-    if (H == NULL) {
-        printf(&quot;malloc failed!\n&quot;);
-        return NULL;
-    }
-
-    H-&gt;data = 0;
-    H-&gt;next = NULL;
-
-    return H;
-}
-</code></pre><h3 id="单链表的操作"><a href="#单链表的操作" class="headerlink" title="单链表的操作"></a>单链表的操作</h3><p>链表的操作通常有增删改查等：<br>具体的实现代码在这里不再呈现，相应的操作逻辑是：<br><strong>增：</strong>在指定的节点A后添加节点B是创建一个新的节点B，将此B节点的指针指向指定位置节点A的下个节点，再将指定位置节点A的指针指向节点B。<br><strong>删：</strong>删除指定节点A首先找到A的上个节点B，将B节点的指针指向A的下个节点C，随后释放A节点空间。</p>
-<h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><p>双向链表(双链表)是链表的一种。和单链表一样，双链表也是由节点组成，它的每个数据结点中都有两个指针，分别指向直接后继和直接前驱。所以，从双向链表中的任意一个结点开始，都可以很方便地访问它的前驱结点和后继结点。一般我们都构造双向循环链表。</p>
-<pre><code>template&lt;class T&gt; 
-struct DuLNode
-{
-    T data;
-    DuLNode *prev;
-    DuLNode *next;
-};
-</code></pre><h3 id="双向链表的相应操作"><a href="#双向链表的相应操作" class="headerlink" title="双向链表的相应操作"></a>双向链表的相应操作</h3><p><strong>创建：</strong>双向链表的创建同样是创建了一个空节点，此时链表指针指向和此节点的头尾指针均指向当前节点</p>
-<pre><code>template&lt;class T&gt;
-DoubleLink&lt;T&gt;::DoubleLink() : count(0)
-{
-    // 创建“表头”。注意：表头没有存储数据！
-    phead = new DNode&lt;T&gt;();
-    phead-&gt;prev = phead-&gt;next = phead;
-    // 设置链表计数为0
-    //count = 0;
-}
-</code></pre><p> <strong>增：</strong>在指定的节点A，B中间添加节点C是创建一个新的节点C，将此C节点的头指针指向节点A尾指针指向B，再将A的尾指针B的头指针指向C。<br> <strong>删：</strong>删除AC节点中间的B节点是将A节点的尾指针指向C，将C节点头指针指向A，释放B节点  </p>
-<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p> Stack是一种常用的线性结构，主要有以下两个特点：</p>
-<ul>
-<li>栈中的数据是按照后进先出（LIFO）的顺序进行操作的</li>
-<li><p>向栈中添加数据和删除数据只能在栈顶进行操作</p>
-<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>Queue是另外一种常见的线性结构，主要有以下两个特点：</p>
-</li>
-<li>队列中数据是按照”先进先出（FIFO）”方式进出队列的。</li>
-<li>队列只允许在”队首”进行删除操作，而在”队尾”进行插入操作。</li>
-</ul>
+        <p>本文只是简单对 VS Code 的快捷键进行总结。<br><a id="more"></a></p>
+<h1 id="命令行使用"><a href="#命令行使用" class="headerlink" title="命令行使用"></a>命令行使用</h1><p>Ctrl+Shift+P, F1  打开命令面板<br>Ctrl+P 打开最近打开文件列表<br>Ctrl+T  显示符号<br>Ctrl+G  转到行<br>Ctrl+P  转到文件<br>Ctrl+Shift+O  转到符号</p>
+<h1 id="文件相关"><a href="#文件相关" class="headerlink" title="文件相关"></a>文件相关</h1><p>Ctrl+Shift+N 打开新的编辑器窗口<br>Ctrl+Shift+W 关闭编辑器窗口<br>Ctrl+, 打开用户配置文件<br>Ctrl+K Ctrl+S  打开键盘快捷键<br>Ctrl+K F  关闭文件夹<br>Ctrl+\  分栏<br>Ctrl+ 1 / 2 / 3 跳转分栏</p>
+<h1 id="编辑使用"><a href="#编辑使用" class="headerlink" title="编辑使用"></a>编辑使用</h1><p>Alt+ ↑ / ↓  当前行上移下移<br>Shift+Alt + ↓ / ↑ 向上向下复制当前行<br>Ctrl+Shift+K 删除当前行<br>Ctrl+Enter 下方插入行<br>Ctrl+Shift+Enter 上方插入行<br>Ctrl+Shift+\ 跳到匹配的括号<br>Ctrl+] / [  缩进<br>Ctrl+Shift+[/]  打开关闭代码块<br>Ctrl+K Ctrl+C  添加行注释<br>Ctrl+K Ctrl+U  去除行注释<br>Ctrl+/  行注释<br>Shift+Alt+A 快注释<br>Alt+Z  行缩进</p>
+<h1 id="面板"><a href="#面板" class="headerlink" title="面板"></a>面板</h1><p>Ctrl+Shift+M  打开问题面板<br>Alt+ ← / →   返回/前进<br>Ctrl+M  面板移动</p>
+<h1 id="字符查找"><a href="#字符查找" class="headerlink" title="字符查找"></a>字符查找</h1><p>Ctrl+F  寻找<br>Ctrl+H  替换<br>F3 / Shift+F3  前一个后一个<br>Alt+Enter  选中所有匹配<br>Ctrl+D  搜索当前选中<br>Alt+Click  添加鼠标<br>Ctrl+Alt+ ↑ / ↓  向上向下添加鼠标<br>Ctrl+U  返回上个光标操作<br>Shift+Alt+I  在选中的行尾添加光标<br>Ctrl+I  选中当前行<br>Ctrl+Shift+L  选中所有当前选中的<br>Ctrl+F2  同上<br>Shift+Alt+→  扩展选取<br>Shift+Alt+←  缩减选取</p>
+<h1 id="语义跳转"><a href="#语义跳转" class="headerlink" title="语义跳转"></a>语义跳转</h1><p>Ctrl+K Ctrl+F  格式化<br>F12  转到定义<br>Alt+F12  展开定义<br>Ctrl+K F12  在侧边打开定义<br>Ctrl+.  Quick Fix<br>Shift+F12  展开引用<br>Ctrl+K M  更改语言模式</p>
 
       
     </div>
@@ -311,8 +268,8 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     
     <div class="copyright">
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/30/线性表的实现/" title="线性表的实现--链表">http://myintelex.github.io/2016/11/30/线性表的实现/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/11/30/线性表的实现/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/12/10/VS-Code-快捷键总结/" title="VS Code 快捷键总结">http://myintelex.github.io/2017/12/10/VS-Code-快捷键总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2017/12/10/VS-Code-快捷键总结/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
     </div>
@@ -322,15 +279,17 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/12/02/Google-C-Style-Guide/">
-                    Google C++ Style Guide
+                <a href="/2017/12/14/Ubutu安装VSCode步骤/">
+                    Ubutu安装VSCode步骤
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/11/26/环境变量总结/">
-                    环境变量总结
+                <a href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">
+                    Visual Studio Code 自动补全插件设置
+
+
                 </a>
             </div>
         
@@ -342,7 +301,7 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单向链表"><span class="toc-text">单向链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表创建"><span class="toc-text">单链表创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表的操作"><span class="toc-text">单链表的操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向链表"><span class="toc-text">双向链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#双向链表的相应操作"><span class="toc-text">双向链表的相应操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-text">队列</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#命令行使用"><span class="toc-text">命令行使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件相关"><span class="toc-text">文件相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编辑使用"><span class="toc-text">编辑使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#面板"><span class="toc-text">面板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字符查找"><span class="toc-text">字符查找</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语义跳转"><span class="toc-text">语义跳转</span></a></li></ol>
         
     </div>
     <style>
@@ -369,7 +328,7 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/30/线性表的实现/" data-title="线性表的实现--链表" data-url="http://myintelex.github.io/2016/11/30/线性表的实现/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/12/10/VS-Code-快捷键总结/" data-title="VS Code 快捷键总结" data-url="http://myintelex.github.io/2017/12/10/VS-Code-快捷键总结/"></div>
     <script>
         var duoshuoQuery = {short_name:"myintelex"};
         var loadComment = function(){

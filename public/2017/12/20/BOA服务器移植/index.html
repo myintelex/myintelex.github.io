@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。">
+<meta name="description" content="在很多场合内，我们需要在嵌入式设备中集成 Web 服务器，来方便我们对设备的配置更改。这边文章对嵌入式服务器之——Boa服务器的移植和使用进行简单说明。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线性表的实现--链表">
-<meta property="og:url" content="http://myintelex.github.io/2016/11/30/线性表的实现/index.html">
+<meta property="og:title" content="BOA服务器移植">
+<meta property="og:url" content="http://myintelex.github.io/2017/12/20/BOA服务器移植/index.html">
 <meta property="og:site_name" content="Myintelex">
-<meta property="og:description" content="线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。">
-<meta property="og:updated_time" content="2016-12-16T01:29:00.000Z">
+<meta property="og:description" content="在很多场合内，我们需要在嵌入式设备中集成 Web 服务器，来方便我们对设备的配置更改。这边文章对嵌入式服务器之——Boa服务器的移植和使用进行简单说明。">
+<meta property="og:updated_time" content="2017-12-20T07:28:00.865Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线性表的实现--链表">
-<meta name="twitter:description" content="线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。">
+<meta name="twitter:title" content="BOA服务器移植">
+<meta name="twitter:description" content="在很多场合内，我们需要在嵌入式设备中集成 Web 服务器，来方便我们对设备的配置更改。这边文章对嵌入式服务器之——Boa服务器的移植和使用进行简单说明。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>线性表的实现--链表 | Myintelex</title>
+<title>BOA服务器移植 | Myintelex</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -208,11 +208,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-线性表的实现" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-BOA服务器移植" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/11/30/线性表的实现/" class="article-date">
-      <time datetime="2016-11-30T06:57:14.000Z" itemprop="datePublished">2016-11-30</time>
+      <a href="/2017/12/20/BOA服务器移植/" class="article-date">
+      <time datetime="2017-12-20T06:47:26.000Z" itemprop="datePublished">2017-12-20</time>
 </a>
 
 
@@ -227,7 +227,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      线性表的实现--链表
+      BOA服务器移植
     </h1>
   
 
@@ -236,13 +236,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/数据结构/">数据结构</a>
+    <a class="article-category-link" href="/categories/Linux-应用/">Linux 应用</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线性表/">线性表</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Boa/">Boa</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -252,56 +252,93 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>线性表是最常用最简单的一种线性数据结构，它是具有相同类型的n(n≥0)个数据元素组成的有限序列。通常我们见到的有：数组，链表。而链表又分为单链表、双链表等不同种类。<br><a id="more"></a></p>
-<h2 id="单向链表"><a href="#单向链表" class="headerlink" title="单向链表"></a>单向链表</h2><p>单向链表(单链表)是链表的一种，它由节点组成，每个节点都包含下一个节点的指针。</p>
-<pre><code>typedef struct node {
-    datatype data;
-    struct node * next;
-}listnode;
-</code></pre><h3 id="单链表创建"><a href="#单链表创建" class="headerlink" title="单链表创建"></a>单链表创建</h3><p>通常我们创建一个空链表的时候指的是我们创建了一个头结点，这个节点指向了链表的第一个节点。</p>
-<pre><code>listnode * list_create() {
-    listnode * H;
-
-    H = (listnode *)malloc(sizeof(listnode));
-    if (H == NULL) {
-        printf(&quot;malloc failed!\n&quot;);
-        return NULL;
-    }
-
-    H-&gt;data = 0;
-    H-&gt;next = NULL;
-
-    return H;
-}
-</code></pre><h3 id="单链表的操作"><a href="#单链表的操作" class="headerlink" title="单链表的操作"></a>单链表的操作</h3><p>链表的操作通常有增删改查等：<br>具体的实现代码在这里不再呈现，相应的操作逻辑是：<br><strong>增：</strong>在指定的节点A后添加节点B是创建一个新的节点B，将此B节点的指针指向指定位置节点A的下个节点，再将指定位置节点A的指针指向节点B。<br><strong>删：</strong>删除指定节点A首先找到A的上个节点B，将B节点的指针指向A的下个节点C，随后释放A节点空间。</p>
-<h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><p>双向链表(双链表)是链表的一种。和单链表一样，双链表也是由节点组成，它的每个数据结点中都有两个指针，分别指向直接后继和直接前驱。所以，从双向链表中的任意一个结点开始，都可以很方便地访问它的前驱结点和后继结点。一般我们都构造双向循环链表。</p>
-<pre><code>template&lt;class T&gt; 
-struct DuLNode
-{
-    T data;
-    DuLNode *prev;
-    DuLNode *next;
-};
-</code></pre><h3 id="双向链表的相应操作"><a href="#双向链表的相应操作" class="headerlink" title="双向链表的相应操作"></a>双向链表的相应操作</h3><p><strong>创建：</strong>双向链表的创建同样是创建了一个空节点，此时链表指针指向和此节点的头尾指针均指向当前节点</p>
-<pre><code>template&lt;class T&gt;
-DoubleLink&lt;T&gt;::DoubleLink() : count(0)
-{
-    // 创建“表头”。注意：表头没有存储数据！
-    phead = new DNode&lt;T&gt;();
-    phead-&gt;prev = phead-&gt;next = phead;
-    // 设置链表计数为0
-    //count = 0;
-}
-</code></pre><p> <strong>增：</strong>在指定的节点A，B中间添加节点C是创建一个新的节点C，将此C节点的头指针指向节点A尾指针指向B，再将A的尾指针B的头指针指向C。<br> <strong>删：</strong>删除AC节点中间的B节点是将A节点的尾指针指向C，将C节点头指针指向A，释放B节点  </p>
-<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p> Stack是一种常用的线性结构，主要有以下两个特点：</p>
-<ul>
-<li>栈中的数据是按照后进先出（LIFO）的顺序进行操作的</li>
-<li><p>向栈中添加数据和删除数据只能在栈顶进行操作</p>
-<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>Queue是另外一种常见的线性结构，主要有以下两个特点：</p>
-</li>
-<li>队列中数据是按照”先进先出（FIFO）”方式进出队列的。</li>
-<li>队列只允许在”队首”进行删除操作，而在”队尾”进行插入操作。</li>
-</ul>
+        <p>在很多场合内，我们需要在嵌入式设备中集成 Web 服务器，来方便我们对设备的配置更改。这边文章对嵌入式服务器之——<strong>Boa</strong>服务器的移植和使用进行简单说明。<br><a id="more"></a></p>
+<h2 id="原理介绍"><a href="#原理介绍" class="headerlink" title="原理介绍"></a>原理介绍</h2><p>BOA是一款小巧的Web服务器，支持CGI通用网关接口技术，特别适合应用在嵌入式系统中。BOA服务器是基于HTTP超文本传输协议的，Web网页是Web服务最基本的传输单元。嵌入式Web服务的工作基于客户机/服务器计算模型，由Web浏览器(客户机)和Web服务器(服务器)构成。</p>
+<p>由于嵌入式设备资源一般都比较有限，并且也不需要能同时处理很多用户的请求，因此不会使用Linux下最常用的如Apache 等服务器，而需要使用一些专门为嵌入式设备设计的Web服务器，这些Web服务器在存贮空间和运行时所占有的内存空间上都会非常适合于嵌入式应用场合。典型的嵌入式Web服务器有<a href="http://www.boa.org" target="_blank" rel="external">Boa</a>、<a href="http://www.acme.com/software/thttpd" target="_blank" rel="external">thttpd</a>、 lighttpd、shttpd、mathopd、minihttpd、appweb、goahead等，它们和Apache等高性能的Web服务器主要的区别在于它们一般是 单进程服务器，只有在完成一个用户请求后才能响应另一个用户的请求，而无法并发响应，但这在嵌入式设备的应用场合里已经足够了。</p>
+<p>BOA的工作原理是运行于客户端的浏览器首先要与嵌入式Web服务器BOA端建立连接，打开一个套接字虚拟文件，此文件建立标志着SOCKET连接建立成功然后客户端浏览器通过套接字SOCKET以GET或者POST参数传递方式向Web服务器提交请求，Web浏览器提交请求后，通过HTTP协议传送给Web服务器。Web服务器接到请求后，根据请求的不同进行事务处理，返回HTML文件或者通过CGI调用外部应用程序，返回处理结果。服务器通过CGI与外部应用程序和脚本之间进行交互，根据客户端浏览器在请求时所采用的方法，服务器会搜集客户所提供的信息，并将该部分信息发送给指定的CGI扩展程序，CGI扩展程序进行信息处理并将结果返回给服务器，然后服务器对信息进行分析，并将结果发送回客户端在浏览器上显示出来。</p>
+<h2 id="移植"><a href="#移植" class="headerlink" title="移植"></a>移植</h2><h3 id="1、下载源码"><a href="#1、下载源码" class="headerlink" title="1、下载源码"></a>1、下载源码</h3><p>BOA官方网址：<a href="http://www.boa.org/" target="_blank" rel="external">http://www.boa.org/</a><br>从官网下载源码包后解压，进行下一步。</p>
+<h3 id="2、支持工具下载"><a href="#2、支持工具下载" class="headerlink" title="2、支持工具下载"></a>2、支持工具下载</h3><p>在BOA安装的过程中需要用到 <code>yacc</code> 和 <code>lex</code>，因此，需要安装 <code>bison</code> 和 <code>flex</code>。执行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yacc——sudo apt-get install bison</div><div class="line">lex——sudo apt-get install flex</div></pre></td></tr></table></figure></p>
+<h3 id="3、修改文件"><a href="#3、修改文件" class="headerlink" title="3、修改文件"></a>3、修改文件</h3><h4 id="1、修改-src-compat-h"><a href="#1、修改-src-compat-h" class="headerlink" title="1、修改 src/compat.h"></a>1、修改 <code>src/compat.h</code></h4><p>找到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#define TIMEZONE_OFFSET(foo) foo##-&gt;tm_gmtoff</div></pre></td></tr></table></figure></p>
+<p>修改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#define TIMEZONE_OFFSET(foo) (foo)-&gt;tm_gmtoff</div></pre></td></tr></table></figure></p>
+<h4 id="2、修改-src-log-c"><a href="#2、修改-src-log-c" class="headerlink" title="2、修改 src/log.c"></a>2、修改 <code>src/log.c</code></h4><p>如果不需要保存错误日志，可以将错误日志设置为<code>/dev/null</code>，或直接注释掉，这时候需要注释以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (dup2(error_log, STDERR_FILENO) == -1) &#123;</div><div class="line">                         DIE(&quot;unable to dup2 the error log&quot;);</div><div class="line">                   &#125;</div></pre></td></tr></table></figure>
+<p>否则会出现错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">log.c:73 unable to dup2 the error log:bad file descriptor</div></pre></td></tr></table></figure></p>
+<h3 id="4、生成"><a href="#4、生成" class="headerlink" title="4、生成"></a>4、生成</h3><p>执行<code>./config</code>生成 Makefile 文件，执行<code>make</code>，生成可执行文件。</p>
+<h2 id="参数配置"><a href="#参数配置" class="headerlink" title="参数配置"></a>参数配置</h2><p>在下载目录下已有一个示例boa.conf，可以在其基础上进行修改。如下：</p>
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>配置项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 端口</td>
+<td>Port 80</td>
+</tr>
+<tr>
+<td>2 客户端身份</td>
+<td>User nobody</td>
+</tr>
+<tr>
+<td>3 客户端组</td>
+<td>Group nogroup</td>
+</tr>
+<tr>
+<td>4 错误日志</td>
+<td>ErrorLog /var/log/boa/error_log</td>
+</tr>
+<tr>
+<td>5 存取日志</td>
+<td>AccessLog /var/log/boa/access_log</td>
+</tr>
+<tr>
+<td>6 HTML根文件</td>
+<td>DocumentRoot /var/www</td>
+</tr>
+<tr>
+<td>7 用户目录</td>
+<td>UserDir public_html</td>
+</tr>
+<tr>
+<td>8 预生成目录</td>
+<td>DirectoryIndex index.html</td>
+</tr>
+<tr>
+<td>9 生成目录的程序</td>
+<td>DirectoryMaker /usr/lib/boa/boa_indexer</td>
+</tr>
+<tr>
+<td>10 请求数量</td>
+<td>KeepAliveMax 1000</td>
+</tr>
+<tr>
+<td>11 等待时间</td>
+<td>KeepAliveTimeout 10</td>
+</tr>
+<tr>
+<td>12 mimetypes文件</td>
+<td>MimeTypes /etc/mime.types</td>
+</tr>
+<tr>
+<td>13 mimetypes类型</td>
+<td>DefaultType text/plain</td>
+</tr>
+<tr>
+<td>14 CGI $path变量</td>
+<td>CGIPath /bin:/usr/bin:/usr/local/bin</td>
+</tr>
+<tr>
+<td>15 路径别名</td>
+<td>Alias /doc /usr/doc</td>
+</tr>
+<tr>
+<td>16 脚本虚拟路径</td>
+<td>ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -311,8 +348,8 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     
     <div class="copyright">
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/11/30/线性表的实现/" title="线性表的实现--链表">http://myintelex.github.io/2016/11/30/线性表的实现/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/11/30/线性表的实现/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/12/20/BOA服务器移植/" title="BOA服务器移植">http://myintelex.github.io/2017/12/20/BOA服务器移植/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2017/12/20/BOA服务器移植/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
     </div>
@@ -321,16 +358,10 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/12/02/Google-C-Style-Guide/">
-                    Google C++ Style Guide
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/11/26/环境变量总结/">
-                    环境变量总结
+                <a href="/2017/12/14/Ubutu安装VSCode步骤/">
+                    Ubutu安装VSCode步骤
                 </a>
             </div>
         
@@ -342,7 +373,7 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#单向链表"><span class="toc-text">单向链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表创建"><span class="toc-text">单链表创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单链表的操作"><span class="toc-text">单链表的操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向链表"><span class="toc-text">双向链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#双向链表的相应操作"><span class="toc-text">双向链表的相应操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-text">队列</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理介绍"><span class="toc-text">原理介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#移植"><span class="toc-text">移植</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、下载源码"><span class="toc-text">1、下载源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、支持工具下载"><span class="toc-text">2、支持工具下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、修改文件"><span class="toc-text">3、修改文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、修改-src-compat-h"><span class="toc-text">1、修改 src/compat.h</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、修改-src-log-c"><span class="toc-text">2、修改 src/log.c</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、生成"><span class="toc-text">4、生成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数配置"><span class="toc-text">参数配置</span></a></li></ol>
         
     </div>
     <style>
@@ -369,7 +400,7 @@ DoubleLink&lt;T&gt;::DoubleLink() : count(0)
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/30/线性表的实现/" data-title="线性表的实现--链表" data-url="http://myintelex.github.io/2016/11/30/线性表的实现/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/12/20/BOA服务器移植/" data-title="BOA服务器移植" data-url="http://myintelex.github.io/2017/12/20/BOA服务器移植/"></div>
     <script>
         var duoshuoQuery = {short_name:"myintelex"};
         var loadComment = function(){
