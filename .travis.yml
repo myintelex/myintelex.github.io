@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+- '4'
+branches:
+  only:
+  - travis
+cache:
+  directories:
+  - node_modules
+before_install:
+- chmod 600 ~/.ssh/id_rsa
+- eval $(ssh-agent)
+- ssh-add ~/.ssh/id_rsa
+- cp .travis/ssh_config ~/.ssh/config
+- git config --global user.name "myintelex"
+- git config --global user.email "myintelex@163.com"
+install:
+- npm install hexo-cli -g
+- npm install hexo-deployer-git --save
+- npm install
+script:
+- hexo clean
+- hexo g
+
+after_success:
+- hexo deploy
