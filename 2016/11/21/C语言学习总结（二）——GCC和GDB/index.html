@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="使用 Linux ，不可避免的需要使用 GCC 套件，从原本的只能编译C语言，到现在的系列的套件，而今天在这里主要讨论的是：GCC 是如何一步步的将代码编译成可执行文件的，以及如何使用 GDB 进行调试。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言学习总结（二）——GCC和GDB">
+<meta property="og:url" content="http://myintelex.github.io/2016/11/21/C语言学习总结（二）——GCC和GDB/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="使用 Linux ，不可避免的需要使用 GCC 套件，从原本的只能编译C语言，到现在的系列的套件，而今天在这里主要讨论的是：GCC 是如何一步步的将代码编译成可执行文件的，以及如何使用 GDB 进行调试。">
+<meta property="og:updated_time" content="2016-12-21T14:08:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言学习总结（二）——GCC和GDB">
+<meta name="twitter:description" content="使用 Linux ，不可避免的需要使用 GCC 套件，从原本的只能编译C语言，到现在的系列的套件，而今天在这里主要讨论的是：GCC 是如何一步步的将代码编译成可执行文件的，以及如何使用 GDB 进行调试。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C语言学习总结（二）——GCC和GDB | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C语言学习总结（二）——GCC和GDB" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/21/C语言学习总结（二）——GCC和GDB/" class="article-date">
+      <time datetime="2016-11-21T06:44:46.000Z" itemprop="datePublished">2016-11-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C语言学习总结（二）——GCC和GDB
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/C语言学习总结/">C语言学习总结</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C语言/">C语言</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCC/">GCC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GDB/">GDB</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>使用 Linux ，不可避免的需要使用 GCC 套件，从原本的只能编译C语言，到现在的系列的套件，而今天在这里主要讨论的是：GCC 是如何一步步的将代码编译成可执行文件的，以及如何使用 GDB 进行调试。<br><a id="more"></a></p>
+<h1 id="一、GCC是什么"><a href="#一、GCC是什么" class="headerlink" title="一、GCC是什么"></a>一、GCC是什么</h1><p>GCC是什么，GCC是一个软件，GNU编译器套件（GNU Compiler Collection），最初由GNU组织为C语言开发，之后发展为一个套件。</p>
+<h1 id="二、GCC编译过程"><a href="#二、GCC编译过程" class="headerlink" title="二、GCC编译过程"></a>二、GCC编译过程</h1><h2 id="1、预处理"><a href="#1、预处理" class="headerlink" title="1、预处理"></a>1、预处理</h2><p>预处理的过程是编译器去将头文件进行包含，将宏定义进行替换，在这个过程中，inlude和define命令生效。<br>预处理过程中的常用知识点有：</p>
+<ol>
+<li>头文件未包含，&lt;&gt; 和 “” 的使用范围是不一样的，对于用户自定义的头文件，需要用 “” 指出路径。  可以使用 -I 命令指定头文件的目录路径</li>
+<li><p>宏的重定义，因为不同头文件可能会重复引用同样的宏，会出现类似的问题，所以，使用 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span>   XXX</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span>   XXX</span></div><div class="line">…</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p> 来避免重复定义宏，这种写法同样可以用来进行条件编译：<code>-D XXX</code> 。</p>
+</li>
+<li><p>include与define不是关键字，他们是GCC可以识别的标识码。</p>
+</li>
+<li>宏定义中可以进行函数替换，但是必须是在同一行，多行函数一般使用<code>do{ … }while(0)</code>。</li>
+<li><p>常见的预定义宏</p>
+<ul>
+<li><strong>FILE</strong> ：代表当前源文件的文件名</li>
+<li><strong>LINE</strong> ：代表展开成当前代码行的行号，是编译器内建的特殊宏定义</li>
+<li><strong>FUNCTION</strong>  : 函数名</li>
+</ul>
+</li>
+<li><p># 和 ## 是预处理运算符 </p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#define ABC(x)   #x</td>
+<td>字符串化</td>
+</tr>
+<tr>
+<td>#define ABC(x)   day##x</td>
+<td>字符连接</td>
+</tr>
+</tbody>
+</table>
+<p>最后的问题，在预处理的过程中，头文件中的定义是如何被包含在文件中的。</p>
+<h2 id="2-编译"><a href="#2-编译" class="headerlink" title="2. 编译"></a>2. 编译</h2><p>编译是将C语言程序编译成汇编文件的一个过程。<br>编译的过程主要经过了六步：扫描（词法分析）、语法分析、语义分析、源代码优化、代码生成、目标代码优化。<br>在编译过程中可能出现的问题有：</p>
+<ol>
+<li>语法错误，根据错误提示进行修改代码</li>
+<li>优化错误，在嵌入式系统中会出现编译器的过度优化，有时候需要设定优化选项</li>
+</ol>
+<h2 id="3-汇编"><a href="#3-汇编" class="headerlink" title="3. 汇编"></a>3. 汇编</h2><p>汇编器是将汇编代码转变成机器可以执行的命令，每一个汇编语句几乎都对应一条机器指令。汇编相对于编译过程比较简单，根据汇编指令和机器指令的对照表一一翻译即可。</p>
+<h2 id="4-链接"><a href="#4-链接" class="headerlink" title="4. 链接"></a>4. 链接</h2><p>通过调用链接器ld来链接程序运行需要的一大堆目标文件，以及所依赖的其它库文件，最后生成可执行文件。链接的过程主要分为：<em>地址和空间分配（Address and Storage Allocation），符号决议（Symbol Resolution），重定位（Relocation）</em>等。<br>链接分为静态链接和动态链接：</p>
+<ol>
+<li>静态链接是指在编译阶段直接把静态库加入到可执行文件中去，这样可执行文件会比较大。</li>
+</ol>
+<ul>
+<li>编译静态链接库<ol>
+<li>生成目标文件 .o</li>
+<li>ar crv [<em>.a] [</em>.o] </li>
+</ol>
+</li>
+<li>调用静态链接库<br>  gcc -o [file] [file.c] -L.  [file.a]</li>
+</ul>
+<ol>
+<li>动态链接是指链接阶段仅仅只加入一些描述信息，而程序执行时再从系统中把相应动态库加载到内存中去。</li>
+</ol>
+<ul>
+<li>首先、在任何给定的文件系统中,对于一个库只有一个.so文件</li>
+<li>第二、所有引用该库德可执行目标文件共享这个.so文件中的代码和数据</li>
+<li>第三、在存储器中,一个共享库的.text节只有一个副本可以被不同的正在运行的进程共享.<ol>
+<li>编译动态链接库<ul>
+<li>生成位置无关的目标代码 gcc-fPIC -c [*.c]</li>
+<li>gcc -shared -o [<em>.so] [</em>.o] </li>
+</ul>
+</li>
+<li>调用动态链接库（与静态链接库类似）<ul>
+<li>gcc -o [file] [file.c] -L.  [file.so]</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="链接过程详解"><a href="#链接过程详解" class="headerlink" title="链接过程详解"></a><strong>链接过程详解</strong></h3><p><strong>目标文件</strong><br>目标文件分为三种：</p>
+<ol>
+<li><p>可重定位的目标文件:<br>包含二进制代码和数据,其形式可以再编译时与其他可定位目标文件合并起来,创建一个可执行目标文件。</p>
+</li>
+<li><p>可执行目标文件:<br>包含二进制代码和数据,其形式可以被直接拷贝到存储器并执行.</p>
+</li>
+<li><p>共享目标文件:<br>一种特殊的可重定位目标文件,可以再加载或运行时,被动态地夹在到存储器并执行.<br>编译器和汇编器生成可重定位目标文件(包括共享目标文件),链接器生成可执行目标文件.<br>可重定位的目标文件的结构如下：</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>标识</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.text:</td>
+<td>已编译程序的机器代码</td>
+</tr>
+<tr>
+<td>.rodata:</td>
+<td>只读数据</td>
+</tr>
+<tr>
+<td>.data:</td>
+<td>已初始化的全局C变量</td>
+</tr>
+<tr>
+<td>.bss:</td>
+<td>未初始化的全局C变量.在目标文件中这个节不占实际空间,仅是一个占位符.</td>
+</tr>
+<tr>
+<td>.sysmtab:</td>
+<td>一个符号表,存放在程序中被定义和引用的函数和全局变量的信息.</td>
+</tr>
+<tr>
+<td>.rel.text:</td>
+<td>当链接器把这个目标文件和其他文件结合时,.text节中的许多位置都需要修改.一般而言,任何调用外部函数或者引用全局变量的指令都要修改.另一个方面,调用本地函数的指令则不需要修改.</td>
+</tr>
+<tr>
+<td>.rel.data:</td>
+<td>被模块定义或引用的任何全局变量的信息.</td>
+</tr>
+<tr>
+<td>.debug:</td>
+<td>一个调试符号表</td>
+</tr>
+<tr>
+<td>.line:</td>
+<td>原始C源程序中的行号和.text节中机器指令之间的映射.</td>
+</tr>
+<tr>
+<td>.strtab:</td>
+<td>一个字符串表,其中内容包括.symtab和.debug节中的符号表,以及节头部中的节名字.</td>
+</tr>
+</tbody>
+</table>
+<p>一个m文件的符号表有三种不同的符号</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>由m定义并能被其他模块引用的全局符号.</td>
+<td>1.m定义的非静态的C函数 2.m定义的不带static属性的全局变量.           </td>
+</tr>
+<tr>
+<td>由其他模块定义并被模块m引用的全局符号.这些符号成为外部符号,</td>
+<td>在其他模块中的C函数和变量.</td>
+</tr>
+<tr>
+<td>只被模块m定义和引用的本地符号.</td>
+<td>由m定义的带static属性的C函数和全局变量</td>
+</tr>
+</tbody>
+</table>
+<p><strong>符号解析</strong><br>将每个引用和它输入的可重定位目标文件按的符号表中的一个确定的符号定义联系起来.</p>
+<ol>
+<li><p>局部和static变量等：<br>对于那些和引用定义在相同模块的本地符号的引用,符号解析式非常简单明了的.编译器只允许每个模块中的每个本地符号只有一个定义.编译器还确保静态本地变量,它们会有本地链接器符号,拥有唯一的名字.</p>
+</li>
+<li><p>外部引用：对于全局符号的引用解析,当编译器遇到一个不是在当前模块中定义的符号(变量或函数名)时,它会假设该符号式在其他某个模块中定义的,生成一个链接器符号表表目,并把它交给链接器处理.如果链接器在它的任何输入模块中都找不到这个被引用的符号,它就输出一条错误信息并终止.</p>
+</li>
+<li>在编译时,编译器输出的每个全局符号给汇编器,或者是强,或者是弱,而汇编器把这个信息隐含地编码在可重定位目标文件的符号表中.函数和以初始化的全局变量是强符号,未初始化的全局变量是弱符号.<br> 编译系统提供一种机制,将所有相关的目标模块打包为一个单独的文件,称为静态库,它可以用做链接器的输入.当链接器构造一个输出的可执行文件时,它只拷贝静态库里被应用程序引用的目标模块。<br> 输入命令时要考虑到,静态库和目标文件的位置,库文件放在目标文件的后面,如果库文件之间有引用关系,则被引用的库放在后面。</li>
+</ol>
+<h3 id="链接过程常见错误："><a href="#链接过程常见错误：" class="headerlink" title="链接过程常见错误："></a><strong>链接过程常见错误：</strong></h3><ul>
+<li>原材料不够  <code>undefined reference to fun</code><br>寻找标签是否实现了，链接时是否加入一起链接</li>
+<li>原材料重复  <code>multiple definition of fun</code><br>多次实现了标签，只保留一个标签实现</li>
+</ul>
+<h2 id="5-GCC的主要选项"><a href="#5-GCC的主要选项" class="headerlink" title="5. GCC的主要选项"></a>5. GCC的主要选项</h2><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. <strong>编译过程</strong></td>
+</tr>
+<tr>
+<td>预处理    -E</td>
+<td>不经过编译预处理程序的输出而输送至标准输出</td>
+</tr>
+<tr>
+<td>编译    -S</td>
+<td>要求编译程序生成来自源代码的汇编程序输出</td>
+</tr>
+<tr>
+<td>汇编    -c</td>
+<td>通知GCC取消链接步骤,即编译源码并在最后生成目标文件</td>
+</tr>
+<tr>
+<td>链接    -o</td>
+<td>生成可执行文件</td>
+</tr>
+<tr>
+<td>调试    -g</td>
+<td>包含调试信息</td>
+</tr>
+<tr>
+<td>头文件    -I</td>
+<td>包含指定路径的头文件</td>
+</tr>
+<tr>
+<td>2. <strong>警告选项</strong></td>
+</tr>
+<tr>
+<td>-v</td>
+<td>启动所有警报</td>
+</tr>
+<tr>
+<td>-Wall</td>
+<td>在发生警报时取消编译操作,即将警报看作是错误</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>禁止所有的报警</td>
+</tr>
+<tr>
+<td>3. <strong>库文件</strong></td>
+</tr>
+<tr>
+<td>-static</td>
+<td>静态编译</td>
+</tr>
+<tr>
+<td>-shared</td>
+<td>1、生成动态库文件 2、进行动态编译</td>
+</tr>
+<tr>
+<td>-L dir</td>
+<td>库文件搜索中添加路径</td>
+</tr>
+<tr>
+<td>-fPIC</td>
+<td>生成使用相对位置无关的目标代码(Position Independent Code)然后通常用于使用gcc的-static选项从该PIC目标文件生成动态库文件</td>
+</tr>
+<tr>
+<td>4. <strong>特定功能</strong></td>
+</tr>
+<tr>
+<td>-D</td>
+<td>定义指定的宏,使它能够通过源码中的#ifdef进行检验;</td>
+</tr>
+<tr>
+<td>-O、</td>
+<td>-O2、-O3 将优化状态打开,该选项不能与-g选项联合使用;</td>
+</tr>
+</tbody>
+</table>
+<h1 id="三、GDB的使用"><a href="#三、GDB的使用" class="headerlink" title="三、GDB的使用"></a>三、GDB的使用</h1><p>GDB是GNU开源组织发布的一个强大的UNIX下的程序调试工具。一般来说，GDB主要帮忙你完成下面四个方面的功能：</p>
+<ul>
+<li>启动你的程序，可以按照你的自定义的要求随心所欲的运行程序。</li>
+<li>可让被调试的程序在你所指定的调置的断点处停住。（断点可以是条件表达式）</li>
+<li>当程序被停住时，可以检查此时你的程序中所发生的事。</li>
+<li>动态的改变你程序的执行环境。</li>
+</ul>
+<h2 id="1-启动调试"><a href="#1-启动调试" class="headerlink" title="1. 启动调试"></a>1. 启动调试</h2><p>首先，要进行调试，需要在生成可执行文件的时候使用<code>gcc -g</code>选项：<br>        <code>-g[level]  默认为2</code></p>
+<ul>
+<li>0  表示不生成任何调试信息</li>
+<li>1  表示生成最少的调试信息，不提供局部变量及源代码行列等信息。</li>
+<li>2  标准模式</li>
+<li>3  较2而言,包含了宏定义等额外信息</li>
+</ul>
+<p>然后有两种方式启动调试<br>方式一： 直接在命令行下输入gdb ./[filename]<br>方式二：运行gdb后输入file ./[filename]</p>
+<h2 id="2-设置断点"><a href="#2-设置断点" class="headerlink" title="2. 设置断点"></a>2. 设置断点</h2><p>除了断点外还有Watchpoints(观测点)及Catchpoints (异常捕捉点)</p>
+<ol>
+<li><p><strong>设置断点</strong><br>输入b或break加上断点位置或断点函数名,如<br>b main 在main函数入口设置断点<br>b text2bin.c:50   在源代码第50行设置断点<br>info breakpoints  查看断点信息<br>clear  清除所有断点<br>clear text2bin.c:50  清除特定的断点<br>clear main   清除特定函数断点<br>disable及enable  开关某个特定的断点<br>b +5 及b -5   表示在当前行的后五行及前五行位置设置断点<br>对于观测点(Watchpoints)，是指在某个条件下触发的断点,如text2bin中77行:<br><code>Buffer2[nCount++] = ConvertTextToInt(sData);</code><br>我们要查看当nCount为10时的运行状况,我们可以通过下面的步骤完成:</p>
+<ol>
+<li>执行b 77,返回这个断点号是<3></3></li>
+<li>执行condition 3 nCount=10<br> 这样就可以控制当nCount为10时在77行处中断.</li>
+</ol>
+</li>
+<li><p><strong>设置捕捉点</strong><br>你可设置捕捉点来补捉程序运行时的一些事件。如：载入共享库（动态链接库）或是C++的异常。设置捕捉点的格式为：<code>catch</code></p>
+</li>
+<li><p><strong>其它相关命令</strong></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>info b</td>
+<td>查看所设断点</td>
+</tr>
+<tr>
+<td>break 行号或函数名 &lt;条件表达式&gt;</td>
+<td>设置断点</td>
+</tr>
+<tr>
+<td>tbreak 行号或函数名 &lt;条件表达式&gt;</td>
+<td>设置临时断点，到达后被自动删除</td>
+</tr>
+<tr>
+<td>delete [断点号]</td>
+<td>删除指定断点，若缺省断点号则删除所有断点</td>
+</tr>
+<tr>
+<td>disable [断点号]]</td>
+<td>停止指定断点，使用”info b”仍能查看此断点。</td>
+</tr>
+<tr>
+<td>enable [断点号]</td>
+<td>激活指定断点，即激活被disable停止的断点</td>
+</tr>
+<tr>
+<td>condition [断点号] &lt;条件表达式&gt;</td>
+<td>修改对应断点的条件</td>
+</tr>
+<tr>
+<td>ignore [断点号]<num></num></td>
+<td>在程序执行中，忽略对应断点num次</td>
+</tr>
+<tr>
+<td>step</td>
+<td>单步恢复程序运行，且进入函数调用</td>
+</tr>
+<tr>
+<td>next</td>
+<td>单步恢复程序运行，但不进入函数调用</td>
+</tr>
+<tr>
+<td>finish</td>
+<td>运行程序，直到当前函数完成返回</td>
+</tr>
+<tr>
+<td>c</td>
+<td>继续执行函数，直到函数结束或遇到新的断点</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-检查程序-可以使用以下命令查询程序"><a href="#3-检查程序-可以使用以下命令查询程序" class="headerlink" title="3. 检查程序 可以使用以下命令查询程序"></a>3. 检查程序 可以使用以下命令查询程序</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list&lt;行号&gt;/&lt;函数名&gt;</td>
+<td>查看指定位置代码</td>
+</tr>
+<tr>
+<td>forward-search 正则表达式</td>
+<td>源代码前向搜索</td>
+</tr>
+<tr>
+<td>reverse-search 正则表达式</td>
+<td>源代码后向搜索</td>
+</tr>
+<tr>
+<td>dir dir</td>
+<td>停止路径名</td>
+</tr>
+<tr>
+<td>show directories</td>
+<td>显示定义了的源文件搜索路径</td>
+</tr>
+<tr>
+<td>info line</td>
+<td>显示加载到Gdb内存中的代码</td>
+</tr>
+<tr>
+<td>print 表达式/变量</td>
+<td>查看程序运行时对应表达式和变量的值</td>
+</tr>
+<tr>
+<td>x <n f="" u=""></n></td>
+<td>查看内存变量内容。其中n为整数表示显示内存的长度，f表示显示的格式，u表示从当前地址往后请求显示的字节数</td>
+</tr>
+<tr>
+<td>display 表达式</td>
+<td>设定在单步运行或其他情况中，自动显示的对应表达式的内容</td>
+</tr>
+<tr>
+<td>info thread</td>
+<td>查看当前有多少线程</td>
+</tr>
+<tr>
+<td>thread #</td>
+<td>切换到指定线程</td>
+</tr>
+<tr>
+<td>set print thread-events on/off</td>
+<td>设定是否打印线程状态</td>
+</tr>
+<tr>
+<td>b/break [location]  thread #</td>
+<td>当设置中断时,也可以专为某个线程设置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>print详解</strong></p>
+<ol>
+<li><p>操作符:</p>
+<ul>
+<li>/@    是一个和数组有关的操作符，在后面会有更详细的说明。</li>
+<li>::    指定一个在文件或是一个函数中的变量。</li>
+<li>{}    表示一个指向内存地址的类型为type的一个对象。</li>
+</ul>
+</li>
+<li><p>程序变量<br>在GDB中，你可以随时查看以下三种变量的值：</p>
+<ul>
+<li>全局变量（所有文件可见的）</li>
+<li>静态全局变量（当前文件可见的）</li>
+<li>局部变量（当前Scope可见的）</li>
+</ul>
+</li>
+<li><p>数组<br>“@”的左边是第一个内存的地址的值，“@”的右边则你你想查看内存的长度。<br>例如，你的程序中有这样的语句：<br><code>int *array = (int *) malloc (len * sizeof (int));</code><br>于是，在GDB调试过程中，你可以以如下命令显示出这个动态数组的取值：<br><code>p *array@len</code></p>
+</li>
+<li><p>输出格式<br>x  按十六进制格式显示变量。<br>d  按十进制格式显示变量。<br>u  按十六进制格式显示无符号整型。<br>o  按八进制格式显示变量。<br>t  按二进制格式显示变量。<br>a  按十六进制格式显示变量。<br>c  按字符格式显示变量。<br>f  按浮点数格式显示变量。</p>
+</li>
+</ol>
+<h2 id="4-改变程序的执行"><a href="#4-改变程序的执行" class="headerlink" title="4. 改变程序的执行"></a>4. 改变程序的执行</h2><ol>
+<li><p>修改变量值<br>修改被调试程序运行时的变量值，在GDB中很容易实现，使用GDB的<code>print</code>命令即可完成。如：<br><code>(gdb) print x=4</code></p>
+</li>
+<li><p>跳转执行<br>一般来说，被调试程序会按照程序代码的运行顺序依次执行。GDB提供了乱序执行的功能，也就是说，GDB可以修改程序的执行顺序，可以让程序执行随意跳跃。这个功能可以由GDB的<code>jump</code>命令来完：<br>jump 指定下一条语句的运行点。可以是文件的行号，可以是<code>file:line</code>格式，可以是<code>+num</code>这种偏移量格式。表式着下一条运行语句从哪里开始。</p>
+</li>
+<li><p>产生信号量<br>使用<code>singal</code>命令，可以产生一个信号量给被调试的程序。如：中断信号<code>Ctrl+C</code>。这非常方便于程序的调试，可以在程序运行的任意位置设置断点，并在该断点用GDB产生一个信号量，这种精确地在某处产生信号非常有利程序的调试。</p>
+<blockquote>
+<p>single命令和shell的kill命令不同，系统的kill命令发信号给被调试程序时，是由GDB截获的，而single命令所发出一信号则是直接发给被调试程序的。</p>
+</blockquote>
+</li>
+<li><p>强制函数返回<br>如果你的调试断点在某个函数中，并还有语句没有执行完。你可以使用<code>return</code>命令强制函数忽略还没有执行的语句并返回。<br>使用return命令取消当前函数的执行，并立即返回，如果指定了，那么该表达式的值会被认作函数的返回值。</p>
+</li>
+<li><p>强制调用函数<br><code>call</code>表达式中可以一是函数，以此达到强制调用函数的目的。并显示函数的返回值，如果函数返回值是void，那么就不显示。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/" title="C语言学习总结（二）——GCC和GDB">http://myintelex.github.io/2016/11/21/C语言学习总结（二）——GCC和GDB/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/11/21/C语言学习总结（二）——GCC和GDB/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">
+                    C语言学习总结（三）——C语言的基本语法
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/11/18/C语言学习总结（一）-开篇/">
+                    C语言学习总结（一）——开篇
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、GCC是什么"><span class="toc-text">一、GCC是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、GCC编译过程"><span class="toc-text">二、GCC编译过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、预处理"><span class="toc-text">1、预处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-编译"><span class="toc-text">2. 编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-汇编"><span class="toc-text">3. 汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-链接"><span class="toc-text">4. 链接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#链接过程详解"><span class="toc-text">链接过程详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接过程常见错误："><span class="toc-text">链接过程常见错误：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-GCC的主要选项"><span class="toc-text">5. GCC的主要选项</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、GDB的使用"><span class="toc-text">三、GDB的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-启动调试"><span class="toc-text">1. 启动调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-设置断点"><span class="toc-text">2. 设置断点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-检查程序-可以使用以下命令查询程序"><span class="toc-text">3. 检查程序 可以使用以下命令查询程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-改变程序的执行"><span class="toc-text">4. 改变程序的执行</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/21/C语言学习总结（二）——GCC和GDB/" data-title="C语言学习总结（二）——GCC和GDB" data-url="http://myintelex.github.io/2016/11/21/C语言学习总结（二）——GCC和GDB/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/使用Hexo配置Github建立个人站点方法备忘/">使用Hexo配置Github建立个人站点方法备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/BOA服务器移植/">BOA服务器移植</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Ubutu安装VSCode步骤/">Ubutu安装VSCode步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/VS-Code-快捷键总结/">VS Code 快捷键总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2018 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

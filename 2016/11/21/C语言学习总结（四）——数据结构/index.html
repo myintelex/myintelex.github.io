@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="程序 = 数据结构 +　算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言学习总结（四）——数据结构">
+<meta property="og:url" content="http://myintelex.github.io/2016/11/21/C语言学习总结（四）——数据结构/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="程序 = 数据结构 +　算法。">
+<meta property="og:updated_time" content="2017-12-14T05:19:41.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C语言学习总结（四）——数据结构">
+<meta name="twitter:description" content="程序 = 数据结构 +　算法。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>C语言学习总结（四）——数据结构 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-C语言学习总结（四）——数据结构" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/21/C语言学习总结（四）——数据结构/" class="article-date">
+      <time datetime="2016-11-21T08:15:24.000Z" itemprop="datePublished">2016-11-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      C语言学习总结（四）——数据结构
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/C语言学习总结/">C语言学习总结</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C语言/">C语言</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>程序 = 数据结构 +　算法。<br><a id="more"></a><br>当我们需要解决一个计算机问题，大致的步骤是这样的：</p>
+<ol>
+<li>从一个具体的问题抽象出一个适当的数学模型</li>
+<li>设计一个解决这个模型的算法</li>
+<li>编写相应的程序，测试、调整直到得到最终解答。<br>所以：数据结构是一门用来研究非数值计算的程序设计问题中计算机的操作对象及他们之间的关系和操作等的学科。</li>
+</ol>
+<h1 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h1><p>数据元素和数据元素之间的关系，也可称之为数据的组织形式，包括3方面</p>
+<ol>
+<li><p>逻辑结构：<br>集合<br>线性结构 1:1<br>层次结构（树形结构）1:n<br>图形结构（网状结构）n:n</p>
+</li>
+<li><p>存储结构：<br>顺序存储：讲数据元素按照逻辑上的先后次序存储到一片连续的内存中（一般用数组实现）<br>链式存储：讲数据元素存储在内存的不同位置（每个数据元素单独存），利用指针来建立元素之间的联系（用指针）<br>索引存储<br>散列存储</p>
+</li>
+<li><p>运算：增删改查等</p>
+</li>
+</ol>
+<h1 id="二、线性结构"><a href="#二、线性结构" class="headerlink" title="二、线性结构"></a>二、线性结构</h1><ol>
+<li><p>顺序表<br><strong>特点：</strong>逻辑结构和存储结构一致，存储密度高，但是插入和删除等运算复杂度较高，且要求系统提供连续的空间进行存储。<br><strong>常见：</strong>数组</p>
+</li>
+<li><p>链表<br><strong>特点：</strong>一种物理存储单元上非连续、非顺序的存储结构，存储密度低，插入和删除的时间复杂度低。<br><strong>定义一个单链表节点（link_list）</strong></p>
+<pre><code>typedef int typedate;
+typedef struct node
+{
+    typedate date;
+    struct * next;  //指向下一个元素
+}linknode；
+此时定义的仅仅只是链表的一个节点
+</code></pre></li>
+<li><p>单链表<br>最常见的链表，有头有尾。</p>
+</li>
+<li><p>单循环链表<br>链表的尾端指向链表的头。</p>
+</li>
+<li><p>双循环链表<br>链表节点中有两个指针，可以双向寻找。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> DuLNode &#123;</div><div class="line">  ElemType data;</div><div class="line">  <span class="keyword">struct</span> DuLNode *prior,*next;</div><div class="line">&#125;DuLNode,*DuLinkList;</div></pre></td></tr></table></figure>
+</li>
+<li><p>栈<br><strong>特点：</strong>仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。</p>
+</li>
+<li><p>队列<br><strong>特点：</strong>只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作。</p>
+</li>
+</ol>
+<h1 id="三、非线性结构"><a href="#三、非线性结构" class="headerlink" title="三、非线性结构"></a>三、非线性结构</h1><h2 id="1-树"><a href="#1-树" class="headerlink" title="1. 树"></a>1. 树</h2><p>由n（n&gt;=1）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：</p>
+<ul>
+<li>每个节点有零个或多个子节点；</li>
+<li>没有父节点的节点称为根节点；</li>
+<li>每一个非根节点有且只有一个父节点；</li>
+<li>除了根节点外，每个子节点可以分为多个不相交的子树。</li>
+</ul>
+<p>常见的树：</p>
+<ol>
+<li>二叉树<br>二叉树是每个节点最多有两个子树的树结构。它有五种基本形态：二叉树可以是空集；根可以有空的左子树或右子树；或者左、右子树皆为空。<br>二叉树有以下几个性质：<ul>
+<li>性质1：二叉树第i层上的结点数目最多为 2{i-1} (i≥1)。</li>
+<li>性质2：深度为k的二叉树至多有2{k}-1个结点(k≥1)。</li>
+<li>性质3：包含n个结点的二叉树的高度至少为log2 (n+1)。</li>
+<li>性质4：在任意一棵二叉树中，若终端结点的个数为n0，度为2的结点数为n2，则n0=n2+1。 </li>
+</ul>
+</li>
+<li>AVL树<br>AVL树是根据它的发明者G.M. Adelson-Velsky和E.M. Landis命名的。<br>它是最先发明的自平衡二叉查找树，也被称为高度平衡树。相比于”二叉查找树”，它的特点是：AVL树中任何节点的两个子树的高度最大差别为1。</li>
+<li>伸展树<br>伸展树(Splay Tree)是一种二叉排序树，它能在O(log n)内完成插入、查找和删除操作。它由Daniel Sleator和Robert Tarjan创造。<br>伸展树属于二叉查找树，即它具有和二叉查找树一样的性质：假设x为树中的任意一个结点，x节点包含关键字key，节点x的key值记为key[x]。如果y是x的左子树中的一个结点，则key[y] &lt;= key[x]；如果y是x的右子树的一个结点，则key[y] &gt;= key[x]。  &gt;<br>除了拥有二叉查找树的性质之外，伸展树还具有的一个特点是：当某个节点被访问时，伸展树会通过旋转使该节点成为树根。这样做的好处是，下次要访问该节点时，能够迅速的访问到该节点。<br>假设想要对一个二叉查找树执行一系列的查找操作。为了使整个查找时间更小，被查频率高的那些条目就应当经常处于靠近树根的位置。于是想到设计一个简单方法，在每次查找之后对树进行重构，把被查找的条目搬移到离树根近一些的地方。伸展树应运而生，它是一种自调整形式的二叉查找树，它会沿着从某个节点到树根之间的路径，通过一系列的旋转把这个节点搬移到树根去。</li>
+<li>哈弗曼树<br>Huffman Tree，中文名是哈夫曼树或霍夫曼树，它是最优二叉树。<br>定义：给定n个权值作为n个叶子结点，构造一棵二叉树，若树的带权路径长度达到最小，则这棵树被称为哈夫曼树。</li>
+<li>红黑树<br>R-B Tree，全称是Red-Black Tree，又称为“红黑树”，它一种特殊的二叉查找树。红黑树的每个节点上都有存储位表示节点的颜色，可以是红(Red)或黑(Black)。<br>红黑树的特性:  <ul>
+<li>每个节点或者是黑色，或者是红色。</li>
+<li>根节点是黑色。</li>
+<li>每个叶子节点（NIL）是黑色。 [注意：这里叶子节点，是指为空(NIL或NULL)的叶子节点！]</li>
+<li>如果一个节点是红色的，则它的子节点必须是黑色的。</li>
+<li>从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点。</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-堆"><a href="#2-堆" class="headerlink" title="2. 堆"></a>2. 堆</h2><p>堆(heap)，这里所说的堆是数据结构中的堆，而不是内存模型中的堆。堆通常是一个可以被看做一棵树，它满足下列性质： </p>
+<ul>
+<li>[性质一] 堆中某个节点的值总是不大于或不小于其父节点的值；</li>
+<li>[性质二] 堆总是一棵完全树。<br>将根节点最大的堆叫做最大堆或大根堆，根节点最小的堆叫做最小堆或小根堆。常见的堆有二叉堆、左倾堆、斜堆、斐波那契堆等等。</li>
+</ul>
+<ol>
+<li>二叉堆<br>二叉堆是完全二元树或者是近似完全二元树，它分为两种：最大堆和最小堆。  <ul>
+<li>最大堆：父结点的键值总是大于或等于任何一个子节点的键值；</li>
+<li>最小堆：父结点的键值总是小于或等于任何一个子节点的键值。</li>
+</ul>
+</li>
+<li><p>左倾堆<br>左倾堆是一棵二叉树，它的节点除了和二叉树的节点一样具有左右子树指针外，还有两个属性：键值和零距离。  </p>
+<ul>
+<li>键值的作用是来比较节点的大小，从而对节点进行排序。</li>
+<li>零距离(英文名NPL，即Null Path Length)则是从一个节点到一个”最近的不满节点”的路径长度。</li>
+<li>不满节点是指该该节点的左右孩子至少有有一个为NULL。叶节点的NPL为0，NULL节点的NPL为-1。<br>左倾堆的基本性质：<blockquote>
+<p>[性质1] 节点的键值小于或等于它的左右子节点的键值。<br>[性质2] 节点的左孩子的NPL &gt;= 右孩子的NPL。<br>[性质3] 节点的NPL = 它的右孩子的NPL + 1。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>斜堆<br>斜堆(Skew heap)也叫自适应堆(self-adjusting heap)，它是左倾堆的一个变种。它的合并操作的时间复杂度也是O(log n)。<br>相比于左倾堆，斜堆的节点没有”零距离”这个属性。除此之外，它们斜堆的合并操作也不同。斜堆的合并操作算法如下：  </p>
+<ul>
+<li>如果一个空斜堆与一个非空斜堆合并，返回非空斜堆。</li>
+<li>如果两个斜堆都非空，那么比较两个根节点，取较小堆的根节点为新的根节点。将”较小堆的根节点的右孩子”和”较大堆”进行合并。</li>
+<li>合并后，交换新堆根节点的左孩子和右孩子。</li>
+</ul>
+</li>
+<li><p>二项堆<br> 二项堆是二项树的集合。<br> 二项树是一种递归定义的有序树。它的递归定义如下：  </p>
+<ul>
+<li>二项树B0只有一个结点；</li>
+<li><p>二项树Bk由两棵二项树B(k-1)组成的，其中一棵树是另一棵树根的最左孩子。</p>
+<p>二项堆通常被用来实现优先队列，它堆是指满足以下性质的二项树的集合：</p>
+</li>
+<li>每棵二项树都满足最小堆性质。即，父节点的关键字 &lt;= 它的孩子的关键字。</li>
+<li>不能有两棵或以上的二项树具有相同的度数(包括度数为0)。换句话说，具有度数k的二项树有0个或1个。</li>
+</ul>
+</li>
+<li><p>斐波那契堆<br> 斐波那契堆(Fibonacci heap)是堆中一种，它和二项堆一样，也是一种可合并堆；可用于实现合并优先队列。斐波那契堆比二项堆具有更好的平摊分析性能，它的合并操作的时间复杂度是O(1)。  </p>
+<ul>
+<li>与二项堆一样，它也是由一组堆最小有序树组成，并且是一种可合并堆。</li>
+<li>与二项堆不同的是，斐波那契堆中的树不一定是二项树；而且二项堆中的树是有序排列的，但是斐波那契堆中的树都是有根而无序的。</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-图"><a href="#3-图" class="headerlink" title="3. 图"></a>3. 图</h2><p>由有穷、非空点集和边集合组成，简写成G(V,E).</p>
+<ol>
+<li>邻接矩阵无向图的介绍<br>邻接矩阵无向图是指通过邻接矩阵表示的无向图。</li>
+<li>邻接表无向图的介绍<br>邻接表无向图是指通过邻接表表示的无向图。</li>
+<li>邻接矩阵有向图的介绍<br>邻接矩阵有向图是指通过邻接矩阵表示的有向图。</li>
+<li>邻接表有向图的介绍<br>邻接表有向图是指通过邻接表表示的有向图。</li>
+</ol>
+<p>图相关算法介绍：</p>
+<ol>
+<li>深度优先搜索介绍<br>图的深度优先搜索(Depth First Search)，和树的先序遍历比较类似。<br>它的思想：<br>假设初始状态是图中所有顶点均未被访问，则从某个顶点v出发，首先访问该顶点，然后依次从它的各个未被访问的邻接点出发深度优先搜索遍历图，直至图中所有和v有路径相通的顶点都被访问到。 若此时尚有其他顶点未被访问到，则另选一个未被访问的顶点作起始点，重复上述过程，直至图中所有顶点都被访问到为止。</li>
+<li>拓扑排序介绍<br>拓扑排序(Topological Order)是指，将一个有向无环图(Directed Acyclic Graph简称DAG)进行排序进而得到一个有序的线性序列。<br>这样说，可能理解起来比较抽象。下面通过简单的例子进行说明！<br>例如，一个项目包括A、B、C、D四个子部分来完成，并且A依赖于B和D，C依赖于D。现在要制定一个计划，写出A、B、C、D的执行顺序。这时，就可以利用到拓扑排序，它就是用来确定事物发生的顺序的。<br>在拓扑排序中，如果存在一条从顶点A到顶点B的路径，那么在排序结果中B出现在A的后面。</li>
+<li>克鲁斯卡尔算法介绍<br>克鲁斯卡尔(Kruskal)算法，是用来求加权连通图的最小生成树的算法。<br>基本思想：按照权值从小到大的顺序选择n-1条边，并保证这n-1条边不构成回路。<br>具体做法：首先构造一个只含n个顶点的森林，然后依权值从小到大从连通网中选择边加入到森林中，并使森林中不产生回路，直至森林变成一棵树为止。</li>
+<li>普里姆算法介绍<br>普里姆(Prim)算法，和克鲁斯卡尔算法一样，是用来求加权连通图的最小生成树的算法。<br>基本思想：对于图G而言，V是所有顶点的集合；现在，设置两个新的集合U和T，其中U用于存放G的最小生成树中的顶点，T存放G的最小生成树中的边。 从所有uЄU，vЄ(V-U) (V-U表示出去U的所有顶点)的边中选取权值最小的边(u, v)，将顶点v加入集合U中，将边(u, v)加入集合T中，如此不断重复，直到U=V为止，最小生成树构造完毕，这时集合T中包含了最小生成树中的所有边。</li>
+<li>迪杰斯特拉算法介绍<br>迪杰斯特拉(Dijkstra)算法是典型最短路径算法，用于计算一个节点到其他节点的最短路径。<br>它的主要特点是以起始点为中心向外层层扩展(广度优先搜索思想)，直到扩展到终点为止。<br>基本思想：通过Dijkstra计算图G中的最短路径时，需要指定起点s(即从顶点s开始计算)。<br>此外，引进两个集合S和U。S的作用是记录已求出最短路径的顶点(以及相应的最短路径长度)，而U则是记录还未求出最短路径的顶点(以及该顶点到起点s的距离)。<br>初始时，S中只有起点s；U中是除s之外的顶点，并且U中顶点的路径是”起点s到该顶点的路径”。然后，从U中找出路径最短的顶点，并将其加入到S中；接着，更新U中的顶点和顶点对应的路径。 然后，再从U中找出路径最短的顶点，并将其加入到S中；接着，更新U中的顶点和顶点对应的路径。 … 重复该操作，直到遍历完所有顶点。</li>
+</ol>
+<h1 id="四、算法"><a href="#四、算法" class="headerlink" title="四、算法"></a>四、算法</h1><p>衡量算法的标准：</p>
+<ul>
+<li>时间复杂度</li>
+<li>空间复杂度</li>
+<li>难易程度</li>
+<li>健壮性</li>
+</ul>
+<p>常用算法介绍：</p>
+<ol>
+<li>冒泡排序介绍<br>冒泡排序(Bubble Sort)，又被称为气泡排序或泡沫排序。<br>它是一种较简单的排序算法。它会遍历若干次要排序的数列，每次遍历时，它都会从前往后依次的比较相邻两个数的大小；如果前者比后者大，则交换它们的位置。这样，一次遍历之后，最大的元素就在数列的末尾！ 采用相同的方法再次遍历时，第二大的元素就被排列在最大元素之前。重复此操作，直到整个数列都有序为止！</li>
+<li>快速排序介绍<br>快速排序(Quick Sort)使用分治法策略。<br>它的基本思想是：选择一个基准数，通过一趟排序将要排序的数据分割成独立的两部分；其中一部分的所有数据都比另外一部分的所有数据都要小。然后，再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</li>
+<li>直接插入排序介绍<br>直接插入排序(Straight Insertion Sort)的基本思想是：把n个待排序的元素看成为一个有序表和一个无序表。开始时有序表中只包含1个元素，无序表中包含有n-1个元素，排序过程中每次从无序表中取出第一个元素，将它插入到有序表中的适当位置，使之成为新的有序表，重复n-1次可完成排序过程。</li>
+<li>希尔排序介绍<br>希尔排序(Shell Sort)是插入排序的一种，它是针对直接插入排序算法的改进。该方法又称缩小增量排序，因DL．Shell于1959年提出而得名。<br>希尔排序实质上是一种分组插入方法。它的基本思想是：对于n个待排序的数列，取一个小于n的整数gap(gap被称为步长)将待排序元素分成若干个组子序列，所有距离为gap的倍数的记录放在同一个组中；然后，对各组内的元素进行直接插入排序。 这一趟排序完成之后，每一个组的元素都是有序的。然后减小gap的值，并重复执行上述的分组和排序。重复这样的操作，当gap=1时，整个数列就是有序的。</li>
+<li>选择排序介绍<br>选择排序(Selection sort)是一种简单直观的排序算法。<br>它的基本思想是：首先在未排序的数列中找到最小(or最大)元素，然后将其存放到数列的起始位置；接着，再从剩余未排序的元素中继续寻找最小(or最大)元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。</li>
+<li>堆排序介绍<br>堆排序(Heap Sort)是指利用堆这种数据结构所设计的一种排序算法。<br>因此，学习堆排序之前，有必要了解堆！若读者不熟悉堆，建议先学习”二叉堆”，然后再来学习本章。<br>我们知道，堆分为”最大堆”和”最小堆”。最大堆通常被用来进行”升序”排序，而最小堆通常被用来进行”降序”排序。 鉴于最大堆和最小堆是对称关系，理解其中一种即可。本文将对最大堆实现的升序排序进行详细说明。</li>
+<li><p>归并排序介绍<br>将两个的有序数列合并成一个有序数列，我们称之为”归并”。<br>归并排序(Merge Sort)就是利用归并思想对数列进行排序。根据具体的实现，归并排序包括”从上往下”和”从下往上”2种方式。  </p>
+<ul>
+<li>从下往上的归并排序：将待排序的数列分成若干个长度为1的子数列，然后将这些数列两两合并；得到若干个长度为2的有序数列，再将这些数列两两合并；得到若干个长度为4的有序数列，再将它们两两合并；直接合并成一个数列为止。这样就得到了我们想要的排序结果。</li>
+<li>从上往下的归并排序：它与”从下往上”在排序上是反方向的。它基本包括3步：</li>
+</ul>
+<ol>
+<li>分解 – 将当前区间一分为二，即求分裂点 mid = (low + high)/2;</li>
+<li>求解 – 递归地对两个子区间a[low…mid] 和 a[mid+1…high]进行归并排序。递归的终结条件是子区间长度为1。</li>
+<li>合并 – 将已排序的两个子区间a[low…mid]和 a[mid+1…high]归并为一个有序的区间a[low…high]。 </li>
+</ol>
+</li>
+<li><p>桶排序介绍<br>桶排序(Bucket Sort)的原理很简单，它是将数组分到有限数量的桶子里。<br>假设待排序的数组a中共有N个整数，并且已知数组a中数据的范围[0, MAX)。在桶排序时，创建容量为MAX的桶数组r，并将桶数组元素都初始化为0；将容量为MAX的桶数组中的每一个单元都看作一个”桶”。<br>在排序时，逐个遍历数组a，将数组a的值，作为”桶数组r”的下标。当a中数据被读取时，就将桶的值加1。例如，读取到数组a[3]=5，则将r[5]的值+1。  </p>
+</li>
+<li>基数排序介绍<br>基数排序(Radix Sort)是桶排序的扩展，它的基本思想是：将整数按位数切割成不同的数字，然后按每个位数分别比较。<br>具体做法是：将所有待比较数值统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后, 数列就变成一个有序序列。</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/21/C语言学习总结（四）——数据结构/" title="C语言学习总结（四）——数据结构">http://myintelex.github.io/2016/11/21/C语言学习总结（四）——数据结构/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/11/21/C语言学习总结（四）——数据结构/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/11/21/在windows下打出tar-gz的尝试/">
+                    在windows下打出tar.gz的尝试
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">
+                    C语言学习总结（三）——C语言的基本语法
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、定义"><span class="toc-text">一、定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、线性结构"><span class="toc-text">二、线性结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、非线性结构"><span class="toc-text">三、非线性结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-树"><span class="toc-text">1. 树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-堆"><span class="toc-text">2. 堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-图"><span class="toc-text">3. 图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、算法"><span class="toc-text">四、算法</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/21/C语言学习总结（四）——数据结构/" data-title="C语言学习总结（四）——数据结构" data-url="http://myintelex.github.io/2016/11/21/C语言学习总结（四）——数据结构/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/使用Hexo配置Github建立个人站点方法备忘/">使用Hexo配置Github建立个人站点方法备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/BOA服务器移植/">BOA服务器移植</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Ubutu安装VSCode步骤/">Ubutu安装VSCode步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/VS-Code-快捷键总结/">VS Code 快捷键总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2018 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

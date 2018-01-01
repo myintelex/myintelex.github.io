@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="并发的定义是：多个执行单元同时、并行的执行。并发会导致竞态：并发的执行单元对共享资源的访问。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux驱动开发（三）——并发控制">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/20/Linux驱动开发03/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="并发的定义是：多个执行单元同时、并行的执行。并发会导致竞态：并发的执行单元对共享资源的访问。">
+<meta property="og:updated_time" content="2017-12-06T13:43:30.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux驱动开发（三）——并发控制">
+<meta name="twitter:description" content="并发的定义是：多个执行单元同时、并行的执行。并发会导致竞态：并发的执行单元对共享资源的访问。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux驱动开发（三）——并发控制 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux驱动开发03" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/Linux驱动开发03/" class="article-date">
+      <time datetime="2016-12-19T19:08:01.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux驱动开发（三）——并发控制
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/信号量/">信号量</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自旋锁/">自旋锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><strong>并发</strong>的定义是：多个执行单元同时、并行的执行。并发会导致<strong>竞态</strong>：并发的执行单元对共享资源的访问。<br><a id="more"></a><br>以下几种情况会发生竞态：</p>
+<ol>
+<li>对称多处理器(SMP)的多个 CPU。</li>
+<li>单个 CPU 内部的多个进程。</li>
+<li>中断与进程之间。</li>
+</ol>
+<p>解决竞态的途径是保证对共享资源的<strong>互斥访问</strong>：一个执行单元访问共享资源的时候，其他的执行单元被禁止访问。我们常用的互斥机制有：<br> <code>中断屏蔽</code>、<code>原子操作</code>、<code>自旋锁</code>、<code>信号量</code>。</p>
+<h2 id="一、中断屏蔽"><a href="#一、中断屏蔽" class="headerlink" title="一、中断屏蔽"></a>一、中断屏蔽</h2><p>因为 Linux 的异步 IO、进程调度等很多操作都是通过中断来进行的。所以，最简单的避免竞态的方法就是在进入临界区之前屏蔽系统的中断。但是同样，因为中断有这样重要的作用，长时间的屏蔽中断是很危险的。另外，中断屏蔽只能解决上述三种竞态情况中的后两种，对于第一种竞态是无法解决的。所以中断屏蔽通常和自旋锁搭配使用。<br>中断屏蔽的使用方法是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">local_irq_disable() <span class="comment">//屏蔽中断</span></div><div class="line">...</div><div class="line">critical section <span class="comment">/*临界区*/</span></div><div class="line">...</div><div class="line">local_irq_enable()</div></pre></td></tr></table></figure></p>
+<p>中断屏蔽通常是和自旋锁联合使用的。</p>
+<h2 id="二、原子操作"><a href="#二、原子操作" class="headerlink" title="二、原子操作"></a>二、原子操作</h2><p>有时候，共享的资源可能正好是一个整数值或者是位操作。内核提供了一种原子的整数类型（位类型）。相应的操作如下：</p>
+<ul>
+<li><p>整形原子操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">atomic_set</span><span class="params">(<span class="keyword">atomic_t</span> *v, <span class="keyword">int</span> i)</span></span>;             <span class="comment">//设置原子变量 v 的值为 i</span></div><div class="line"><span class="keyword">atomic_t</span> v = ATOMIC_INIT(<span class="number">0</span>);                     <span class="comment">//初始化原子变量 v 的值为 0</span></div><div class="line">atomic_read(<span class="keyword">atomic_t</span> *v);                        <span class="comment">//读取原子变量 v 的值</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">atomic_add</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">atomic_t</span> *v)</span></span>;             <span class="comment">//原子变量 v 的值加 i</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">atomic_sub</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">atomic_t</span> *v)</span></span>;             <span class="comment">//原子变量 v 的值减 i</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">atomic_inc</span><span class="params">(<span class="keyword">atomic_t</span> *v)</span></span>;                    <span class="comment">//原子变量 v 的值自加1</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">atomic_dec</span><span class="params">(<span class="keyword">atomic_t</span> *v)</span></span>;                    <span class="comment">//原子变量 v 的值自减1</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_inc_and_test</span><span class="params">(<span class="keyword">atomic_t</span> *v)</span></span>;            <span class="comment">//原子变量 v 的值自加1，并测试是否等于0</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_dec_and_test</span><span class="params">(<span class="keyword">atomic_t</span> *v)</span></span>;            <span class="comment">//原子变量 v 的值自减1，并测试是否等于0</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_sub_and_test</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">atomic_t</span> *v)</span></span>;     <span class="comment">//原子变量 v 的值减 i，并测试是否等于0</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_add_and_return</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">atomic_t</span> *v)</span></span>;   <span class="comment">//原子变量 v 的值加 i，并返回值</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_sub_and_return</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">atomic_t</span> *v)</span></span>;   <span class="comment">//原子变量 v 的值减 i，并返回值</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_inc_and_return</span><span class="params">(<span class="keyword">atomic_t</span> *v)</span></span>;          <span class="comment">//原子变量 v 的值自加1，并返回值</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">atomic_dec_and_return</span><span class="params">(<span class="keyword">atomic_t</span> *v)</span></span>;          <span class="comment">//原子变量 v 的值自减1，并返回值</span></div></pre></td></tr></table></figure>
+<p><code>atomic_t</code> 的数据只能通过上述的函数进行访问。</p>
+</li>
+<li><p>位原子操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">set_bit</span><span class="params">(nr, <span class="keyword">void</span> *addr)</span></span>;           <span class="comment">//设置addr地址的第nr位为1</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">clear_bit</span><span class="params">(nr, <span class="keyword">void</span> *addr)</span></span>;         <span class="comment">//设置addr地址的第nr位为0</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">change_bit</span><span class="params">(nr, <span class="keyword">void</span> *addr)</span></span>;        <span class="comment">//反置addr地址的第nr位</span></div><div class="line">test_bit(nr, <span class="keyword">void</span> *addr);               <span class="comment">//返回addr地址的第nr位</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">test_and_set_bit</span><span class="params">(nr, <span class="keyword">void</span> *addr)</span></span>;   <span class="comment">//返回addr地址的第nr位并置该位为1</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">test_and_clear_bit</span><span class="params">(nr, <span class="keyword">void</span> *addr)</span></span>; <span class="comment">//返回addr地址的第nr位并置该位为0</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">test_and_change_bit</span><span class="params">(nr, <span class="keyword">void</span> *addr)</span></span>;<span class="comment">//返回addr地址的第nr位并反置该位</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="三、自旋锁"><a href="#三、自旋锁" class="headerlink" title="三、自旋锁"></a>三、自旋锁</h2><p>自旋锁是一个互斥设备，他只能有两个值：锁定和解锁。为了获取一个自旋锁，程序先执行一个原子操作，测试相关的位，如果锁可用，则锁定，代码进入临界区；如果锁不可用，代码则进入循环测试直到该锁可用。</p>
+<ol>
+<li><p>自旋锁的初始化：<br>可以使用两种方法进行自旋锁的初始化：<br>编译时使用：<code>spinlock_t my_lock = SPIN_LOCK_UNLOCKED;</code><br>运行时使用：<code>void spin_lock_init(spinlock_t *lock);</code>  </p>
+</li>
+<li><p>获取锁<br>获取锁使用下面的函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div></pre></td></tr></table></figure>
+<p>需要注意的是，自旋锁的等待是不可中断的，一旦调用了该函数，在获取锁之前将一直处于自旋状态。</p>
+<p>如果不想阻塞等待可以使用非阻塞版本的获取锁：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_trylock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div></pre></td></tr></table></figure>
+<p>该函数在成功获取锁的情况下返回非零值，在未获取锁的情况下返回0</p>
+</li>
+<li><p>释放锁<br>释放锁的函数如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_unlock</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;</div></pre></td></tr></table></figure>
+<p>这个函数一般与 <code>spin_lock</code> 和 <code>spin_trylock</code> 搭配使用。</p>
+</li>
+<li><p>自旋锁和中断<br>自旋锁可以保证临界区不受当前CPU和其他CPU的抢占进程打扰，即能解决前面提到的竞态中的前两种，但是依旧可能受到中断的影响，所以自旋锁有下列衍生：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irq</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;   <span class="comment">//在获取自旋锁之前禁止中断</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_irqsave</span><span class="params">(<span class="keyword">spinlock_t</span> *lock, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span></span>; <span class="comment">//在获取锁之前屏蔽中断，并将相应的中断状态保存在 flags 中</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">spin_lock_bh</span><span class="params">(<span class="keyword">spinlock_t</span> *lock)</span></span>;   <span class="comment">//在获取锁之前屏蔽软件中断，但保持硬件中断</span></div></pre></td></tr></table></figure>
+<p>当然还有与上面几个函数一一对应的 unlock 函数，不再详细描述。</p>
+</li>
+<li><p>读写自旋锁<br>读写自旋锁是对自旋锁的扩展，它允许多个读操作并发执行，但是只能有一个写单元。相应的函数如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">rwlock_t</span> my_rwlock = RW_LOCK_UNLOCKED;  <span class="comment">//静态初始化读写自旋锁</span></div><div class="line">rwlock_init(<span class="keyword">rwlock_t</span> *my_rwlock);       <span class="comment">//动态初始化读写自旋锁</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">read_lock</span><span class="params">(<span class="keyword">rwlock_t</span> *my_rwlock)</span></span>;    <span class="comment">//获取读锁</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">read_unlock</span><span class="params">(<span class="keyword">rwlock_t</span> *my_rwlock)</span></span>;  <span class="comment">//释放读锁</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">write_lock</span><span class="params">(<span class="keyword">rwlock_t</span> *my_rwlock)</span></span>;   <span class="comment">//获取写锁</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">write_unlock</span><span class="params">(<span class="keyword">rwlock_t</span> *my_rwlock)</span></span>; <span class="comment">//释放写锁</span></div></pre></td></tr></table></figure>
+<p>读写自旋锁也有相应的中断衍生版本。</p>
+</li>
+<li><p>顺序锁<br>对于资源较小，频繁被读取但是很少写入的资源，可以使用顺序锁。顺序锁的读执行单元不会被写执行单元阻塞。<br>顺序锁的初始化类似于自旋锁：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">seqlock_t</span> my_seqlock = SEQLOCK_UNLOCKED;  <span class="comment">//静态初始化读写自旋锁</span></div><div class="line">seqlock_t_init(<span class="keyword">seqlock_t</span> *my_seqlock);       <span class="comment">//动态初始化读写自旋锁</span></div></pre></td></tr></table></figure>
+<p>对于写单元来说，相应的获取锁和释放锁的机制和自旋锁一致，不再详说，详细说下读单元的执行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> seq;</div><div class="line"><span class="keyword">do</span> &#123;</div><div class="line">  seq = read_seqbegin(&amp;my_seqlock);</div><div class="line">  <span class="comment">/*相应的操作*/</span></div><div class="line">&#125; <span class="keyword">while</span> (read_seqretry(&amp;the_lock, seq))</div></pre></td></tr></table></figure>
+<p><code>read_seqbegin</code>会返回当前顺序锁的顺序号，<code>read_seqretry</code> 会检查当前的顺序号是否改变。<br>通常不能使用顺序锁来保护数据结构中含有指针的数据。</p>
+</li>
+<li><p>读-拷贝-更新<br><code>RCU</code>（read-copy-update，读-拷贝-更新）是基于原理命名的，在这里不再详细介绍</p>
+</li>
+</ol>
+<h2 id="四、信号量"><a href="#四、信号量" class="headerlink" title="四、信号量"></a>四、信号量</h2><p>信号量和自旋锁类似，只有得到信号量的进程才能执行临界区代码。但是与自旋锁不同的是，当获取不到信号量的时候，进程不会原地打转而是会进入休眠等待状态。</p>
+<ol>
+<li><p>信号量的定义和初始化<br>有三种方法可以初始化一个信号量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">sema_init</span><span class="params">(<span class="keyword">struct</span> semaphore *sem, <span class="keyword">int</span> val)</span></span>; <span class="comment">//初始化信号量 sem，并将 sem 的值设为 val</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_MUTEX</span><span class="params">(<span class="keyword">struct</span> semaphore *sem)</span></span>;         <span class="comment">//初始化信号量 sem 为0</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_MUTEX_LOCKED</span><span class="params">(<span class="keyword">struct</span> semaphore *sem)</span></span>;  <span class="comment">//初始化信号量 sem 为1</span></div><div class="line">DECLARE_MUTEX(name);                            <span class="comment">//声明并初始化一个名为 name 的信号量为0</span></div><div class="line">DECLARE_MUTEX_LOCKED(name);                     <span class="comment">//声明并初始化一个名为 name 的信号量为1</span></div></pre></td></tr></table></figure>
+<p>对于含有 <code>LOCKED</code> 的初始化方法，信号量的初始状态就是锁定的。</p>
+</li>
+<li><p>信号量的获取<br>信号量的获取使用下列方式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down</span><span class="params">(<span class="keyword">struct</span> semaphore *sem)</span></span>;               <span class="comment">//会导致睡眠，不能被信号打断</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">down_interruptible</span><span class="params">(<span class="keyword">struct</span> semaphore *sem)</span></span>;  <span class="comment">//会导致睡眠，并能被信号打断</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">down_trylock</span><span class="params">(<span class="keyword">struct</span> semaphore *sem)</span></span>;        <span class="comment">//不导致睡眠</span></div></pre></td></tr></table></figure>
+<p>使用 <code>down_interruptible</code> 函数被信号打断和使用 <code>down_trylock</code> 函数未获取信号量，函数会返回非零值。否则返回0。</p>
+</li>
+<li><p>信号量的释放</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">up</span><span class="params">(<span class="keyword">struct</span> semaphore *sem)</span></span>;</div></pre></td></tr></table></figure>
+<p>该函数会释放信号量，唤醒等待者。</p>
+</li>
+<li><p>完成量<br>completion (完成量) 用于一个执行单元等待另一个执行单元执行完成某事。相应的使用方法如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> completion my_completion; </div><div class="line">init_completion(&amp;my_completion); <span class="comment">//定义并初始化 completion</span></div><div class="line"><span class="comment">/*</span></div><div class="line">DECLARE_COMPLETION(my_completion); //另一种创建 completion 的方法</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">wait_for_completion</span><span class="params">(<span class="keyword">struct</span> completion *c)</span></span>; <span class="comment">//等待 completion 被唤醒</span></div><div class="line">...</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">complete</span><span class="params">(<span class="keyword">struct</span> completion *c)</span></span>; <span class="comment">//唤醒一个等待 c 的执行单元</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">complete_all</span><span class="params">(<span class="keyword">struct</span> completion *c)</span></span>; <span class="comment">//唤醒所有等待 c 的执行单元</span></div><div class="line">INIT_COMPLETION(<span class="keyword">struct</span> completion my_completion); <span class="comment">//用于重新初始化一个信号量</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">completion_and_exit</span><span class="params">(<span class="keyword">struct</span> completion *c, <span class="keyword">long</span> retval)</span></span>; <span class="comment">//</span></div></pre></td></tr></table></figure>
+<p>对于 <code>completion_and_exit</code> 的用法还有不清楚的地方，等验证完成后再来补充。</p>
+</li>
+<li><p>读写信号量<br>读写信号量类似与读写自旋锁，使用方法如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> rw_semaphore my_rws; <span class="comment">//定义读写信号量</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_rwsem</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="comment">//初始化读写信号量</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down_read</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>; </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down_read_trylock</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="comment">//读信号量获取</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">up_read</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="comment">//读信号量释放</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down_write</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">down_write_trylock</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="comment">//写信号量获取</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">up_write</span><span class="params">(<span class="keyword">struct</span> rw_semaphore *sem)</span></span>; <span class="comment">//写信号量释放</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="五、互斥体"><a href="#五、互斥体" class="headerlink" title="五、互斥体"></a>五、互斥体</h2><p>   互斥体简单实现了互斥的功能：<br>   <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> mutex my_mutex;</div><div class="line">mutex_init(&amp;my_mutex);  <span class="comment">//初始化互斥体</span></div><div class="line"><span class="keyword">void</span> <span class="keyword">inline</span> __<span class="function">sched <span class="title">mutex_lock</span><span class="params">(<span class="keyword">struct</span> mutex *lock)</span></span>;</div><div class="line"><span class="keyword">int</span> __<span class="function">sched <span class="title">mutex_lock_interruptible</span><span class="params">(<span class="keyword">struct</span> mutex *lock)</span></span>;</div><div class="line"><span class="keyword">int</span> __<span class="function">sched <span class="title">mutex_trylock</span><span class="params">(<span class="keyword">struct</span> mutext *lock)</span></span>;   <span class="comment">//获取互斥体</span></div><div class="line"><span class="keyword">void</span> __<span class="function">sched <span class="title">mutex_unlock</span><span class="params">(<span class="keyword">struct</span> mutext *lock)</span></span>;   <span class="comment">//释放互斥体</span></div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/20/Linux驱动开发03/" title="Linux驱动开发（三）——并发控制">http://myintelex.github.io/2016/12/20/Linux驱动开发03/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/20/Linux驱动开发03/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发04/">
+                    Linux驱动开发（四）——I/O操作
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发02/">
+                    Linux驱动开发（二）——字符设备驱动模型
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、中断屏蔽"><span class="toc-text">一、中断屏蔽</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、原子操作"><span class="toc-text">二、原子操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、自旋锁"><span class="toc-text">三、自旋锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、信号量"><span class="toc-text">四、信号量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、互斥体"><span class="toc-text">五、互斥体</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/20/Linux驱动开发03/" data-title="Linux驱动开发（三）——并发控制" data-url="http://myintelex.github.io/2016/12/20/Linux驱动开发03/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/使用Hexo配置Github建立个人站点方法备忘/">使用Hexo配置Github建立个人站点方法备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/BOA服务器移植/">BOA服务器移植</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Ubutu安装VSCode步骤/">Ubutu安装VSCode步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/VS-Code-快捷键总结/">VS Code 快捷键总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2018 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

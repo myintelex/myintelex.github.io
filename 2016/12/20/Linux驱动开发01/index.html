@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux驱动开发（一）——驱动开发基础">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/20/Linux驱动开发01/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。">
+<meta property="og:image" content="http://ogf054qp1.bkt.clouddn.com/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%85%B3%E7%B3%BB.png">
+<meta property="og:updated_time" content="2016-12-25T08:10:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux驱动开发（一）——驱动开发基础">
+<meta name="twitter:description" content="从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。">
+<meta name="twitter:image" content="http://ogf054qp1.bkt.clouddn.com/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%85%B3%E7%B3%BB.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux驱动开发（一）——驱动开发基础 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux驱动开发01" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/Linux驱动开发01/" class="article-date">
+      <time datetime="2016-12-19T16:08:01.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux驱动开发（一）——驱动开发基础
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udev/">udev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内核/">内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设备文件系统/">设备文件系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。<br><a id="more"></a></p>
+<h2 id="一、设备驱动程序简介"><a href="#一、设备驱动程序简介" class="headerlink" title="一、设备驱动程序简介"></a>一、设备驱动程序简介</h2><p>设备驱动程序是十分重要的，它是连接硬件与软件的桥梁。无操作系统的设备需要单独开发设备驱动，并以相应的驱动模块存在，这样可以更好的划分应用工程师的工作。而在有操作系统的设备上，驱动则是<strong>连接硬件和内核的桥梁</strong>。<br>Linux 设备驱大致可以分为三类：<br>  <strong>字符设备</strong> 可以顺序访问的设备，通常字符设备至少要实现 <code>open()</code>、<code>close()</code>、<code>read()</code>、<code>write()</code> 等系统调用。<br>  <strong>块设备</strong> 块设备和字符设备类似，他们的区别是块设备上可以容纳文件系统，块设备和字符设备在内核内部管理数据的方式不同。<br>  <strong>网络设备</strong> 网络设备和字符以及块设备完全不同，它是围绕数据包的传输和接收来设计的。<br>所有的块设备和字符设备均被映射到 LInux 的文件系统中去。</p>
+<h2 id="二、Linux-内核简介"><a href="#二、Linux-内核简介" class="headerlink" title="二、Linux 内核简介"></a>二、Linux 内核简介</h2><h3 id="2-1-内核功能的划分"><a href="#2-1-内核功能的划分" class="headerlink" title="2.1 内核功能的划分"></a>2.1 内核功能的划分</h3><p>根据内核完成任务的不同，可以将内核功能划分为以下几部分：</p>
+<ul>
+<li><strong>进程管理</strong><br>进程管理功能负责创建和销毁进程，并处理他们和外部世界的连接，不同进程的通信，CPU调度等功能。</li>
+<li><strong>内存管理</strong><br>内存管理的策略是一个决定系统性能的关键因素。</li>
+<li><strong>文件系统</strong><br>Unix 的每个对象几乎都可以当作文件来看待，Unix 没有在结构的硬件上构造文件系统，而是抽象在整个系统中广泛使用。</li>
+<li><strong>设备控制</strong><br>内核必须为系统中的每件外设嵌入相关的驱动程序。</li>
+<li><strong>网络功能</strong><br>内核负责在应用程序和网络接口之间传递数据包，路由和地址解析功能也是内核处理的工作。</li>
+</ul>
+<h3 id="2-2-内核的源代码"><a href="#2-2-内核的源代码" class="headerlink" title="2.2 内核的源代码"></a>2.2 内核的源代码</h3><p>针对上面的相应功能，Linux内核源码的各个目录大致与此相对应，其组成如下： </p>
+<ul>
+<li><strong>arch</strong> 目录包括了所有和体系结构相关的核心代码。它下面的每一个子目录都代表一种Linux支持的体系结构。 </li>
+<li><strong>include</strong> 目录包括编译核心所需要的大部分头文件。 </li>
+<li><strong>init</strong> 目录包含核心的初始化代码（不是系统的引导代码），有main.c和Version.c两个文件。</li>
+<li><strong>mm</strong> 目录包含了所有的内存管理代码。与具体硬件体系结构相关的内存管理代码位于arch/*/mm目录下。 </li>
+<li><strong>drivers</strong> 目录中是系统中所有的设备驱动程序。</li>
+<li><strong>ipc</strong> 目录包含了核心进程间的通信代码。 </li>
+<li><strong>modules</strong> 目录存放了已建好的、可动态加载的模块。 </li>
+<li><strong>fs</strong> 目录存放Linux支持的文件系统代码。</li>
+<li><strong>Kernel</strong> 内核管理的核心代码放在这里，如进程调度，定时器等。</li>
+<li><strong>net</strong> 目录里是核心的网络部分代码，其每个子目录对应于网络的一个方面。 </li>
+<li><strong>lib</strong> 目录包含了核心的库代码。 </li>
+<li><strong>scripts</strong> 目录包含用于配置核心的脚本文件。 </li>
+<li><strong>documentation</strong> 目录下是一些文档，是对每个目录作用的具体说明。 </li>
+</ul>
+<p>内核源码的编译系统由三个部分组成：分散在源码各个目录的 Makefile 文件，内核的配置文件，以及我们的配置工具。具体的步骤为：</p>
+<ul>
+<li>首先使用 menuconfig 等配置工具配置内核。</li>
+<li>然后进行相应的编译工作</li>
+</ul>
+<h3 id="2-3-内核的引导过程"><a href="#2-3-内核的引导过程" class="headerlink" title="2.3 内核的引导过程"></a>2.3 内核的引导过程</h3><p>整体的 Linux 系统的开机过程如下：<br>加载BIOS -&gt; 读取MBR -&gt; Boot Loader -&gt; 用户层init依据inittab文件来设定运行等级 -&gt; init进程执行rc.sysinit -&gt; 启动内核模块 -&gt;执行不同运行级别的脚本程序 -&gt; 执行/etc/rc.d/rc.local -&gt; 执行/bin/login程序，进入登录状态<br>而详细的内核启动流程为：</p>
+<ol>
+<li>实模式的入口函数 <code>_start()</code>：在 header.S 中，这里会进入众所周知的 main 函数，它拷贝 bootloader 的各个参数，执行基本硬件设置，解析命令行参数。</li>
+<li>保护模式的入口函数 <code>startup_32()</code>：在 compressed/header_32.S 中，这里会解压 bzImage 内核映像，加载 vmlinux 内核文件。</li>
+<li>内核入口函数 <code>startup_32()</code>：在 kernel/header_32.S 中，这就是所谓的进程0，它会进入体系结构无关的 <code>start_kernel()</code> 函数，即众所周知的 Linux 内核启动函数。<code>start_kernel()</code> 会做大量的内核初始化操作，解析内核启动的命令行参数，并启动一个内核线程来完成内核模块初始化的过程，然后进入空闲循环。</li>
+<li>内核模块初始化的入口函数 <code>kernel_init()</code> ：在 init/main.c 中，这里会启动内核模块、创建基于内存的 rootfs、加载 initramfs 文件或cpio-initrd，并启动一个内核线程来运行其中的 init 脚本，完成真正根文件系统的挂载。</li>
+<li>根文件系统挂载脚本<code>/init</code>：这里会挂载根文件系统、运行 /sbin/init，从而启动众所周知的进程1。</li>
+<li>init进程的系统初始化过程：执行相关脚本，以完成系统初始化，如设置键盘、字体，装载模块，设置网络等，最后运行登录程序，出现登录界面。</li>
+</ol>
+<h2 id="三、Linux-内核编程"><a href="#三、Linux-内核编程" class="headerlink" title="三、Linux 内核编程"></a>三、Linux 内核编程</h2><h3 id="3-1-Linux-内核模块的构成"><a href="#3-1-Linux-内核模块的构成" class="headerlink" title="3.1 Linux 内核模块的构成"></a>3.1 Linux 内核模块的构成</h3><p>一个 Linux 大致由下面几个部分构成：</p>
+<ul>
+<li><p>模块加载函数<br>Linux 模块加载函数一般以 <code>__init</code> 标识声明，并以 <code>module_init(函数名)</code> 的形式被指定，典型的模块加载函数如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">initialization_function</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  <span class="comment">/*初始化代码*/</span></div><div class="line">&#125;</div><div class="line">module_init(initialization_function);</div></pre></td></tr></table></figure>
+<p><code>module_init</code> 成功返回0，失败会返回相应的错误编码。</p>
+</li>
+<li><p>模块卸载函数<br>Linux 模块卸载函数一般以 <code>__exit</code> 标识声明，并以 <code>module_exit(函数名)</code> 的形式被指定，典型的模块卸载函数如下所示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function"><span class="built_in">exit</span> <span class="title">cleanup_function</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">  <span class="comment">/*初始化代码*/</span></div><div class="line">&#125;</div><div class="line">module_exit(cleanup_function);</div></pre></td></tr></table></figure>
+<p><code>module_exit</code> 不返回任何值。</p>
+</li>
+<li><p>模块参数<br>我们可以用 <code>moudule_param(参数名, 参数类型, 参数读写权限)</code> 为模块定义一个参数。<br>在装载模块的时候，我们可以使用 <code>insmode 模块名 参数名=参数值</code> 的方式为模块传递参数。</p>
+</li>
+<li><p>模块导出符号<br>模块可以使用相应的宏导出符号到内核符号表。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">EXPORT_SYMBOL(符号名);</div><div class="line">EXPORT_SYMBOL_GPL(符号名);</div></pre></td></tr></table></figure>
+<p>导出的符号可以被其他模块使用。</p>
+</li>
+<li><p>模块信息声明<br>我们可以使用相应的宏来声明模块的作者等信息：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">MODULE_AUTHOR(author);</div><div class="line">MODULE_DESCRIPTION(description);</div><div class="line">MODULE_VERSION(version);</div><div class="line">MODULE_DEVICE_TABLE(table_info);</div><div class="line">MODULE_ALIAS(alternate_name);</div></pre></td></tr></table></figure>
+<p><code>MODULE_DEVICE_TABLE</code> 是用来为 USB PCI 等设备驱动声明模块支持设备的。</p>
+</li>
+<li><p>模块许可证声明<br>大多数情况下，我们遵循 GPL兼容许可证，使用 <code>MODULE_LICENSE(&quot;Dual BSD/GPL&quot;)</code> 来声明模块采用 BSD/GPL 双 LICENSE。</p>
+</li>
+</ul>
+<h2 id="四、Linux文件系统"><a href="#四、Linux文件系统" class="headerlink" title="四、Linux文件系统"></a>四、Linux文件系统</h2><p>字符设备和块设备都良好的体现了 UNIX <strong>一切皆文件</strong> 的设计思想。我们写的所有驱动最终都是通过操作系统的文件操作来调用访问，所以我们必须了解 Linux 的文件系统组成，和设备驱动与文件系统的关系。</p>
+<h3 id="4-1-Linxu-文件系统结构"><a href="#4-1-Linxu-文件系统结构" class="headerlink" title="4.1 Linxu 文件系统结构"></a>4.1 Linxu 文件系统结构</h3><ol>
+<li><p><code>/</code><br>文件系统的入口，最高一级目录；</p>
+</li>
+<li><p><code>/bin</code><br>基础系统所需要的命令位于此目录，是最小系统所需要的命令，如：ls, cp, mkdir等。<br>这个目录中的文件都是可执行的，一般的用户都可以使用。</p>
+</li>
+<li><p><code>/sbin</code><br>包含系统的命令，如 modprobe、hwclock、ifconfig 等，大多是涉及系统管理的命令。<br>这个目录中的文件都是可执行的。</p>
+</li>
+<li><p><code>/boot</code><br>包含Linux内核及系统引导程序所需要的文件，比如 vmlinuz initrd.img 文件都位于这个目录中。<br>在一般情况下，GRUB或LILO系统引导管理器也位于这个目录；</p>
+</li>
+<li><p><code>/dev</code><br>设备文件存储目录，应用程序可以通过对这些文件的读写和控制来访问实际的设备。</p>
+</li>
+<li><p><code>/etc</code><br>存放系统程序或者一般工具的配置文件。<br>如 /etc/init.d 这个目录是用来存放系统或服务器以System V模式启动的脚本，这在以System V模式启动或初始化的系统中常见。<br>如apache2的/etc/init.d apache2 start|stop|restart MySQL为/etc/init.d mysql start|stop|restart 6. /home 普通用户默认存放目录 Linux 是多用户环境，所以每一个用户都有一个只有自己可以访问的目录（当然管理员也可以访问）。它们以 /home/username 的方式存在。这个目录也保存一些应用对于这个用户的配置，比如 IRC, X 等。</p>
+</li>
+<li><p><code>/lib</code><br>库文件存放目录这里包含了系统程序所需要的所有共享库文件，类似于 Windows 的共享库 DLL 文件。</p>
+</li>
+<li><p><code>/lost+found</code><br>在ext2或ext3文件系统中，当系统意外崩溃或机器意外关机，而产生一些文件碎片放在这里。当系统启动的过程中fsck工具会检查这里，并修复已经损坏的文件系统。 有时系统发生问题，有很多的文件被移到这个目录中，可能会用手工的方式来修复，或移到文件到原来的位置上。<br>Linux 应该正确的关机。但有时你的系统也可能崩溃掉或突然断电使系统意外关机。那么启动的时候 fsck 将会进行长时间的文件系统检查。Fsck 会检测并试图恢复所发现的不正确的文件。被恢复的文件会放置在这个目录中。所恢复的文件也许并不完整或并不合理，但毕竟提供了一些恢复数据的机会。</p>
+</li>
+</ol>
+<ol>
+<li><p><code>/media</code><br>即插即用型存储设备的挂载点自动在这个目录下创建，比如USB盘系统自动挂载后，会在这个目录下产生一个目录 ；CDROM/DVD自动挂载后，也会在这个目录中创建一个目录，类似cdrom 的目录。这个只有在最新的发行套件上才有. </p>
+</li>
+<li><p><code>/mnt</code><br>这个目录一般是用于存放挂载储存设备的挂载目录的，比如有cdrom 等目录。有时我们可以把让系统开机自动挂载文件系统，把挂载点放在这里也是可以的。比如光驱可以挂载到/mnt/cdrom 。在这里你可以加载你的文件系统或设备。加载是使一个文件系统对于系统可用的过程。在加载后你的文件可以在加载目录下访问。这个目录通常包含加载目录或用于加载软驱和光驱的子目录。</p>
+</li>
+<li><p><code>/opt</code><br>表示的是可选择的意思，有些软件包也会被安装在这里，也就是自定义软件包，比如在Fedora Core 5.0中，OpenOffice就是安装在这里。有些我们自己编译的软件包，就可以安装在这个目录中；通过源码包安装的软件，可以通过 ./configure –prefix=/opt/，将软件安装到opt目录。</p>
+</li>
+<li><p><code>/proc</code><br>操作系统运行时，进程（正在运行中的程序）信息及内核信息（比如cpu、硬盘分区、内存信息等）存放在这里。/proc目录是伪装的文件系统proc的挂载目录，proc并不是真正的文件系统。这是系统中极为特殊的一个目录，实际上任何分区上都不存在这个目录。它实际是个实时的、驻留在内存中的文件系统。</p>
+</li>
+</ol>
+<ol>
+<li><p><code>/root</code><br>Linux超级权限用户root的家目录；</p>
+</li>
+<li><p><code>/tmp</code><br>临时文件目录，有时用户运行程序的时候，会产生临时文件。 /tmp就用来存放临时文件的。/var/tmp目录和这个目录相似。<br>许多程序在这里建立lock文件和存储临时数据。有些系统会在启动或关机时清空此目录。</p>
+</li>
+<li><p><code>/usr</code><br>这个是系统存放程序的目录，比如命令、帮助文件等。<br>这个目录下有很多的文件和目录。<br>当我们安装一个Linux发行版官方提供的软件包时，大多安装在这里。<br>如果有涉及服务器配置文件的，会把配置文件安装在/etc目录中。</p>
+</li>
+<li><p><code>/var</code><br>var 表示变化的意思，这里通常会存储日志文件。</p>
+</li>
+<li><p><code>/sys</code><br>Linxu 2.6 内核所支持的 sysfs 文件系统被映射到这个目录。Linux 设备驱动模型中的总线、驱动和设备都可以在这个文件系统中找到相应的节点。</p>
+</li>
+</ol>
+<h3 id="4-2-Linux-文件系统和设备驱动的关系"><a href="#4-2-Linux-文件系统和设备驱动的关系" class="headerlink" title="4.2 Linux 文件系统和设备驱动的关系"></a>4.2 Linux 文件系统和设备驱动的关系</h3><p>Linux 系统中应用程序、虚拟文件系统（VFS）、和磁盘文件以及一般的设备文件与设备驱动程序之间的关系如下图所示：<br><img src="http://ogf054qp1.bkt.clouddn.com/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%85%B3%E7%B3%BB.png" alt="Linux 文件系统和设备驱动的关系"></p>
+<p>应用程序使用系统调用调用 VFS 中的文件，而 VFS 是通过 file_operations 结构体的成员函数来调用磁盘文件系统中的文件和普通文件的。<br>字符设备驱动直接提供了相应的 file_operations 成员函数，而块设备因为上面承载的文件系统中会实现相应的 file_operations 成员函数，所以块设备驱动会将对磁盘文件的访问最终转换为对磁盘上相应柱面和扇面的访问。</p>
+<p>而与设备驱动开发紧密相关的两个对象是 file 结构体和 inode 结构体。<br>file 结构体的定义是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> file &#123;</div><div class="line">  <span class="keyword">union</span> &#123;</div><div class="line">    <span class="keyword">struct</span> list_head             fu_list;      <span class="comment">//文件对象链表指针linux/include/linux/list.h</span></div><div class="line">    <span class="keyword">struct</span> rcu_head              fu_rcuhead;   <span class="comment">//RCU(Read-Copy Update)是Linux 2.6内核中新的锁机制</span></div><div class="line">  &#125; f_u;</div><div class="line">  <span class="keyword">struct</span> path                    f_path;       <span class="comment">//包含dentry和mnt两个成员，用于确定文件路径</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> f_dentry                 f_path.dentry <span class="comment">//f_path的成员之一，当前文件的dentry结构</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> f_vfsmnt                 f_path.mnt    <span class="comment">//表示当前文件所在文件系统的挂载根目录</span></span></div><div class="line">  <span class="keyword">const</span> <span class="keyword">struct</span> file_operations  *f_op;         <span class="comment">//与该文件相关联的操作函数</span></div><div class="line">  <span class="keyword">atomic_t</span>                       f_count;      <span class="comment">//文件的引用计数(有多少进程打开该文件)</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span>                   f_flags;      <span class="comment">//对应于open时指定的flag</span></div><div class="line">  <span class="keyword">mode_t</span>                         f_mode;       <span class="comment">//读写模式：open的mod_t mode参数</span></div><div class="line">  <span class="keyword">off_t</span>                          f_pos;        <span class="comment">//该文件在当前进程中的文件偏移量</span></div><div class="line">  <span class="keyword">struct</span> fown_struct             f_owner;      <span class="comment">//该结构的作用是通过信号进行I/O时间通知的数据。</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span>                   f_uid, f_gid; <span class="comment">//文件所有者id，所有者组id</span></div><div class="line">  <span class="keyword">struct</span> file_ra_state           f_ra;         <span class="comment">//在linux/include/linux/fs.h中定义，文件预读相关</span></div><div class="line">　<span class="keyword">unsigned</span> <span class="keyword">long</span>                  f_version;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_SECURITY</span></div><div class="line">  <span class="keyword">void</span>                          *f_security;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">　　</div><div class="line">  <span class="keyword">void</span>                          *private_data;  <span class="comment">//私有数据指针</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_EPOLL</span></div><div class="line">  <span class="keyword">struct</span> list_head               f_ep_links;</div><div class="line">  <span class="keyword">spinlock_t</span>                     f_ep_lock;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">　<span class="keyword">struct</span> address_space *f_mapping;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>其中设备驱动最为关心的几个内容是：读写模式 <code>f_mode</code>，标志 <code>f_flags</code>，而 <code>private_data</code> 私有数据指针通常被用来指向设备驱动自定义用于描述设备的结构体。</p>
+<p>inode 结构体的具体定义如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> inode &#123;</div><div class="line">  ...</div><div class="line">  <span class="keyword">umode_t</span> imode;                <span class="comment">//inode 的权限</span></div><div class="line">  <span class="keyword">uid_t</span> i_uid;                  <span class="comment">//inode 拥有者的id</span></div><div class="line">  <span class="keyword">gid_t</span> i_gid;                  <span class="comment">//inode 所属群组的id</span></div><div class="line">  <span class="keyword">dev_t</span> i_rdev;                 <span class="comment">//如果是设备文件，这里代表设备的设备号</span></div><div class="line">  <span class="keyword">loff_t</span> i_size;                <span class="comment">//inode 所代表的文件的大小</span></div><div class="line"></div><div class="line">  <span class="keyword">struct</span> timespec i_atime;      <span class="comment">//inode 最近一次的存取时间</span></div><div class="line">  <span class="keyword">struct</span> timespec i_mtime;      <span class="comment">//inode 最近一次的修改时间</span></div><div class="line">  <span class="keyword">struct</span> timespec i_ctime;      <span class="comment">//inode 的产生时间</span></div><div class="line"></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> i_blksize;      <span class="comment">//inode 在做I/O时的区块大小</span></div><div class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> i_blocks;       <span class="comment">//inode 所使用的block数</span></div><div class="line"></div><div class="line">  <span class="keyword">struct</span> block_device *i_bdev;  <span class="comment">//如果是块设备，对应block_device结构体指针</span></div><div class="line">  <span class="keyword">struct</span> cdev *i_cdev;          <span class="comment">//如果是字符设备，对应cdev结构体指针</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">inode 中的 i_rdev 代表设备号，Linux <span class="number">2.6</span> 设备编号分为主设备号和次设备号，前者为 <span class="keyword">dev_t</span> 的高<span class="number">12</span>位，后者为低<span class="number">12</span>位。可以使用下面的函数来获取相应的设备号：</div><div class="line">````<span class="function">C</span></div><div class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">iminor</span><span class="params">(<span class="keyword">struct</span> inode *inode)</span>;</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="title">imajor</span><span class="params">(<span class="keyword">struct</span> inode *inode)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>设备号是与驱动对应的概念，同一类设备一般使用相同的主设备号，因为同一驱动往往可以支持多个同类的设备。</p>
+<h3 id="4-3-Linux-设备文件系统"><a href="#4-3-Linux-设备文件系统" class="headerlink" title="4.3 Linux 设备文件系统"></a>4.3 Linux 设备文件系统</h3><p>Linux 2.6 引入了 <code>sysfs</code> 文件系统，该文件系统是一个虚拟的文件系统。它可以产生一个包括所有系统硬件层级的视图。<br><code>sysfs</code> 把连接在系统上的设备和总线组织成了一分级的文件。它的顶级目录如下：</p>
+<ul>
+<li><strong>block</strong> 包含所有的块设备</li>
+<li><strong>device</strong> 包含所有的设备</li>
+<li><strong>bus</strong> 包含所有的总线类型</li>
+<li><strong>drivers</strong> 包含内核中所有已注册的设备驱动程序</li>
+<li><strong>class</strong> 包含系统中的设备类型</li>
+</ul>
+<p>在 Linux 内核中，分别使用 <code>bus_type</code> <code>device_driver</code> <code>device</code> 来描述总线/驱动/设备。后两者都必须依赖于一种总线，其相应的结构体中都含有一个 <code>bus_type</code> 指针。而驱动和设备是分开注册的，他们通过 <code>bus_type</code> 结构体中的 <code>match()</code> 成员函数进行配对。</p>
+<p>Linux 2.6 使用了 udev 设备模型，udev 根据系统的硬件设备状态变化动态更新设备文件，进行设备的创建和删除等。因此，/dev目录就可以只包含系统中真正存在的文件了。 udev设备在设备被发现的时候加载驱动模块。udev 设计达到下面的目标：</p>
+<ol>
+<li>在用户空间执行</li>
+<li>动态的创建删除文件</li>
+<li>不关心主次设备号</li>
+<li>提供LSB标准名称</li>
+<li>可以提供固定名称</li>
+</ol>
+<p>udev 分为三个模块 namedev、libsysfs、udev。他们的工作过程是：<br>当内核检测到系统出现了新的设备，内核在 sysfs 文件系统中生成相应的记录，并导出一些设备特定的信息。udev 获取内核导出的信息，调用 namedev 给设备指定名称，调用 libsysfs 给设备指定主次设备号，并分析相应的信息来创建/dev中的设备文件。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/20/Linux驱动开发01/" title="Linux驱动开发（一）——驱动开发基础">http://myintelex.github.io/2016/12/20/Linux驱动开发01/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/20/Linux驱动开发01/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发02/">
+                    Linux驱动开发（二）——字符设备驱动模型
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/18/Linux学习总结08/">
+                    Linux学习总结（八）——线程
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、设备驱动程序简介"><span class="toc-text">一、设备驱动程序简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Linux-内核简介"><span class="toc-text">二、Linux 内核简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-内核功能的划分"><span class="toc-text">2.1 内核功能的划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-内核的源代码"><span class="toc-text">2.2 内核的源代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-内核的引导过程"><span class="toc-text">2.3 内核的引导过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Linux-内核编程"><span class="toc-text">三、Linux 内核编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Linux-内核模块的构成"><span class="toc-text">3.1 Linux 内核模块的构成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、Linux文件系统"><span class="toc-text">四、Linux文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-Linxu-文件系统结构"><span class="toc-text">4.1 Linxu 文件系统结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-Linux-文件系统和设备驱动的关系"><span class="toc-text">4.2 Linux 文件系统和设备驱动的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Linux-设备文件系统"><span class="toc-text">4.3 Linux 设备文件系统</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/20/Linux驱动开发01/" data-title="Linux驱动开发（一）——驱动开发基础" data-url="http://myintelex.github.io/2016/12/20/Linux驱动开发01/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/使用Hexo配置Github建立个人站点方法备忘/">使用Hexo配置Github建立个人站点方法备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/BOA服务器移植/">BOA服务器移植</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Ubutu安装VSCode步骤/">Ubutu安装VSCode步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/VS-Code-快捷键总结/">VS Code 快捷键总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2018 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

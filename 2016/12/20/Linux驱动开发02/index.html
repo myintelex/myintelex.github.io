@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Myintelex" />
+
+
+
+<meta name="description" content="本篇对字符设备驱动模型进行总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux驱动开发（二）——字符设备驱动模型">
+<meta property="og:url" content="http://myintelex.github.io/2016/12/20/Linux驱动开发02/index.html">
+<meta property="og:site_name" content="Myintelex">
+<meta property="og:description" content="本篇对字符设备驱动模型进行总结。">
+<meta property="og:updated_time" content="2017-12-06T13:48:33.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux驱动开发（二）——字符设备驱动模型">
+<meta name="twitter:description" content="本篇对字符设备驱动模型进行总结。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/img/myintelex.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux驱动开发（二）——字符设备驱动模型 | Myintelex</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/myintelex.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Myintelex</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">The world is just a piece of code</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/myintelex.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Linux驱动开发02" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/Linux驱动开发02/" class="article-date">
+      <time datetime="2016-12-19T17:08:01.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux驱动开发（二）——字符设备驱动模型
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/file-operations/">file_operations</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动加载/">驱动加载</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>本篇对字符设备驱动模型进行总结。<br><a id="more"></a></p>
+<h2 id="一、驱动结构"><a href="#一、驱动结构" class="headerlink" title="一、驱动结构"></a>一、驱动结构</h2><p>如上篇博客所说驱动开发关注的是两个重要的结构体：<code>file_operations</code>、<code>inode</code>，而对字符驱动设备来讲，我们关注的是 <code>inode</code> 中的 <code>cdev</code> 结构体和 <code>file_operations</code> 中的相关的操作函数。<br><code>cdev</code> 结构体的定义如下：<br><figure class="highlight plain"><figcaption><span>cdev &#123;</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">    struct kobject kobj;         //内嵌的kobj对象</div><div class="line">    struct module *owner;        //所属模块</div><div class="line">    struct file_operations *ops; //文件操作结构体</div><div class="line">    struct list_head list;</div><div class="line">    dev_t dev;                   //设备号</div><div class="line">    unsigned int count;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中的 <code>dev_t</code> 成员定义了设备号，我们可以使用相应的宏从中获取主次设备号，或者使用相应的设备号生成 <code>dev_t</code>：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MAJOR(<span class="keyword">dev_t</span> dev);  <span class="comment">//获取主设备号</span></div><div class="line">MINOR(<span class="keyword">dev_t</span> dev);  <span class="comment">//获取次设备号</span></div><div class="line">MKDEV(<span class="keyword">int</span> major, <span class="keyword">int</span> minor) <span class="comment">//生成 dev_t</span></div></pre></td></tr></table></figure></p>
+<p>操作 <code>cdev</code> 结构体的函数如下所示：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">void cdev_init(struct cdev *, struct file_operations *);  //初始化 cdev </div><div class="line">struct cdev *cdev_alloc(void);                            //动态申请 cdev 内存</div><div class="line">void cdev_put(struct cdev *p);                            //释放 cdev 内存</div><div class="line">int cdev_add(struct cdev *, dev_t, unsigned);             //添加一个 cdev 字符:设备注册</div><div class="line">int cdev_del(struct cdev *)；                             //删除一个 cdev 字符:设备注销</div></pre></td></tr></table></figure></p>
+<p>在设备注册和注销前，还需要向系统申请注册和释放设备号：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">register_chrdev_region</span><span class="params">(<span class="keyword">dev_t</span> from, <span class="keyword">unsigned</span> count, <span class="keyword">const</span> <span class="keyword">char</span> *name)</span></span>; <span class="comment">//已知起始设备号注册设备</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">alloc_chrdev_region</span><span class="params">(<span class="keyword">dev_t</span> *dev, <span class="keyword">unsigned</span> baseminor, <span class="keyword">unsigned</span> count, </span></span></div><div class="line">                        <span class="keyword">const</span> <span class="keyword">char</span> *name);                                 <span class="comment">//动态申请设备号</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">unregister_chrdev_region</span><span class="params">(<span class="keyword">dev_t</span> form, <span class="keyword">unsigned</span> count)</span></span>;                  <span class="comment">//注销设备号</span></div></pre></td></tr></table></figure></p>
+<h2 id="二、加载和卸载"><a href="#二、加载和卸载" class="headerlink" title="二、加载和卸载"></a>二、加载和卸载</h2><p>字符设备驱动模块加载函数中应实现设备号的申请和 cdev 的注册，在卸载函数中应实现设备号的释放和 cdev 注销。相应的代码如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//设备结构体，通常把该设备涉及到的cdev、私有数据及信号量等信息全包含进去。</span></div><div class="line"><span class="keyword">struct</span> <span class="keyword">xxx_dev_t</span> &#123;</div><div class="line">    <span class="keyword">struct</span> cdev cdev;</div><div class="line">    ...</div><div class="line">&#125; xxx_dev;  </div><div class="line"><span class="comment">//设备驱动模块加载函数</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">xxx_init</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    cdev_init(&amp;xxx_dev.cdev, &amp;xxx_fops); <span class="comment">//初始化cdev</span></div><div class="line">    xxx_dev.cdev.owner = THIS_MODULE;</div><div class="line">    <span class="keyword">if</span> (xxx_major) &#123;</div><div class="line">        register_chrdev_region(xxx_dev_no, <span class="number">1</span>, DEV_NAME);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        alloc_chrdev_region(&amp;xxx_dev_no, <span class="number">0</span>, <span class="number">1</span>, DEV_NAME);</div><div class="line">    &#125;  <span class="comment">//获取字符设备号</span></div><div class="line">    ret = cdev_add(&amp;xxx_dev.cdev, xxx_dev_no, <span class="number">1</span>); <span class="comment">//注册设备</span></div><div class="line">&#125; </div><div class="line"><span class="comment">//设备驱动模块卸载函数</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">void</span> __<span class="function"><span class="built_in">exit</span> <span class="title">xxx_exit</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</div><div class="line">    unregister_chrdev_region(xxx_dev_no, <span class="number">1</span>); <span class="comment">//释放占用的设备号</span></div><div class="line">    cdev_del(&amp;xxx_dev.cdev); <span class="comment">//注销设备</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="三、file-operations-结构体函数"><a href="#三、file-operations-结构体函数" class="headerlink" title="三、file_operations 结构体函数"></a>三、<code>file_operations</code> 结构体函数</h2><p>字符设备驱动通常要实现字符设备 <code>file_operations</code> 结构体中的读写函数，相应的结构体模板是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> file_operations xxx_fops = &#123;</div><div class="line">    .owner = THIS_MODULE;</div><div class="line">    .read = xxx_read;</div><div class="line">    .write = xxx_write;</div><div class="line">    .ioctl = xxx_ioctl;</div><div class="line">    ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>我们需要将我们实现的操作函数在 <code>file_operations</code> 结构体中指定其实现函数。相应的实现函数模板是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//打开设备</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">xxx_open</span><span class="params">(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//释放设备文件</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">xxx_release</span><span class="params">(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">//读设备</span></div><div class="line"><span class="keyword">ssize_t</span> xxx_read(<span class="keyword">struct</span> file *filp, <span class="keyword">char</span> __user *buf，<span class="keyword">size_t</span> count, <span class="keyword">loff_t</span> *f_pos) &#123;</div><div class="line">    ...</div><div class="line">    copy_to_user(buf, ..., ...);</div><div class="line">&#125;</div><div class="line"><span class="comment">//写设备</span></div><div class="line"><span class="keyword">ssize_t</span> xxx_write(<span class="keyword">struct</span> file *filp, <span class="keyword">char</span> __user *buf，<span class="keyword">size_t</span> count, <span class="keyword">loff_t</span> *f_pos) &#123;</div><div class="line">    ...</div><div class="line">    copy_from_user(buf, ..., ...);</div><div class="line">&#125;</div><div class="line"><span class="comment">//文件定位</span></div><div class="line"><span class="function"><span class="keyword">static</span> loff_t <span class="title">xxx_llseek</span><span class="params">(<span class="keyword">struct</span> file *filp, <span class="keyword">loff_t</span> offset, <span class="keyword">int</span> orig)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"><span class="comment">//设备控制</span></div><div class="line"><span class="keyword">ssize_t</span> xxx_ioctl(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp, <span class="keyword">unsigned</span> <span class="keyword">int</span> cmd, <span class="keyword">unsigned</span> <span class="keyword">long</span> arg) &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">switch</span> (cmd) &#123;</div><div class="line">    <span class="keyword">case</span> xxx_CMD1:</div><div class="line">        ...</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> xxx_CMD1:</div><div class="line">        ...</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="keyword">return</span> -ENOTTY;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>分别介绍写通常要使用的实现函数：</p>
+<h3 id="3-1-打开函数"><a href="#3-1-打开函数" class="headerlink" title="3.1 打开函数"></a>3.1 打开函数</h3><p><code>int xxx_open(struct inode *inode, struct file *filp)</code><br>  打开函数中给驱动初始化，通常我们应实现以下工作：</p>
+<ul>
+<li>检查设备的错误</li>
+<li>如果设备初次打开，对其初始化</li>
+<li>如果必要，更新操作函数指针</li>
+<li>分配私有数据指针<br><code>inode</code> 参数指的是我们打开设备的文件结构体，其中包含了我们的字符设备cdev结构体指针。如上文所说，我们通常把该设备涉及到的cdev、私有数据及信号量等信息全包含进设备结构体中。这里有个技巧可以从 <code>inode</code> 指针中获取我们的设备结构体，使用宏 <code>container_of</code>，使用该宏可以从结构体成员指针找到对应的结构体指针:<br><code>container_of(pointer, container_type, container_field)</code><br>其中，<br><code>pointer</code> 是我们已知的指针，这里我们可以知道设备结构体中的 <code>cdev</code> 成员的指针为 <code>inode-&gt;i_cdev</code>；<br><code>container_type</code> 是我们想要获取的结构体类型，我们这里想要获取的结构体是自定义的设备结构体 <code>xxx_dev_t</code><br><code>container_field</code> 是 <code>pointer</code> 的类型，这里 <code>cdev</code> 的类型是 <code>cdev</code>。<br>这样，该宏就返回了我们想要的自定义的设备结构体指针，使用该指针可以很方便的找到我们的私有数据指针等和设备相关的信息。</li>
+</ul>
+<h3 id="3-2-关闭函数"><a href="#3-2-关闭函数" class="headerlink" title="3.2 关闭函数"></a>3.2 关闭函数</h3><p><code>int xxx_release(struct inode *inode, struct file *filp)</code><br>   关闭函数和打开函数相反，完成了以下的工作：</p>
+<ul>
+<li>释放由 <code>open</code> 分配的，保存在 <code>filp-&gt;private_data</code> 中的所有数据。</li>
+<li>在最后一次关闭操作的时候关闭设备。</li>
+</ul>
+<h3 id="3-3-读写函数"><a href="#3-3-读写函数" class="headerlink" title="3.3 读写函数"></a>3.3 读写函数</h3><p>  在设备读写函数中，<code>filp</code> 是文件结构体指针，<code>buf</code> 是用户空间内存地址，<code>count</code> 是要读写的字节数，<code>f_ops</code> 是读写的位置偏移量。<br>  因为内核空间和用户空间不能直接互相访问，所以需要在读写函数中实现用户空间到内核空间的复制。使用下述两个函数：<br>  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">copy_from_user</span><span class="params">(<span class="keyword">void</span> *to, <span class="keyword">const</span> <span class="keyword">void</span> __user *from, <span class="keyword">unsigned</span> <span class="keyword">long</span> count)</span></span>;</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">copy_to_user</span><span class="params">(<span class="keyword">void</span> __user *to, <span class="keyword">const</span> <span class="keyword">void</span> *from, <span class="keyword">unsigned</span> <span class="keyword">long</span> count)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>  上述函数返回不能复制的字节数，如果完全复制成功，返回0。 <code>__user</code> 是一个宏，表明后面的指针指向用户空间。</p>
+<h3 id="3-4-ioctl函数"><a href="#3-4-ioctl函数" class="headerlink" title="3.4 ioctl函数"></a>3.4 ioctl函数</h3><p>  ioctl 是设备驱动程序中对设备的I/O通道进行管理的函数。所谓对I/O通道进行管理，就是对设备的一些特性进行控制，例如串口的传输波特率、马达的转速等等。在 <code>xxx_ioctl</code> 函数中的 <code>cmd</code> 参数我们可以自己来直接指定，它可能仅仅是一个整数集，但 Linux 中的 ioctl 命令号都是有特定含义的，因此通常我们不么做。Linux 建议以 <code>设备类型/幻数（8bit）+序列号（8bit）+方向（2bit）+数据尺寸（13/14bit）</code> 的方式来定义 <code>cmd</code>。<br>  Linux 内核提供了相应的宏来自动生成 ioctl 命令号：<br>  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">_IO(type,nr) <span class="comment">//没有参数的命令</span></div><div class="line">_IOR(type,nr,size) <span class="comment">//该命令是从驱动读取数据</span></div><div class="line">_IOW(type,nr,size) <span class="comment">//该命令是从驱动写入数据</span></div><div class="line">_IOWR(type,nr,size) <span class="comment">//双向数据传输</span></div></pre></td></tr></table></figure></p>
+<p>  上面的命令已经定义了方向，我们要传的是幻数(type)、序号(nr)和大小(size)。在这里szie的参数只需要填参数的类型，如int，上面的命令就会帮你检测类型的正确然后赋值 sizeof(int)。<br>  有生成cmd的命令就必有拆分cmd的命令：<br>  <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">_IOC_DIR(cmd) <span class="comment">//从命令中提取方向</span></div><div class="line">_IOC_TYPE(cmd) <span class="comment">//从命令中提取幻数</span></div><div class="line">_IOC_NR(cmd) <span class="comment">//从命令中提取序数</span></div><div class="line">_IOC_SIZE(cmd) <span class="comment">//从命令中提取数据大小</span></div></pre></td></tr></table></figure></p>
+<h3 id="3-5-定位函数"><a href="#3-5-定位函数" class="headerlink" title="3.5 定位函数"></a>3.5 定位函数</h3><p><code>static loff_t xxx_llseek(struct file *filp, loff_t offset, int orig)</code><br>通过对 <code>orig</code> 的判断可以将起始地址设为文件开头（SEEK_SET， 0）、当前位置（SEELK_CUL，1）和文件尾（SEEK_END，2）。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/12/20/Linux驱动开发02/" title="Linux驱动开发（二）——字符设备驱动模型">http://myintelex.github.io/2016/12/20/Linux驱动开发02/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/20/Linux驱动开发02/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发03/">
+                    Linux驱动开发（三）——并发控制
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/12/20/Linux驱动开发01/">
+                    Linux驱动开发（一）——驱动开发基础
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、驱动结构"><span class="toc-text">一、驱动结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、加载和卸载"><span class="toc-text">二、加载和卸载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、file-operations-结构体函数"><span class="toc-text">三、file_operations 结构体函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-打开函数"><span class="toc-text">3.1 打开函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-关闭函数"><span class="toc-text">3.2 关闭函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-读写函数"><span class="toc-text">3.3 读写函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-ioctl函数"><span class="toc-text">3.4 ioctl函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-定位函数"><span class="toc-text">3.5 定位函数</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/20/Linux驱动开发02/" data-title="Linux驱动开发（二）——字符设备驱动模型" data-url="http://myintelex.github.io/2016/12/20/Linux驱动开发02/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"myintelex"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/使用Hexo配置Github建立个人站点方法备忘/">使用Hexo配置Github建立个人站点方法备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/BOA服务器移植/">BOA服务器移植</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Ubutu安装VSCode步骤/">Ubutu安装VSCode步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/VS-Code-快捷键总结/">VS Code 快捷键总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
+
+</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2014-2018 Myintelex
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
