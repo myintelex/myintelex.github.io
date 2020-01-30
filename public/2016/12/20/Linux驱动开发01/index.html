@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-<html >
+<html>
 <head>
-
-    <!--[if lt IE 9]>
-        <style>body {display: none; background: none !important} </style>
-        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
-    <![endif]-->
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no" />
-<meta name="author" content="Myintelex" />
-
-
-
-<meta name="description" content="从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://myintelex.github.io">
+  <title>Linux驱动开发（一）——驱动开发基础 | Myintelex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux驱动开发（一）——驱动开发基础">
 <meta property="og:url" content="http://myintelex.github.io/2016/12/20/Linux驱动开发01/index.html">
@@ -27,203 +20,138 @@
 <meta name="twitter:title" content="Linux驱动开发（一）——驱动开发基础">
 <meta name="twitter:description" content="从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。">
 <meta name="twitter:image" content="http://ogf054qp1.bkt.clouddn.com/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%9A%84%E5%85%B3%E7%B3%BB.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/myintelex.png">
+  
+  <link rel="stylesheet" href="/main.css?v=4.0.0.css">
+  
 
-<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
-
-
-    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
-
-
-
-    <link rel="shortcut icon" href="/img/myintelex.png">
-
-
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
-
-
-    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
-
-
-
-    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-
-<title>Linux驱动开发（一）——驱动开发基础 | Myintelex</title>
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-<script>
-    var yiliaConfig = {
-        fancybox: true,
-        animate: true,
-        isHome: false,
-        isPost: true,
-        isArchive: false,
-        isTag: false,
-        isCategory: false,
-        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
-        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
-    }
-</script>
-
-
-    <script>
-        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
-    </script>
-
-
-
-    <script> yiliaConfig.rootUrl = "\/";</script>
-
-
-
-
-
+  
 
 </head>
+
 <body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      <div class="overlay"></div>
 <div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            <img src="/img/myintelex.png" class="animated zoomIn">
-        </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">Myintelex</a></h1>
-        </hgroup>
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/img/myintelex.png" class="js-avatar">
+		</a>
 
-        
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Myintelex</a></h1>
+		</hgroup>
 
-        
+		
 
-
-        
-
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
-                            
-                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
-                    
-                    </div>
-                </section>
-                
-
-                
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">The world is just a piece of code</div>
-                </section>
-                
-            </div>
-        </div>
-    </header>                
-</div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                <img src="/img/myintelex.png" class="animated zoomIn">
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
-            </hgroup>
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/archives/">所有文章</a></li>
+	        
+				<li><a href="/tags/">标签云</a></li>
+	        
+				<li><a href="/about/">个人简历</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
             
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
-                            
-                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
-                            
-                        </ul>
-            </nav>
-        </header>                
+    			
+            
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:myintelex@163.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="github" target="_blank" href="https://github.com/myintelex" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"><i class="icon-CSDN"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
     </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-sort"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Myintelex</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/img/myintelex.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Myintelex</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">个人简历</a></li>
+		        
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:myintelex@163.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="github" target="_blank" href="https://github.com/myintelex" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"><i class="icon-CSDN"></i></a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
 </nav>
-      <div class="body-wrap"><article id="post-Linux驱动开发01" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发01/" class="article-date">
-      <time datetime="2016-12-19T16:08:01.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
 
-
-    </div>
-  
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-Linux驱动开发01" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -233,27 +161,13 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发01/" class="archive-article-date">
+  	<time datetime="2016-12-19T16:08:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udev/">udev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内核/">内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设备文件系统/">设备文件系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
         <p>从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。<br><a id="more"></a></p>
 <h2 id="一、设备驱动程序简介"><a href="#一、设备驱动程序简介" class="headerlink" title="一、设备驱动程序简介"></a>一、设备驱动程序简介</h2><p>设备驱动程序是十分重要的，它是连接硬件与软件的桥梁。无操作系统的设备需要单独开发设备驱动，并以相应的驱动模块存在，这样可以更好的划分应用工程师的工作。而在有操作系统的设备上，驱动则是<strong>连接硬件和内核的桥梁</strong>。<br>Linux 设备驱大致可以分为三类：<br>  <strong>字符设备</strong> 可以顺序访问的设备，通常字符设备至少要实现 <code>open()</code>、<code>close()</code>、<code>read()</code>、<code>write()</code> 等系统调用。<br>  <strong>块设备</strong> 块设备和字符设备类似，他们的区别是块设备上可以容纳文件系统，块设备和字符设备在内核内部管理数据的方式不同。<br>  <strong>网络设备</strong> 网络设备和字符以及块设备完全不同，它是围绕数据包的传输和接收来设计的。<br>所有的块设备和字符设备均被映射到 LInux 的文件系统中去。</p>
 <h2 id="二、Linux-内核简介"><a href="#二、Linux-内核简介" class="headerlink" title="二、Linux 内核简介"></a>二、Linux 内核简介</h2><h3 id="2-1-内核功能的划分"><a href="#2-1-内核功能的划分" class="headerlink" title="2.1 内核功能的划分"></a>2.1 内核功能的划分</h3><p>根据内核完成任务的不同，可以将内核功能划分为以下几部分：</p>
@@ -384,174 +298,244 @@
 <p>udev 分为三个模块 namedev、libsysfs、udev。他们的工作过程是：<br>当内核检测到系统出现了新的设备，内核在 sysfs 文件系统中生成相应的记录，并导出一些设备特定的信息。udev 获取内核导出的信息，调用 namedev 给设备指定名称，调用 libsysfs 给设备指定主次设备号，并分析相应的信息来创建/dev中的设备文件。</p>
 
       
+
+      
     </div>
+    
+
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udev/">udev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内核/">内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设备文件系统/">设备文件系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://myintelex.github.io/2016/12/20/Linux驱动开发01/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/12/20/Linux驱动开发02/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux驱动开发（二）——字符设备驱动模型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/18/Linux学习总结08/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux学习总结（八）——线程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Linux驱动开发01" data-title="Linux驱动开发（一）——驱动开发基础" data-url="http://myintelex.github.io/2016/12/20/Linux驱动开发01/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"litten-hexo"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Myintelex
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: false
+	}
+</script>
+
+<script src="/./main.js?v=4.0.0.js"></script>
+
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-wrap">
+    
+
+    
+
     
   </div>
   
-    
-    <div class="copyright">
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/12/20/Linux驱动开发01/" title="Linux驱动开发（一）——驱动开发基础">http://myintelex.github.io/2016/12/20/Linux驱动开发01/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://myintelex.github.io/2016/12/20/Linux驱动开发01/　　作者: Myintelex" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-    </div>
-
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/12/20/Linux驱动开发02/">
-                    Linux驱动开发（二）——字符设备驱动模型
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/12/18/Linux学习总结08/">
-                    Linux学习总结（八）——线程
-                </a>
-            </div>
-        
-    </nav>
-
-  
-</article>
-
-    <div id="toc" class="toc-article">
-        <strong class="toc-title">文章目录</strong>
-        
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、设备驱动程序简介"><span class="toc-text">一、设备驱动程序简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、Linux-内核简介"><span class="toc-text">二、Linux 内核简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-内核功能的划分"><span class="toc-text">2.1 内核功能的划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-内核的源代码"><span class="toc-text">2.2 内核的源代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-内核的引导过程"><span class="toc-text">2.3 内核的引导过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Linux-内核编程"><span class="toc-text">三、Linux 内核编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Linux-内核模块的构成"><span class="toc-text">3.1 Linux 内核模块的构成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、Linux文件系统"><span class="toc-text">四、Linux文件系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-Linxu-文件系统结构"><span class="toc-text">4.1 Linxu 文件系统结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-Linux-文件系统和设备驱动的关系"><span class="toc-text">4.2 Linux 文件系统和设备驱动的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Linux-设备文件系统"><span class="toc-text">4.3 Linux 设备文件系统</span></a></li></ol></li></ol>
-        
-    </div>
-    <style>
-        .left-col .switch-btn,
-        .left-col .switch-area {
-            display: none;
-        }
-        .toc-level-3 i,
-        .toc-level-3 ol {
-            display: none !important;
-        }
-    </style>
-
-    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-    <script>
-        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
-    </script>
-
-
-
-
-
-    
-      <div class="duoshuo" id="comments">
-    <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/12/20/Linux驱动开发01/" data-title="Linux驱动开发（一）——驱动开发基础" data-url="http://myintelex.github.io/2016/12/20/Linux驱动开发01/"></div>
-    <script>
-        var duoshuoQuery = {short_name:"myintelex"};
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            s.async = true; s.charset = 'UTF-8';
-            (d.head || d.body).appendChild(s);
-        }
-
-        
-    </script>
-    
-    <script> loadComment(); </script>
-
 </div>
-    
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
 
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
 
-
-    <div class="scroll" id="post-nav-button">
-
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/12/25/使用Hexo配置Github建立个人站点方法备忘/">使用Hexo配置Github建立个人站点方法备忘</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/20/BOA服务器移植/">BOA服务器移植</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/14/Ubutu安装VSCode步骤/">Ubutu安装VSCode步骤</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/10/VS-Code-快捷键总结/">VS Code 快捷键总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/Visual-Studio-Code-自动补全插件设置“/">Visual Studio Code 自动补全插件设置
-
-</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/C-学习笔记（三）——STL/">C++学习笔记（三）——C++标准库</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/C-整形和字符串的转换/">C++ string、char *和int的转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/操作系统命名规范/">操作系统命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/02C-学习笔记（二）——面向对象/">C++学习笔记（二）——面向对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/C-学习笔记（一）——基础知识/">C++学习笔记（一）——基础知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/28/《程序员的修炼之道》读书笔记/">《程序员的修炼之道》读书笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发07/">Linux驱动开发（七）——设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发06/">Linux驱动开发（六）——内存使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发05/">Linux驱动开发（五）——中断和时钟</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发04/">Linux驱动开发（四）——I/O操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发03/">Linux驱动开发（三）——并发控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发02/">Linux驱动开发（二）——字符设备驱动模型</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/20/Linux驱动开发01/">Linux驱动开发（一）——驱动开发基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结08/">Linux学习总结（八）——线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/18/Linux学习总结09/">Linux学习总结（九）——网络编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结06/">Linux学习总结（六）——进程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结07/">Linux学习总结（七）——进程间通信</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结05/">Linux学习总结（五）——高级I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结04/">Linux学习总结（四）——标准I/O与文件I/O</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结03/">Linux学习总结（三）——Shell常见命令解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/16/Linux学习总结02/">Linux学习总结（二）——Shell编程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/13/Linux学习总结01/">Linux学习总结（一）——系统结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/C语言学习总结（五）——C库函数总结/">C语言学习总结（五）——C库函数总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/02/Google-C-Style-Guide/">Google C++ Style Guide</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/30/线性表的实现/">线性表的实现--链表</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/26/环境变量总结/">环境变量总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/system调用Qt程序的问题/">system调用Qt程序的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/在windows下打出tar-gz的尝试/">在windows下打出tar.gz的尝试</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（四）——数据结构/">C语言学习总结（四）——数据结构</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（三）——C语言的基本语法/">C语言学习总结（三）——C语言的基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/21/C语言学习总结（二）——GCC和GDB/">C语言学习总结（二）——GCC和GDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/18/C语言学习总结（一）-开篇/">C语言学习总结（一）——开篇</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                <i class="fa fa-copyright"></i> 
-                2014-2018 Myintelex
-            </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
-            </div>
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
         </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>| </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
             </div>
-        
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
     </div>
-</footer>
-    </div>
-    
-<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
-
-
-
-
-
-<div class="scroll" id="scroll">
 
 </div>
-<script>
-    // Open in New Window
-    
-        var oOpenInNew = {
-            
-            
-            
-            
-            
-            
-             archives: ".archive-article-title", 
-             miniArchives: "a.post-list-link", 
-            
-             friends: "#js-friends a", 
-             socail: ".social a" 
-        }
-        for (var x in oOpenInNew) {
-            $(oOpenInNew[x]).attr("target", "_blank");
-        }
-    
-</script>
-
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
   </div>
 </body>
 </html>
