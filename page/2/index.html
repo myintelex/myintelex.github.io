@@ -1,230 +1,153 @@
 <!DOCTYPE html>
-<html >
+<html>
 <head>
-
-    <!--[if lt IE 9]>
-        <style>body {display: none; background: none !important} </style>
-        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
-    <![endif]-->
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no" />
-<meta name="author" content="Myintelex" />
-
-
-    
-    
-
-
-<meta property="og:type" content="website">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://myintelex.github.io">
+  <title>Myintelex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
 <meta property="og:title" content="Myintelex">
 <meta property="og:url" content="http://myintelex.github.io/page/2/index.html">
 <meta property="og:site_name" content="Myintelex">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Myintelex">
+  
+    <link rel="alternative" href="/atom.xml" title="Myintelex" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/myintelex.png">
+  
+  <link rel="stylesheet" href="/main.css?v=4.0.0.css">
+  
 
-<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
-
-
-    <link rel="alternate" href="/atom.xml" title="Myintelex" type="application/atom+xml">
-
-
-
-    <link rel="shortcut icon" href="/img/myintelex.png">
-
-
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
-
-
-    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
-
-
-
-    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-    <style> .article { opacity: 0;} </style>
-
-
-<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-
-<title>Myintelex</title>
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-<script>
-    var yiliaConfig = {
-        fancybox: true,
-        animate: true,
-        isHome: true,
-        isPost: false,
-        isArchive: false,
-        isTag: false,
-        isCategory: false,
-        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
-        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
-    }
-</script>
-
-
-    <script>
-        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
-    </script>
-
-
-
-    <script> yiliaConfig.rootUrl = "\/";</script>
-
-
-
-
-
+  
 
 </head>
+
 <body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      <div class="overlay"></div>
 <div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            <img src="/img/myintelex.png" class="animated zoomIn">
-        </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">Myintelex</a></h1>
-        </hgroup>
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			<img src="/img/myintelex.png" class="js-avatar">
+		</a>
 
-        
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Myintelex</a></h1>
+		</hgroup>
 
-        
+		
 
-
-        
-
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" href="mailto:myintelex@163.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/myintelex" title="GitHub"></a>
-                            
-                                <a class="fa CSDN" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
-                    
-                    </div>
-                </section>
-                
-
-                
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">The world is just a piece of code</div>
-                </section>
-                
-            </div>
-        </div>
-    </header>                
-</div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Myintelex</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                <img src="/img/myintelex.png" class="animated zoomIn">
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Myintelex</a></h1>
-            </hgroup>
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/archives/">所有文章</a></li>
+	        
+				<li><a href="/tags/">标签云</a></li>
+	        
+				<li><a href="/about/">个人简历</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
             
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" target="_blank" href="mailto:myintelex@163.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" target="_blank" href="https://github.com/myintelex" title="GitHub"></a>
-                            
-                                <a class="fa CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"></a>
-                            
-                        </ul>
-            </nav>
-        </header>                
+    			
+            
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:myintelex@163.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="github" target="_blank" href="https://github.com/myintelex" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"><i class="icon-CSDN"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
     </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-sort"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Myintelex</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/img/myintelex.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Myintelex</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives/">所有文章</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">个人简历</a></li>
+		        
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:myintelex@163.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="github" target="_blank" href="https://github.com/myintelex" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="CSDN" target="_blank" href="http://blog.csdn.net/myintelex" title="CSDN"><i class="icon-CSDN"></i></a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-《程序员的修炼之道》读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/28/《程序员的修炼之道》读书笔记/" class="article-date">
-      <time datetime="2016-12-28T10:07:47.000Z" itemprop="datePublished">2016-12-28</time>
-</a>
 
-
-    </div>
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            
   
+    <article id="post-《程序员的修炼之道》读书笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -234,40 +157,46 @@
     </h1>
   
 
+        <a href="/2016/12/28/《程序员的修炼之道》读书笔记/" class="archive-article-date">
+  	<time datetime="2016-12-28T10:07:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-28</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>最近看了《程序员的修炼之道-从小工到专家》，里面讲的是怎样成为一个注重实效的程序员。讲的是程序员，但是其实中间的很多道理作为一个职场人来说，都是适用的。因为最近看得个人管理方面的书籍比较多，还是按照很多大师经常提到的<strong>道、术、器、用</strong>四个字来总结一下这本书，也是给自己的一个发展定位：我自己想要成为一个怎样的程序员。</p>
-          
+        <p>最近看了《程序员的修炼之道-从小工到专家》，里面讲的是怎样成为一个注重实效的程序员。讲的是程序员，但是其实中间的很多道理作为一个职场人来说，都是适用的。因为最近看得个人管理方面的书籍比较多，还是按照很多大师经常提到的<strong>道、术、器、用</strong>四个字来总结一下这本书，也是给自己的一个发展定位：我自己想要成为一个怎样的程序员。</p>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/程序员的修炼之道/">程序员的修炼之道</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/程序员的修炼之道/">程序员的修炼之道</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/28/《程序员的修炼之道》读书笔记/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/28/《程序员的修炼之道》读书笔记/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -279,20 +208,8 @@
 
 
   
-    <article id="post-Linux驱动开发07" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发07/" class="article-date">
-      <time datetime="2016-12-19T22:08:09.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发07" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -302,40 +219,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发07/" class="archive-article-date">
+  	<time datetime="2016-12-19T22:08:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>设备驱动模型提供了硬件的抽象，内核使用这样的抽象可以完成很多硬件重复的工作，<br>
-          
+        <p>设备驱动模型提供了硬件的抽象，内核使用这样的抽象可以完成很多硬件重复的工作，<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存/">内存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/硬件通信/">硬件通信</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存/">内存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/硬件通信/">硬件通信</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发07/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发07/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -347,20 +270,8 @@
 
 
   
-    <article id="post-Linux驱动开发06" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发06/" class="article-date">
-      <time datetime="2016-12-19T22:08:08.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发06" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -370,40 +281,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发06/" class="archive-article-date">
+  	<time datetime="2016-12-19T22:08:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>Linux 使用的是一个虚拟内存系统，意味着用户程序所使用的地址和硬件使用的物理地址是不等同的。本篇博客首先会简单描述相应的概念，然后介绍下内存存取的相应接口，最后讨论下和硬件IO相关的知识。<br>
-          
+        <p>Linux 使用的是一个虚拟内存系统，意味着用户程序所使用的地址和硬件使用的物理地址是不等同的。本篇博客首先会简单描述相应的概念，然后介绍下内存存取的相应接口，最后讨论下和硬件IO相关的知识。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存/">内存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/硬件通信/">硬件通信</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IO/">IO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存/">内存</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/硬件通信/">硬件通信</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发06/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发06/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -415,20 +332,8 @@
 
 
   
-    <article id="post-Linux驱动开发05" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发05/" class="article-date">
-      <time datetime="2016-12-19T22:08:01.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发05" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -438,40 +343,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发05/" class="archive-article-date">
+  	<time datetime="2016-12-19T22:08:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>除了部分仅使用 I/O 寄存器的设备之外，大部分的设备都需要与外部打交道。这些外部的工作通常都是在与处理器完全不同的时间周期内完成的，且通常比处理器的处理速度要慢，所以一直让 CPU 等待设备的处理是不能令人满意的。这时候我们就需要使用中断。<br>
-          
+        <p>除了部分仅使用 I/O 寄存器的设备之外，大部分的设备都需要与外部打交道。这些外部的工作通常都是在与处理器完全不同的时间周期内完成的，且通常比处理器的处理速度要慢，所以一直让 CPU 等待设备的处理是不能令人满意的。这时候我们就需要使用中断。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中断/">中断</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/定时器/">定时器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/延时/">延时</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/中断/">中断</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/定时器/">定时器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/延时/">延时</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发05/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发05/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -483,20 +394,8 @@
 
 
   
-    <article id="post-Linux驱动开发04" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发04/" class="article-date">
-      <time datetime="2016-12-19T22:08:01.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发04" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -506,40 +405,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发04/" class="archive-article-date">
+  	<time datetime="2016-12-19T22:08:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>对于 Linux 设备来说，设备是当作文件来处理的。所以，很多设备的 I/O 操作都是很重要的一个部分。这篇博客总结了 Linux 驱动开发中 I/O 相关的一些内容。包含阻塞和非阻塞 I/O 、I/O 轮询、异步 I/O 等。<br>
-          
+        <p>对于 Linux 设备来说，设备是当作文件来处理的。所以，很多设备的 I/O 操作都是很重要的一个部分。这篇博客总结了 Linux 驱动开发中 I/O 相关的一些内容。包含阻塞和非阻塞 I/O 、I/O 轮询、异步 I/O 等。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/I-O/">I/O</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/poll/">poll</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/异步通知/">异步通知</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/等待队列/">等待队列</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/I-O/">I/O</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/poll/">poll</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/异步通知/">异步通知</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/等待队列/">等待队列</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发04/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发04/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -551,20 +456,8 @@
 
 
   
-    <article id="post-Linux驱动开发03" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发03/" class="article-date">
-      <time datetime="2016-12-19T19:08:01.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发03" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -574,40 +467,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发03/" class="archive-article-date">
+  	<time datetime="2016-12-19T19:08:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p><strong>并发</strong>的定义是：多个执行单元同时、并行的执行。并发会导致<strong>竞态</strong>：并发的执行单元对共享资源的访问。<br>
-          
+        <p><strong>并发</strong>的定义是：多个执行单元同时、并行的执行。并发会导致<strong>竞态</strong>：并发的执行单元对共享资源的访问。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/信号量/">信号量</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自旋锁/">自旋锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/信号量/">信号量</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发/">并发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自旋锁/">自旋锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发03/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发03/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -619,20 +518,8 @@
 
 
   
-    <article id="post-Linux驱动开发02" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发02/" class="article-date">
-      <time datetime="2016-12-19T17:08:01.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发02" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -642,40 +529,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发02/" class="archive-article-date">
+  	<time datetime="2016-12-19T17:08:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>本篇对字符设备驱动模型进行总结。<br>
-          
+        <p>本篇对字符设备驱动模型进行总结。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/file-operations/">file_operations</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动加载/">驱动加载</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/file-operations/">file_operations</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动加载/">驱动加载</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发02/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发02/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -687,20 +580,8 @@
 
 
   
-    <article id="post-Linux驱动开发01" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/20/Linux驱动开发01/" class="article-date">
-      <time datetime="2016-12-19T16:08:01.000Z" itemprop="datePublished">2016-12-20</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux驱动开发01" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -710,40 +591,46 @@
     </h1>
   
 
+        <a href="/2016/12/20/Linux驱动开发01/" class="archive-article-date">
+  	<time datetime="2016-12-19T16:08:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-20</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。<br>
-          
+        <p>从本篇博客开始，尝试给自己掌握的 Linux 设备驱动开发进行一个总结，这并不是一个很简单的工作，因为自己的确目前对 Linux 驱动开发也只是一知半解。尽自己所能吧。今天是第一天，先来谈谈 Linux 驱动开发的基础知识。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udev/">udev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内核/">内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设备文件系统/">设备文件系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udev/">udev</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内核/">内核</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设备文件系统/">设备文件系统</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/驱动/">驱动</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/驱动开发/">驱动开发</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/20/Linux驱动开发01/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/20/Linux驱动开发01/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -755,20 +642,8 @@
 
 
   
-    <article id="post-Linux学习总结08" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/18/Linux学习总结08/" class="article-date">
-      <time datetime="2016-12-18T03:52:36.000Z" itemprop="datePublished">2016-12-18</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux学习总结08" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -778,40 +653,46 @@
     </h1>
   
 
+        <a href="/2016/12/18/Linux学习总结08/" class="archive-article-date">
+  	<time datetime="2016-12-18T03:52:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-18</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>进程，它是资源分配的最小单位，进程中的事情需要按照一定的顺序逐个进行，那么：<strong>如何让一个进程中的一些事情同时执行？</strong><br>
-          
+        <p>进程，它是资源分配的最小单位，进程中的事情需要按照一定的顺序逐个进行，那么：<strong>如何让一个进程中的一些事情同时执行？</strong><br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/互斥锁/">互斥锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/条件变量/">条件变量</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程/">线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程属性/">线程属性</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/互斥锁/">互斥锁</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/条件变量/">条件变量</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程/">线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程属性/">线程属性</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/18/Linux学习总结08/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/18/Linux学习总结08/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -823,20 +704,8 @@
 
 
   
-    <article id="post-Linux学习总结09" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/18/Linux学习总结09/" class="article-date">
-      <time datetime="2016-12-18T03:52:36.000Z" itemprop="datePublished">2016-12-18</time>
-</a>
-
-
-    </div>
-  
+    <article id="post-Linux学习总结09" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
     
       <header class="article-header">
         
@@ -846,40 +715,46 @@
     </h1>
   
 
+        <a href="/2016/12/18/Linux学习总结09/" class="archive-article-date">
+  	<time datetime="2016-12-18T03:52:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-12-18</time>
+</a>
       </header>
-      
     
     <div class="article-entry" itemprop="articleBody">
       
-          
-              <p>网络编程离不开的基础是网络体系结构，通常说的是 OSI协议参考模型，它是一个七层网络协议模型。而我们通常使用的 Internet 是基于 TCP/IP 协议的，TCP/IP 协议是 OSI 协议的一个4层简化模型。<br>
-          
+        <p>网络编程离不开的基础是网络体系结构，通常说的是 OSI协议参考模型，它是一个七层网络协议模型。而我们通常使用的 Internet 是基于 TCP/IP 协议的，TCP/IP 协议是 OSI 协议的一个4层简化模型。<br>
+        
+      
+
       
     </div>
     
+
     <div class="article-info article-info-index">
       
       
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
-    </div>
-
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UDP/">UDP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/广播/">广播</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/组播/">组播</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
+	</div>
 
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/">TCP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UDP/">UDP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/广播/">广播</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/组播/">组播</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
-    </div>
+	<div class="article-category tagcloud">
+	<i class="icon-book icon"></i>
+	<a class="article-category-link" href="/categories/Linux学习记录/">Linux学习记录</a>
+	</div>
+
 
       
         <p class="article-more-link">
-          <a href="/2016/12/18/Linux学习总结09/#more">more >></a>
+          <a class="article-more-a" href="/2016/12/18/Linux学习总结09/">more >></a>
         </p>
+      
+
       
       <div class="clearfix"></div>
     </div>
-    
   </div>
-  
 </article>
 
 
@@ -896,74 +771,118 @@
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                <i class="fa fa-copyright"></i> 
-                2014-2018 Myintelex
-            </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
-            </div>
+
+
+          </div>
         </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>| </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 Myintelex
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
     </div>
+  </div>
 </footer>
     </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: true,
+		root: "/",
+		innerArchive: false
+	}
+</script>
+
+<script src="/./main.js?v=4.0.0.js"></script>
+
+
     
-<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-wrap">
+    
 
+    
 
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
 
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
 
-<div class="scroll" id="scroll">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
-<script>
-    // Open in New Window
-    
-        var oOpenInNew = {
-            
-            
-            
-            
-            
-            
-             archives: ".archive-article-title", 
-             miniArchives: "a.post-list-link", 
-            
-             friends: "#js-friends a", 
-             socail: ".social a" 
-        }
-        for (var x in oOpenInNew) {
-            $(oOpenInNew[x]).attr("target", "_blank");
-        }
-    
-</script>
-
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
   </div>
 </body>
 </html>
